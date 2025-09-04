@@ -1,6 +1,5 @@
 package dev.brahmkshatriya.echo.extension.youtube
 
-import android.util.Log
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 
@@ -20,15 +19,15 @@ object CompatibilityUtils {
             // Try the modern method first (Java 8+)
             URLEncoder.encode(input, StandardCharsets.UTF_8.name())
         } catch (e: NoSuchMethodError) {
-            Log.w(TAG, "Modern URLEncoder.encode not available, using fallback", e)
+            println("WARN: CompatibilityUtils - Modern URLEncoder.encode not available, using fallback: ${e.message}")
             try {
                 // Fallback to legacy method (Android compatible)
                 @Suppress("DEPRECATION")
                 val result = URLEncoder.encode(input, "UTF-8")
-                Log.d(TAG, "Used fallback encoding for: $input -> $result")
+                println("DEBUG: CompatibilityUtils - Used fallback encoding for: $input -> $result")
                 result
             } catch (e2: Exception) {
-                Log.e(TAG, "Both encoding methods failed, using manual fallback", e2)
+                println("ERROR: CompatibilityUtils - Both encoding methods failed, using manual fallback: ${e2.message}")
                 // Final fallback: manual encoding of common characters
                 input.replace(" ", "+")
                     .replace("&", "%26")
@@ -39,7 +38,7 @@ object CompatibilityUtils {
                     .replace("\\", "%5C")
             }
         } catch (e: Exception) {
-            Log.e(TAG, "URL encoding failed", e)
+            println("ERROR: CompatibilityUtils - URL encoding failed: ${e.message}")
             // Return original input if all methods fail
             input
         }
@@ -79,7 +78,7 @@ object CompatibilityUtils {
             
             null
         } catch (e: Exception) {
-            Log.e(TAG, "Failed to extract video ID from: $url", e)
+            println("ERROR: CompatibilityUtils - Failed to extract video ID from: $url, error: ${e.message}")
             null
         }
     }

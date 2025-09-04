@@ -1,6 +1,5 @@
 package dev.brahmkshatriya.echo.extension.youtube
 
-import android.util.Log
 import org.schabi.newpipe.extractor.NewPipe
 import org.schabi.newpipe.extractor.downloader.Downloader
 import org.schabi.newpipe.extractor.exceptions.ParsingException
@@ -37,7 +36,7 @@ class YouTubeUtils(
         videoId: String,
     ): String? =
         try {
-            Log.d("YouTubeUtils", "Getting stream url: ${url ?: signatureCipher}")
+            println("DEBUG: YouTubeUtils - Getting stream url: ${url ?: signatureCipher}")
             
             val finalUrl = url ?: signatureCipher?.let { cipher ->
                 val params = parseQueryString(cipher)
@@ -66,7 +65,7 @@ class YouTubeUtils(
                 finalUrl,
             )
         } catch (e: Exception) {
-            Log.e("YouTubeUtils", "Failed to get stream URL", e)
+            println("ERROR: YouTubeUtils - Failed to get stream URL: ${e.message}")
             null
         }
     
@@ -92,7 +91,7 @@ class YouTubeUtils(
             // Fallback: try to extract from URL directly
             url.substringAfterLast("/").takeIf { it.length == 11 } ?: url
         } catch (e: Exception) {
-            Log.e("YouTubeUtils", "Failed to extract video ID from: $url", e)
+            println("ERROR: YouTubeUtils - Failed to extract video ID from: $url, error: ${e.message}")
             url
         }
     }
@@ -111,7 +110,7 @@ class YouTubeUtils(
             response.close()
             response.code in 200..299
         } catch (e: Exception) {
-            Log.e("YouTubeUtils", "URL not accessible: $url", e)
+            println("ERROR: YouTubeUtils - URL not accessible: $url, error: ${e.message}")
             false
         }
     }

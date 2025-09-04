@@ -7,7 +7,6 @@ import dev.brahmkshatriya.echo.common.settings.Settings
 import org.schabi.newpipe.extractor.stream.StreamInfo
 import org.schabi.newpipe.extractor.stream.StreamInfoItem
 import org.schabi.newpipe.extractor.stream.AudioStream
-import android.util.Log
 
 class YouTubeConverter(private val settings: Settings) {
     
@@ -261,11 +260,11 @@ class YouTubeConverter(private val settings: Settings) {
             var audioUrl = streamable.extras["audioUrl"] ?: streamable.extras["videoUrl"] ?: ""
             
             if (audioUrl.isEmpty()) {
-                Log.e(TAG, "No audio URL found in streamable extras. Available keys: ${streamable.extras.keys}")
+                println("ERROR: $TAG - No audio URL found in streamable extras. Available keys: ${streamable.extras.keys}")
                 throw IllegalArgumentException("No audio URL found in streamable extras")
             }
             
-            Log.d(TAG, "Using audio URL: $audioUrl")
+            println("DEBUG: $TAG - Using audio URL: $audioUrl")
             
             // Create a NetworkRequest for the audio URL
             val networkRequest = NetworkRequest(
@@ -299,7 +298,7 @@ class YouTubeConverter(private val settings: Settings) {
                 merged = false // Don't merge sources, allow user to switch between qualities
             )
         } catch (e: Exception) {
-            Log.e(TAG, "Failed to create streamable media", e)
+            println("ERROR: $TAG - Failed to create streamable media", e)
             throw RuntimeException("Failed to create streamable media: ${e.message}", e)
         }
     }

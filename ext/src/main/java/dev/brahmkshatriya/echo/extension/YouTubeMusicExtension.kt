@@ -22,6 +22,7 @@ import org.schabi.newpipe.extractor.stream.StreamExtractor
 import org.schabi.newpipe.extractor.stream.StreamInfoItem
 import org.schabi.newpipe.extractor.utils.Localization
 import java.io.IOException
+import java.io.ByteArrayInputStream
 
 class YouTubeMusicExtension : ExtensionClient, SearchFeedClient, TrackClient {
 
@@ -56,12 +57,16 @@ class YouTubeMusicExtension : ExtensionClient, SearchFeedClient, TrackClient {
                                 .build()
                             
                             val response = client.newCall(okhttpRequest).execute()
+                            val responseBody = response.body?.byteStream()
+                            val responseBytes = responseBody?.readBytes()
+                            responseBody?.close()
+                            
                             Response(
                                 response.code,
                                 response.message,
                                 response.headers.toMultimap(),
-                                response.body?.byteStream(),
-                                response.body?.contentLength() ?: -1
+                                if (responseBytes != null) ByteArrayInputStream(responseBytes) else null,
+                                response.body?.contentLength()?.toString() ?: "-1"
                             )
                         } catch (e: Exception) {
                             throw IOException("Failed to execute request", e)
@@ -90,15 +95,20 @@ class YouTubeMusicExtension : ExtensionClient, SearchFeedClient, TrackClient {
         return emptyList()
     }
 
+    // Implement missing abstract method
+    override suspend fun loadFeed(track: Track): Feed<Shelf>? {
+        return null // YouTube Music extension doesn't support track-specific feeds
+    }
+
     // SearchFeedClient implementation
-    override suspend fun loadSearchFeed(query: String): Feed {
+    override suspend fun loadSearchFeed(query: String): Feed<Shelf> {
         return withContext(Dispatchers.IO) {
             try {
                 println("Searching YouTube for: $query")
                 val searchExtractor = youtubeService.getSearchExtractor(query)
                 searchExtractor.fetchPage()
                 
-                val items = searchExtractor.initialSearchResult.items.mapNotNull { item ->
+                val items = searchExtractor.searchResult.items.mapNotNull { item ->
                     when (item) {
                         is StreamInfoItem -> {
                             try {
@@ -115,14 +125,12 @@ class YouTubeMusicExtension : ExtensionClient, SearchFeedClient, TrackClient {
                 println("Found ${items.size} tracks for query: $query")
                 
                 Feed(
-                    tabs = listOf("Songs", "Videos", "Playlists"),
-                    pagedData = object : PagedData<Shelf> {
-                        override suspend fun loadPage(page: String?): PagedData.Page<Shelf> {
-                            val shelfItems = items.map { track ->
-                                Shelf.Item(track)
-                            }
-                            return PagedData.Page(shelfItems, null)
+                    tabs = listOf(Tab("Songs"), Tab("Videos"), Tab("Playlists")),
+                    getPagedData = { page ->
+                        val shelfItems = items.map { track ->
+                            Shelf.Item(track)
                         }
+                        PagedData.Page(shelfItems, null)
                     }
                 )
             } catch (e: Exception) {

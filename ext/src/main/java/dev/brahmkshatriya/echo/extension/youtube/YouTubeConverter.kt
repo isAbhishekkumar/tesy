@@ -30,7 +30,7 @@ class YouTubeConverter(private val settings: Settings) {
                     put("title", streamInfoItem.name)
                     put("uploader", streamInfoItem.uploaderName ?: "")
                     put("duration", (streamInfoItem.duration * 1000L).toString())
-                    put("thumbnailUrl", streamInfoItem.thumbnailUrl ?: "")
+                    put("thumbnailUrl", streamInfoItem.thumbnails.firstOrNull()?.url ?: "")
                 }
             )
         )
@@ -39,14 +39,14 @@ class YouTubeConverter(private val settings: Settings) {
             id = streamInfoItem.url,
             title = streamInfoItem.name,
             type = Track.Type.Song,
-            cover = streamInfoItem.thumbnailUrl?.toImageHolder(),
+            cover = streamInfoItem.thumbnails.firstOrNull()?.url?.toImageHolder(),
             artists = listOf(toArtist(streamInfoItem)),
             duration = streamInfoItem.duration * 1000L, // Convert to milliseconds
             playedDuration = null,
             plays = streamInfoItem.viewCount,
             releaseDate = null,
             description = null,
-            background = streamInfoItem.thumbnailUrl?.toImageHolder(),
+            background = streamInfoItem.thumbnails.firstOrNull()?.url?.toImageHolder(),
             genres = emptyList(),
             isrc = null,
             albumOrderNumber = null,
@@ -90,13 +90,13 @@ class YouTubeConverter(private val settings: Settings) {
                 id = "album_${streamInfo.id}",
                 title = "Uploaded $uploadDate",
                 type = null,
-                cover = streamInfo.thumbnailUrl?.toImageHolder(),
+                cover = streamInfo.thumbnails.firstOrNull()?.url?.toImageHolder(),
                 artists = listOf(toArtist(streamInfo)),
                 trackCount = null,
-                duration = streamInfo.length * 1000L,
+                duration = streamInfo.duration * 1000L,
                 releaseDate = null,
                 description = streamInfo.description?.content,
-                background = streamInfo.thumbnailUrl?.toImageHolder(),
+                background = streamInfo.thumbnails.firstOrNull()?.url?.toImageHolder(),
                 label = null,
                 isExplicit = false,
                 subtitle = "Single",
@@ -111,15 +111,15 @@ class YouTubeConverter(private val settings: Settings) {
             id = streamInfo.url,
             title = streamInfo.name,
             type = Track.Type.Song,
-            cover = streamInfo.thumbnailUrl?.toImageHolder(),
+            cover = streamInfo.thumbnails.firstOrNull()?.url?.toImageHolder(),
             artists = listOf(toArtist(streamInfo)),
             album = album,
-            duration = streamInfo.length * 1000L, // Convert to milliseconds
+            duration = streamInfo.duration * 1000L, // Convert to milliseconds
             playedDuration = null,
             plays = streamInfo.viewCount,
             releaseDate = null,
             description = streamInfo.description?.content,
-            background = streamInfo.thumbnailUrl?.toImageHolder(),
+            background = streamInfo.thumbnails.firstOrNull()?.url?.toImageHolder(),
             genres = emptyList(),
             isrc = null,
             albumOrderNumber = null,
@@ -148,13 +148,13 @@ class YouTubeConverter(private val settings: Settings) {
     }
     
     /**
-     * Convert NewPipe StreamInfo to Echo Artist
+     * Convert NewPipe StreamInfoItem to Echo Artist
      */
     private fun toArtist(streamInfoItem: StreamInfoItem): Artist {
         return toArtist(
             name = streamInfoItem.uploaderName ?: "Unknown Artist",
             url = streamInfoItem.uploaderUrl,
-            thumbnailUrl = streamInfoItem.uploaderAvatarUrl
+            thumbnailUrl = streamInfoItem.uploaderAvatars.firstOrNull()?.url
         )
     }
     
@@ -165,7 +165,7 @@ class YouTubeConverter(private val settings: Settings) {
         return toArtist(
             name = streamInfo.uploaderName ?: "Unknown Artist",
             url = streamInfo.uploaderUrl,
-            thumbnailUrl = streamInfo.uploaderAvatarUrl
+            thumbnailUrl = streamInfo.uploaderAvatars.firstOrNull()?.url
         )
     }
     
@@ -200,7 +200,7 @@ class YouTubeConverter(private val settings: Settings) {
                 put("itag", audioStream.itag.toString())
                 put("format", audioStream.format?.name ?: "Unknown")
                 put("bitrate", (audioStream.averageBitrate ?: 0).toString())
-                put("mimeType", audioStream.mimeType ?: "Unknown")
+                put("mimeType", audioStream.mediaType ?: "Unknown")
                 put("contentLength", (audioStream.contentLength ?: 0).toString())
                 put("trackId", streamInfo.id)
                 put("trackTitle", streamInfo.name)
@@ -217,8 +217,8 @@ class YouTubeConverter(private val settings: Settings) {
         // Extract the audio URL from extras
         val audioUrl = streamable.extras["audioUrl"] ?: streamable.extras["videoUrl"] ?: ""
         
-        return toMedia(
-            url = audioUrl,
+        return Streamable.Media(
+            uri = audioUrl,
             headers = mapOf(
                 "User-Agent" to "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
                 "Accept" to "audio/webm,audio/ogg,audio/wav,audio/*;q=0.9,application/ogg;q=0.7,video/*;q=0.6,*/*;q=0.5",

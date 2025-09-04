@@ -10,11 +10,14 @@ import dev.brahmkshatriya.echo.common.settings.Settings
 import dev.brahmkshatriya.echo.extension.youtube.YouTubeConverter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.Headers
 import org.schabi.newpipe.extractor.NewPipe
 import org.schabi.newpipe.extractor.ServiceList
 import org.schabi.newpipe.extractor.StreamingService
 import org.schabi.newpipe.extractor.downloader.Downloader
-import org.schabi.newpipe.extractor.downloader.Request
+import org.schabi.newpipe.extractor.downloader.Request as NewPipeRequest
 import org.schabi.newpipe.extractor.downloader.Response
 import org.schabi.newpipe.extractor.exceptions.ExtractionException
 import org.schabi.newpipe.extractor.search.SearchExtractor
@@ -39,16 +42,18 @@ class YouTubeMusicExtension : ExtensionClient, QuickSearchClient, TrackClient {
             try {
                 // Initialize NewPipe with custom downloader
                 downloader = object : Downloader() {
-                    override fun execute(request: Request): Response {
+                    override fun execute(request: NewPipeRequest): Response {
                         return try {
-                            val client = okhttp3.OkHttpClient()
-                            val okhttpRequest = okhttp3.Request.Builder()
+                            val client = OkHttpClient()
+                            val okhttpRequest = Request.Builder()
                                 .url(request.url())
                                 .headers(
-                                    okhttp3.Headers.Builder()
+                                    Headers.Builder()
                                         .apply {
                                             // Iterate through headers properly with explicit types
-                                            val headerMap: Map<String, List<String>> = request.headers().toMultimap()
+                                            val headerMap: Map<String, List<String>> = request.headers().names().associateWith { name: String ->
+                                                request.headers().values(name)
+                                            }
                                             headerMap.forEach { (key: String, values: List<String>) ->
                                                 values.forEach { value: String ->
                                                     add(key, value)
@@ -64,13 +69,16 @@ class YouTubeMusicExtension : ExtensionClient, QuickSearchClient, TrackClient {
                             val responseBytes = responseBody?.readBytes()
                             responseBody?.close()
                             
-                            Response(
-                                response.code,
-                                response.message,
-                                response.headers.toMultimap(),
-                                response.body?.string(),
-                                response.body?.contentLength()?.toString()
-                            )
+                                val responseHeaders = response.headers.toMap().mapValues { (_, values) -> values.toList() }
+                                val responseBody = response.body
+                                val contentLength = responseBody?.contentLength()?.toString() ?: "0"
+                                Response(
+                                    response.code,
+                                    response.message,
+                                    responseHeaders,
+                                    responseBody?.string(),
+                                    contentLength
+                                )
                         } catch (e: Exception) {
                             throw IOException("Failed to execute request", e)
                         }
@@ -111,7 +119,7 @@ class YouTubeMusicExtension : ExtensionClient, QuickSearchClient, TrackClient {
                 val searchExtractor = youtubeService.getSearchExtractor(query)
                 searchExtractor.fetchPage()
                 
-                val items = searchExtractor.initialSearchResult.items.mapNotNull { item: org.schabi.newpipe.extractor.InfoItem ->
+                val items = searchExtractor.initialPage.items.mapNotNull { item: org.schabi.newpipe.extractor.InfoItem ->
                     when (item) {
                         is StreamInfoItem -> {
                             try {
@@ -202,12 +210,12 @@ class YouTubeMusicExtension : ExtensionClient, QuickSearchClient, TrackClient {
             try {
                 println("Quick searching YouTube for: $query")
                 if (query.isBlank()) {
-                    return emptyList()
+                    return@withContext emptyList()
                 }
                 
                 // Get search suggestions from YouTube
                 val suggestionExtractor = youtubeService.getSuggestionExtractor()
-                val suggestions = suggestionExtractor.getSuggestions(query)
+                val suggestions = suggestionExtractor.suggestionList(query)
                 
                 println("Found ${suggestions.size} suggestions for query: $query")
                 
@@ -231,7 +239,7 @@ class YouTubeMusicExtension : ExtensionClient, QuickSearchClient, TrackClient {
                     try {
                         val searchExtractor = youtubeService.getSearchExtractor(query)
                         searchExtractor.fetchPage()
-                        val topResults = searchExtractor.initialSearchResult.items
+                        val topResults = searchExtractor.initialPage.items
                             .take(3) // Limit to top 3 results
                             .filterIsInstance<StreamInfoItem>()
                             .mapNotNull { streamItem: StreamInfoItem ->

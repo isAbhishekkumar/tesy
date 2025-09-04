@@ -47,9 +47,10 @@ class YouTubeMusicExtension : ExtensionClient, QuickSearchClient, TrackClient {
                                 .headers(
                                     okhttp3.Headers.Builder()
                                         .apply {
-                                            // Iterate through headers properly
-                                            request.headers().toMultimap().forEach { (key, values) ->
-                                                values.forEach { value ->
+                                            // Iterate through headers properly with explicit types
+                                            val headerMap: Map<String, List<String>> = request.headers().toMultimap()
+                                            headerMap.forEach { (key: String, values: List<String>) ->
+                                                values.forEach { value: String ->
                                                     add(key, value)
                                                 }
                                             }
@@ -110,7 +111,7 @@ class YouTubeMusicExtension : ExtensionClient, QuickSearchClient, TrackClient {
                 val searchExtractor = youtubeService.getSearchExtractor(query)
                 searchExtractor.fetchPage()
                 
-                val items = searchExtractor.searchResult.items.mapNotNull { item: org.schabi.newpipe.extractor.InfoItem ->
+                val items = searchExtractor.initialSearchResult.items.mapNotNull { item: org.schabi.newpipe.extractor.InfoItem ->
                     when (item) {
                         is StreamInfoItem -> {
                             try {
@@ -132,23 +133,26 @@ class YouTubeMusicExtension : ExtensionClient, QuickSearchClient, TrackClient {
                 }
                 
                 // Use PagedData.Single for a simple list of items
-                val pagedData = PagedData.Single { shelfItems }
+                val pagedData: PagedData<Shelf> = PagedData.Single { shelfItems }
                 
                 Feed(
                     tabs = listOf(Tab("songs", "Songs"), Tab("videos", "Videos"), Tab("playlists", "Playlists"))
                 ) { tab ->
-                    // Return Feed.Data based on the selected tab using PagedData extension function
+                    // Return Feed.Data based on the selected tab
                     when (tab?.id) {
-                        "songs" -> pagedData.toFeedData(
-                            Feed.Buttons(showSearch = true, showSort = true, showPlayAndShuffle = true)
+                        "songs" -> Feed.Data(
+                            pagedData = pagedData,
+                            buttons = Feed.Buttons(showSearch = true, showSort = true, showPlayAndShuffle = true)
                         )
-                        "videos" -> pagedData.toFeedData(
-                            Feed.Buttons(showSearch = true, showSort = true, showPlayAndShuffle = false)
+                        "videos" -> Feed.Data(
+                            pagedData = pagedData,
+                            buttons = Feed.Buttons(showSearch = true, showSort = true, showPlayAndShuffle = false)
                         )
-                        "playlists" -> pagedData.toFeedData(
-                            Feed.Buttons(showSearch = true, showSort = true, showPlayAndShuffle = false)
+                        "playlists" -> Feed.Data(
+                            pagedData = pagedData,
+                            buttons = Feed.Buttons(showSearch = true, showSort = true, showPlayAndShuffle = false)
                         )
-                        else -> pagedData.toFeedData() // Default case
+                        else -> Feed.Data(pagedData = pagedData) // Default case
                     }
                 }
             } catch (e: Exception) {
@@ -203,12 +207,12 @@ class YouTubeMusicExtension : ExtensionClient, QuickSearchClient, TrackClient {
                 
                 // Get search suggestions from YouTube
                 val suggestionExtractor = youtubeService.getSuggestionExtractor()
-                val suggestions = suggestionExtractor.getSuggestionList(query)
+                val suggestions = suggestionExtractor.getSuggestions(query)
                 
                 println("Found ${suggestions.size} suggestions for query: $query")
                 
-                // Convert suggestions to QuickSearchItem.Query
-                val queryItems = suggestions.map { suggestion ->
+                // Convert suggestions to QuickSearchItem.Query with explicit types
+                val queryItems: List<QuickSearchItem.Query> = suggestions.map { suggestion: String ->
                     QuickSearchItem.Query(
                         query = suggestion,
                         searched = false,
@@ -220,17 +224,17 @@ class YouTubeMusicExtension : ExtensionClient, QuickSearchClient, TrackClient {
                 }
                 
                 // Add some recent/popular searches as media items if available
-                val mediaItems = mutableListOf<QuickSearchItem.Media>()
+                val mediaItems: MutableList<QuickSearchItem.Media> = mutableListOf()
                 
                 // Try to get a few actual tracks for popular searches
                 if (query.length > 2) {
                     try {
                         val searchExtractor = youtubeService.getSearchExtractor(query)
                         searchExtractor.fetchPage()
-                        val topResults = searchExtractor.searchResult.items
+                        val topResults = searchExtractor.initialSearchResult.items
                             .take(3) // Limit to top 3 results
                             .filterIsInstance<StreamInfoItem>()
-                            .mapNotNull { streamItem ->
+                            .mapNotNull { streamItem: StreamInfoItem ->
                                 try {
                                     val track = converter.toTrack(streamItem)
                                     QuickSearchItem.Media(
@@ -249,7 +253,8 @@ class YouTubeMusicExtension : ExtensionClient, QuickSearchClient, TrackClient {
                 }
                 
                 // Combine queries and media items, prioritizing queries
-                return queryItems + mediaItems
+                val result: List<QuickSearchItem> = queryItems + mediaItems
+                result
                 
             } catch (e: Exception) {
                 println("Failed to quick search YouTube: ${e.message}")

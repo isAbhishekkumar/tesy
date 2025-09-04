@@ -4,7 +4,6 @@ import dev.brahmkshatriya.echo.common.clients.ExtensionClient
 import dev.brahmkshatriya.echo.common.clients.SearchFeedClient
 import dev.brahmkshatriya.echo.common.clients.TrackClient
 import dev.brahmkshatriya.echo.common.helpers.PagedData
-import dev.brahmkshatriya.echo.common.helpers.PagedData.Page
 import dev.brahmkshatriya.echo.common.models.*
 import dev.brahmkshatriya.echo.common.settings.Setting
 import dev.brahmkshatriya.echo.common.settings.Settings
@@ -49,7 +48,7 @@ class YouTubeMusicExtension : ExtensionClient, SearchFeedClient, TrackClient {
                                     okhttp3.Headers.Builder()
                                         .apply {
                                             // Iterate through headers properly
-                                            for ((key, value) in request.headers()) {
+                                            request.headers().forEach { (key, value) ->
                                                 add(key, value)
                                             }
                                         }
@@ -109,7 +108,7 @@ class YouTubeMusicExtension : ExtensionClient, SearchFeedClient, TrackClient {
                 val searchExtractor = youtubeService.getSearchExtractor(query)
                 searchExtractor.fetchPage()
                 
-                val items = searchExtractor.searchResult.items.mapNotNull { item: org.schabi.newpipe.extractor.InfoItem ->
+                val items = searchExtractor.initialSearchResult.items.mapNotNull { item: org.schabi.newpipe.extractor.InfoItem ->
                     when (item) {
                         is StreamInfoItem -> {
                             try {
@@ -131,32 +130,22 @@ class YouTubeMusicExtension : ExtensionClient, SearchFeedClient, TrackClient {
                 }
                 
                 Feed(
-                    tabs = listOf(Tab("songs", "Songs"), Tab("videos", "Videos"), Tab("playlists", "Playlists")),
-                    getPagedData = { tab: Tab? ->
-                        // Return a simple PagedData implementation
-                        object : PagedData<Shelf>() {
-                            override suspend fun loadPage(page: String?): Page<Shelf> {
-                                return Page(shelfItems, null)
-                            }
-                            
-                            override suspend fun loadAllInternal(): List<Shelf> {
-                                return shelfItems
-                            }
-                            
-                            override suspend fun loadListInternal(continuation: String?): Page<Shelf> {
-                                return Page(shelfItems, null)
-                            }
-                            
-                            override fun clear() {}
-                            
-                            override fun invalidate(continuation: String?) {}
-                            
-                            override fun <R : Any> map(block: suspend (Result<List<Shelf>>) -> List<R>): PagedData<R> {
-                                TODO("Not implemented")
-                            }
-                        }
+                    tabs = listOf(Tab("songs", "Songs"), Tab("videos", "Videos"), Tab("playlists", "Playlists"))
+                ) { tab ->
+                    // Return Feed.Data based on the selected tab using list extension function
+                    when (tab?.id) {
+                        "songs" -> shelfItems.toFeedData(
+                            buttons = Feed.Buttons(showSearch = true, showSort = true, showPlayAndShuffle = true)
+                        )
+                        "videos" -> shelfItems.toFeedData(
+                            buttons = Feed.Buttons(showSearch = true, showSort = true, showPlayAndShuffle = false)
+                        )
+                        "playlists" -> shelfItems.toFeedData(
+                            buttons = Feed.Buttons(showSearch = true, showSort = true, showPlayAndShuffle = false)
+                        )
+                        else -> shelfItems.toFeedData() // Default case
                     }
-                )
+                }
             } catch (e: Exception) {
                 println("Failed to search YouTube Music: ${e.message}")
                 throw RuntimeException("Failed to search YouTube Music", e)

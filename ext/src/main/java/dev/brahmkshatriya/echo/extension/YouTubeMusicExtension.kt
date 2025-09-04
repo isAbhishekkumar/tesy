@@ -1,7 +1,7 @@
 package dev.brahmkshatriya.echo.extension
 
 import dev.brahmkshatriya.echo.common.clients.ExtensionClient
-import dev.brahmkshatriya.echo.common.clients.SearchFeedClient
+import dev.brahmkshatriya.echo.common.clients.QuickSearchClient
 import dev.brahmkshatriya.echo.common.clients.TrackClient
 import dev.brahmkshatriya.echo.common.helpers.PagedData
 import dev.brahmkshatriya.echo.common.models.*
@@ -23,7 +23,7 @@ import org.schabi.newpipe.extractor.stream.StreamInfoItem
 import java.io.IOException
 import java.io.ByteArrayInputStream
 
-class YouTubeMusicExtension : ExtensionClient, SearchFeedClient, TrackClient {
+class YouTubeMusicExtension : ExtensionClient, QuickSearchClient, TrackClient {
 
     private lateinit var settings: Settings
     private lateinit var youtubeService: StreamingService
@@ -48,8 +48,10 @@ class YouTubeMusicExtension : ExtensionClient, SearchFeedClient, TrackClient {
                                     okhttp3.Headers.Builder()
                                         .apply {
                                             // Iterate through headers properly
-                                            request.headers().forEach { (key, value) ->
-                                                add(key, value)
+                                            request.headers().toMultimap().forEach { (key, values) ->
+                                                values.forEach { value ->
+                                                    add(key, value)
+                                                }
                                             }
                                         }
                                         .build()
@@ -108,7 +110,7 @@ class YouTubeMusicExtension : ExtensionClient, SearchFeedClient, TrackClient {
                 val searchExtractor = youtubeService.getSearchExtractor(query)
                 searchExtractor.fetchPage()
                 
-                val items = searchExtractor.initialSearchResult.items.mapNotNull { item: org.schabi.newpipe.extractor.InfoItem ->
+                val items = searchExtractor.searchResult.items.mapNotNull { item: org.schabi.newpipe.extractor.InfoItem ->
                     when (item) {
                         is StreamInfoItem -> {
                             try {
@@ -129,21 +131,24 @@ class YouTubeMusicExtension : ExtensionClient, SearchFeedClient, TrackClient {
                     Shelf.Item(track)
                 }
                 
+                // Use PagedData.Single for a simple list of items
+                val pagedData = PagedData.Single { shelfItems }
+                
                 Feed(
                     tabs = listOf(Tab("songs", "Songs"), Tab("videos", "Videos"), Tab("playlists", "Playlists"))
                 ) { tab ->
-                    // Return Feed.Data based on the selected tab using list extension function
+                    // Return Feed.Data based on the selected tab using PagedData extension function
                     when (tab?.id) {
-                        "songs" -> shelfItems.toFeedData(
-                            buttons = Feed.Buttons(showSearch = true, showSort = true, showPlayAndShuffle = true)
+                        "songs" -> pagedData.toFeedData(
+                            Feed.Buttons(showSearch = true, showSort = true, showPlayAndShuffle = true)
                         )
-                        "videos" -> shelfItems.toFeedData(
-                            buttons = Feed.Buttons(showSearch = true, showSort = true, showPlayAndShuffle = false)
+                        "videos" -> pagedData.toFeedData(
+                            Feed.Buttons(showSearch = true, showSort = true, showPlayAndShuffle = false)
                         )
-                        "playlists" -> shelfItems.toFeedData(
-                            buttons = Feed.Buttons(showSearch = true, showSort = true, showPlayAndShuffle = false)
+                        "playlists" -> pagedData.toFeedData(
+                            Feed.Buttons(showSearch = true, showSort = true, showPlayAndShuffle = false)
                         )
-                        else -> shelfItems.toFeedData() // Default case
+                        else -> pagedData.toFeedData() // Default case
                     }
                 }
             } catch (e: Exception) {
@@ -185,5 +190,84 @@ class YouTubeMusicExtension : ExtensionClient, SearchFeedClient, TrackClient {
                 throw RuntimeException("Failed to load streamable media", e)
             }
         }
+    }
+
+    // QuickSearchClient implementation
+    override suspend fun quickSearch(query: String): List<QuickSearchItem> {
+        return withContext(Dispatchers.IO) {
+            try {
+                println("Quick searching YouTube for: $query")
+                if (query.isBlank()) {
+                    return emptyList()
+                }
+                
+                // Get search suggestions from YouTube
+                val suggestionExtractor = youtubeService.getSuggestionExtractor()
+                val suggestions = suggestionExtractor.getSuggestionList(query)
+                
+                println("Found ${suggestions.size} suggestions for query: $query")
+                
+                // Convert suggestions to QuickSearchItem.Query
+                val queryItems = suggestions.map { suggestion ->
+                    QuickSearchItem.Query(
+                        query = suggestion,
+                        searched = false,
+                        extras = mapOf(
+                            "source" to "youtube",
+                            "type" to "suggestion"
+                        )
+                    )
+                }
+                
+                // Add some recent/popular searches as media items if available
+                val mediaItems = mutableListOf<QuickSearchItem.Media>()
+                
+                // Try to get a few actual tracks for popular searches
+                if (query.length > 2) {
+                    try {
+                        val searchExtractor = youtubeService.getSearchExtractor(query)
+                        searchExtractor.fetchPage()
+                        val topResults = searchExtractor.searchResult.items
+                            .take(3) // Limit to top 3 results
+                            .filterIsInstance<StreamInfoItem>()
+                            .mapNotNull { streamItem ->
+                                try {
+                                    val track = converter.toTrack(streamItem)
+                                    QuickSearchItem.Media(
+                                        media = track,
+                                        searched = false
+                                    )
+                                } catch (e: Exception) {
+                                    println("Failed to convert stream item to track: ${e.message}")
+                                    null
+                                }
+                            }
+                        mediaItems.addAll(topResults)
+                    } catch (e: Exception) {
+                        println("Failed to get media items for quick search: ${e.message}")
+                    }
+                }
+                
+                // Combine queries and media items, prioritizing queries
+                return queryItems + mediaItems
+                
+            } catch (e: Exception) {
+                println("Failed to quick search YouTube: ${e.message}")
+                // Return basic query item as fallback
+                listOf(
+                    QuickSearchItem.Query(
+                        query = query,
+                        searched = false,
+                        extras = mapOf("source" to "youtube", "type" to "fallback")
+                    )
+                )
+            }
+        }
+    }
+
+    override suspend fun deleteQuickSearch(item: QuickSearchItem) {
+        // YouTube Music extension doesn't store quick search history
+        // This is a no-op implementation
+        println("Deleting quick search item: ${item.title}")
     }
 }

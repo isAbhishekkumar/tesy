@@ -1,0 +1,11074 @@
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.models / Track
+
+dev.brahmkshatriya.echo.common
+dev.brahmkshatriya.echo.common.
+clients
+dev.brahmkshatriya.echo.common.
+helpers
+
+Track
+@Serializable
+data class Track(
+
+dev.brahmkshatriya.echo.common.
+
+val id: String,
+
+models
+
+val title: String,
+val type: Track.Type = Type.Song,
+
+Album
+
+val cover: ImageHolder? = null,
+
+Artist
+
+val artists: List<Artist> = listOf(),
+
+Chapter
+
+val duration: Long? = null,
+
+val album: Album? = null,
+val playedDuration: Long? = null,
+
+Date
+
+val plays: Long? = null,
+
+DownloadContext
+
+val releaseDate: Date? = null,
+
+EchoMediaItem
+
+val background: ImageHolder? = cover,
+
+val description: String? = null,
+val genres: List<String> = listOf(),
+
+ExtensionType
+
+val isrc: String? = null,
+
+Feed
+
+val albumOrderNumber: Long? = null,
+
+ImageHolder
+
+val playlistAddedDate: Date? = null,
+
+val albumDiscNumber: Long? = null,
+val isExplicit: Boolean = false,
+
+ImportType
+
+val subtitle: String? = null,
+
+Lyrics
+
+val extras: Map<String, String> = mapOf(),
+
+Message
+
+val streamables: List<Streamable> = listOf(),
+
+val isPlayable: Track.Playable = Playable.Yes,
+val isRadioSupported: Boolean = true,
+
+Metadata
+
+val isFollowable: Boolean = false,
+
+NetworkConnection
+
+val isSaveable: Boolean = true,
+
+NetworkRequest
+
+val isHideable: Boolean = true,
+
+Playlist
+Progress
+QuickSearchItem
+Radio
+
+val isLikeable: Boolean = true,
+val isShareable: Boolean = true
+) : EchoMediaItem
+
+(source)
+
+A class representing a track that can be played in Echo.
+
+See also
+Streamable
+
+Shelf
+Streamable
+Tab
+
+TrackClient
+
+Members
+
+Track
+Companion
+
+Constructors
+
+Playable
+Type
+
+Track
+
+constructor(
+id: String,
+
+TrackDetails
+
+title: String,
+type: Track.Type = Type.Song,
+
+User
+
+cover: ImageHolder? = null,
+
+dev.brahmkshatriya.echo.common.
+
+artists: List<Artist> = listOf(),
+
+providers
+
+album: Album? = null,
+duration: Long? = null,
+
+dev.brahmkshatriya.echo.common.
+
+playedDuration: Long? = null,
+
+settings
+
+plays: Long? = null,
+releaseDate: Date? = null,
+description: String? = null,
+background: ImageHolder? = cover,
+genres: List<String> = listOf(),
+isrc: String? = null,
+albumOrderNumber: Long? = null,
+albumDiscNumber: Long? = null,
+playlistAddedDate: Date? = null,
+isExplicit: Boolean = false,
+subtitle: String? = null,
+extras: Map<String, String> = mapOf(),
+isPlayable: Track.Playable = Playable.Yes,
+streamables: List<Streamable> = listOf(),
+isRadioSupported: Boolean = true,
+isFollowable: Boolean = false,
+isSaveable: Boolean = true,
+isLikeable: Boolean = true,
+isHideable: Boolean = true,
+isShareable: Boolean = true
+)
+
+Types
+Companion
+
+Playable
+
+object Companion
+
+@Serializable
+sealed interface Playable
+
+Type
+
+enum Type : Enum<Track.Type>
+
+Properties
+album
+
+val album: Album? = null
+
+The album of the track
+albumDiscNumber
+
+val albumDiscNumber: Long? = null
+
+The disc number of the track in the album
+albumOrderNumber
+
+val albumOrderNumber: Long? = null
+
+The order number of the track in the album
+artists
+
+val artists: List<Artist>
+
+The artists of the track
+background
+
+open override val background: ImageHolder?
+
+The background image of the track
+backgrounds
+
+val backgrounds: List<Streamable>
+
+The streamable backgrounds of the track.
+cover
+
+open override val cover: ImageHolder? = null
+
+The cover of the track
+description
+
+open override val description: String? = null
+
+The description of the track
+duration
+
+val duration: Long? = null
+
+The duration of the track in milliseconds
+extras
+
+open override val extras: Map<String, String>
+
+Any extra data you want to associate with the track
+genres
+
+val genres: List<String>
+
+The genres of the track
+id
+
+open override val id: String
+
+The id of the track
+isExplicit
+
+open override val isExplicit: Boolean = false
+
+Whether the track is explicit
+isFollowable
+
+open override val isFollowable: Boolean = false
+
+Whether the track can be followed. Checkout FollowClient
+isHideable
+
+open override val isHideable: Boolean = true
+
+Whether the track can be hidden. Checkout HideClient
+isLikeable
+
+open override val isLikeable: Boolean = true
+
+Whether the track can be liked. Checkout LikeClient
+isPlayable
+
+val isPlayable: Track.Playable
+
+Whether the track is playable.
+isPrivate
+
+isRadioSupported
+
+open val isPrivate: Boolean
+
+open override val isRadioSupported: Boolean = true
+
+Whether the track can used to create a radio. Checkout RadioClient
+isrc
+
+val isrc: String? = null
+
+The IRSC code of the track
+isSaveable
+
+open override val isSaveable: Boolean = true
+
+Whether the track can be saved to library. Checkout SaveClient
+isShareable
+
+open override val isShareable: Boolean = true
+
+Whether the track can be shared. Checkout ShareClient
+playedDuration
+
+val playedDuration: Long? = null
+
+The duration of the track that has been played, in milliseconds
+playlistAddedDate
+
+val playlistAddedDate: Date? = null
+
+The date when the track was added to a playlist
+plays
+
+val plays: Long? = null
+
+The number of plays of the track
+releaseDate
+
+val releaseDate: Date? = null
+
+The release date of the track
+servers
+
+val servers: List<Streamable>
+
+The streamable servers of the track.
+streamables
+
+val streamables: List<Streamable>
+
+The streamables of the track
+subtitle
+
+open override val subtitle: String? = null
+
+The subtitle of the track, used to display information under the title
+subtitles
+
+val subtitles: List<Streamable>
+
+The streamable subtitles of the track.
+subtitleWithE
+
+subtitleWithOutE
+
+title
+
+open override val subtitleWithE: <Error class: unknown class>
+
+open override val subtitleWithOutE: String
+
+open override val title: String
+
+The title of the track
+type
+
+val type: Track.Type
+
+The type of the track, can be Audio, Video, or HorizontalVideo
+
+Functions
+copyMediaItem
+
+open fun copyMediaItem(
+id: String = this.id,
+title: String = this.title,
+cover: ImageHolder? = this.cover,
+description: String? = this.description,
+subtitle: String? = this.subtitle,
+extras: Map<String, String> = this.extras,
+isRadioSupported: Boolean = this.isRadioSupported,
+isFollowable: Boolean = this.isFollowable,
+isSaveable: Boolean = this.isSaveable
+): EchoMediaItem
+
+sameAs
+
+toShelf
+
+open fun sameAs(other: EchoMediaItem): Boolean
+
+open fun toShelf(): Shelf.Item
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.models / Album
+
+dev.brahmkshatriya.echo.common
+dev.brahmkshatriya.echo.common.
+clients
+dev.brahmkshatriya.echo.common.
+helpers
+
+Album
+@Serializable
+data class Album(
+
+dev.brahmkshatriya.echo.common.
+
+val id: String,
+
+models
+
+val title: String,
+val type: Album.Type? = null,
+
+Album
+
+val cover: ImageHolder? = null,
+val artists: List<Artist> = listOf(),
+
+Type
+
+val trackCount: Long? = null,
+
+Artist
+
+val duration: Long? = null,
+val releaseDate: Date? = null,
+
+Chapter
+
+val description: String? = null,
+
+Date
+
+val background: ImageHolder? = cover,
+
+DownloadContext
+
+val isExplicit: Boolean = false,
+
+val label: String? = null,
+val subtitle: String? = null,
+
+EchoMediaItem
+
+val extras: Map<String, String> = mapOf(),
+
+ExtensionType
+
+val isRadioSupported: Boolean = true,
+
+Feed
+
+val isSaveable: Boolean = true,
+
+val isFollowable: Boolean = false,
+val isLikeable: Boolean = false,
+
+ImageHolder
+ImportType
+
+val isHideable: Boolean = false,
+val isShareable: Boolean = true
+) : EchoMediaItem.Lists
+
+(source)
+
+Lyrics
+Message
+Metadata
+NetworkConnection
+NetworkRequest
+Playlist
+Progress
+
+A data class representing an album
+
+See also
+AlbumClient
+
+Members
+
+Constructors
+
+QuickSearchItem
+Radio
+
+Album
+
+constructor(
+id: String,
+
+Shelf
+
+title: String,
+type: Album.Type? = null,
+
+Streamable
+
+cover: ImageHolder? = null,
+
+Tab
+
+artists: List<Artist> = listOf(),
+
+Track
+
+duration: Long? = null,
+
+trackCount: Long? = null,
+releaseDate: Date? = null,
+
+TrackDetails
+
+description: String? = null,
+background: ImageHolder? = cover,
+
+User
+
+label: String? = null,
+
+dev.brahmkshatriya.echo.common.
+
+isExplicit: Boolean = false,
+
+providers
+
+subtitle: String? = null,
+extras: Map<String, String> = mapOf(),
+
+dev.brahmkshatriya.echo.common.
+
+isRadioSupported: Boolean = true,
+
+settings
+
+isFollowable: Boolean = false,
+isSaveable: Boolean = true,
+isLikeable: Boolean = false,
+isHideable: Boolean = false,
+isShareable: Boolean = true
+)
+
+Types
+Type
+
+enum Type : Enum<Album.Type>
+
+The type of the album. This can be actual album types like PreRelease, Single, EP, LP, Compilation or Special
+types like :
+
+Properties
+artists
+
+open override val artists: List<Artist>
+
+The artists of the album
+background
+
+open override val background: ImageHolder?
+
+The background image of the album
+cover
+
+open override val cover: ImageHolder? = null
+
+The cover image of the album
+date
+
+open override val date: Date?
+
+description
+
+open override val description: String? = null
+
+The description of the album
+duration
+
+open override val duration: Long? = null
+
+The duration of the album in milliseconds
+extras
+
+open override val extras: Map<String, String>
+
+Any extra data you want to associate with the album
+id
+
+open override val id: String
+
+The id of the album
+isExplicit
+
+open override val isExplicit: Boolean = false
+
+Whether the album is explicit
+isFollowable
+
+open override val isFollowable: Boolean = false
+
+Whether the album can be followed. Checkout FollowClient
+isHideable
+
+open override val isHideable: Boolean = false
+
+Whether the album can be hidden. Checkout HideClient
+isLikeable
+
+open override val isLikeable: Boolean = false
+
+Whether the album can be liked. Checkout LikeClient
+isPrivate
+
+isRadioSupported
+
+open val isPrivate: Boolean
+
+open override val isRadioSupported: Boolean = true
+
+Whether the album can be used to create a radio. Checkout RadioClient
+isSaveable
+
+open override val isSaveable: Boolean = true
+
+Whether the album can be saved to library. Checkout SaveClient
+isShareable
+
+open override val isShareable: Boolean = true
+
+Whether the album can be shared. Checkout ShareClient
+label
+
+open override val label: String? = null
+
+The publisher of the album
+releaseDate
+
+val releaseDate: Date? = null
+
+The release date of the album
+subtitle
+
+open override val subtitle: String? = null
+
+The subtitle of the album, used to display information under the title
+subtitleWithE
+
+subtitleWithOutE
+
+title
+
+open val subtitleWithE: <Error class: unknown class>
+
+open override val subtitleWithOutE: String
+
+open override val title: String
+
+The title of the album
+trackCount
+
+open override val trackCount: Long? = null
+
+The total number of tracks in the album
+type
+
+open override val type: Album.Type? = null
+
+The Type of the album.
+
+Functions
+copyMediaItem
+
+open fun copyMediaItem(
+id: String = this.id,
+title: String = this.title,
+cover: ImageHolder? = this.cover,
+description: String? = this.description,
+subtitle: String? = this.subtitle,
+extras: Map<String, String> = this.extras,
+isRadioSupported: Boolean = this.isRadioSupported,
+isFollowable: Boolean = this.isFollowable,
+isSaveable: Boolean = this.isSaveable
+): EchoMediaItem
+
+sameAs
+
+toShelf
+
+open fun sameAs(other: EchoMediaItem): Boolean
+
+open fun toShelf(): Shelf.Item
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.models / Playlist
+
+dev.brahmkshatriya.echo.common
+dev.brahmkshatriya.echo.common.
+clients
+dev.brahmkshatriya.echo.common.
+helpers
+
+Playlist
+@Serializable
+data class Playlist(
+
+dev.brahmkshatriya.echo.common.
+
+val id: String,
+
+models
+
+val title: String,
+val isEditable: Boolean,
+
+Album
+
+val isPrivate: Boolean = true,
+
+Artist
+
+val cover: ImageHolder? = null,
+
+Chapter
+
+val trackCount: Long? = null,
+
+val authors: List<Artist> = listOf(),
+val duration: Long? = null,
+
+Date
+
+val creationDate: Date? = null,
+
+DownloadContext
+
+val description: String? = null,
+
+EchoMediaItem
+
+val subtitle: String? = null,
+
+val background: ImageHolder? = cover,
+val extras: Map<String, String> = mapOf(),
+
+ExtensionType
+
+val isRadioSupported: Boolean = true,
+
+Feed
+
+val isFollowable: Boolean = false,
+
+ImageHolder
+
+val isLikeable: Boolean = false,
+
+val isSaveable: Boolean = true,
+val isHideable: Boolean = false,
+
+ImportType
+
+val isShareable: Boolean = true
+
+Lyrics
+
+) : EchoMediaItem.Lists
+
+Message
+
+A data class representing a playlist
+
+Metadata
+
+See also
+
+NetworkConnection
+
+PlaylistClient
+
+(source)
+
+NetworkRequest
+Playlist
+Progress
+QuickSearchItem
+Radio
+
+Members
+
+Constructors
+Playlist
+
+constructor(
+
+Shelf
+
+id: String,
+
+Streamable
+
+isEditable: Boolean,
+
+title: String,
+isPrivate: Boolean = true,
+
+Tab
+
+cover: ImageHolder? = null,
+
+Track
+
+authors: List<Artist> = listOf(),
+
+TrackDetails
+
+duration: Long? = null,
+
+trackCount: Long? = null,
+creationDate: Date? = null,
+
+User
+
+description: String? = null,
+background: ImageHolder? = cover,
+
+dev.brahmkshatriya.echo.common.
+providers
+
+subtitle: String? = null,
+
+dev.brahmkshatriya.echo.common.
+
+isRadioSupported: Boolean = true,
+
+settings
+
+isFollowable: Boolean = false,
+
+extras: Map<String, String> = mapOf(),
+
+isSaveable: Boolean = true,
+isLikeable: Boolean = false,
+isHideable: Boolean = false,
+isShareable: Boolean = true
+)
+
+Properties
+artists
+
+open override val artists: List<Artist>
+
+authors
+
+val authors: List<Artist>
+
+The authors of the playlist
+background
+
+open override val background: ImageHolder?
+
+The background image of the playlist
+cover
+
+open override val cover: ImageHolder? = null
+
+The cover image of the playlist
+creationDate
+
+val creationDate: Date? = null
+
+The creation date of the playlist
+date
+
+open override val date: Date?
+
+description
+
+open override val description: String? = null
+
+The description of the playlist
+duration
+
+open override val duration: Long? = null
+
+The total duration of the playlist in milliseconds
+extras
+
+open override val extras: Map<String, String>
+
+Any extra data you want to associate with the playlist
+id
+
+open override val id: String
+
+The id of the playlist
+isEditable
+
+val isEditable: Boolean
+
+Whether the playlist is editable. Checkout PlaylistEditClient
+isExplicit
+
+isFollowable
+
+open val isExplicit: Boolean
+
+open override val isFollowable: Boolean = false
+
+Whether the playlist can be followed. Checkout FollowClient
+isHideable
+
+open override val isHideable: Boolean = false
+
+Whether the playlist can be hidden. Checkout HideClient
+isLikeable
+
+open override val isLikeable: Boolean = false
+
+Whether the playlist can be liked. Checkout LikeClient
+isPrivate
+
+open override val isPrivate: Boolean = true
+
+Whether the playlist is private. Checkout PlaylistEditPrivacyClient
+isRadioSupported
+
+open override val isRadioSupported: Boolean = true
+
+Whether the playlist can be used to create a radio. Checkout RadioClient
+isSaveable
+
+open override val isSaveable: Boolean = true
+
+Whether the playlist can be saved to library. Checkout SaveClient
+isShareable
+
+open override val isShareable: Boolean = true
+
+Whether the playlist can be shared. Checkout ShareClient
+label
+
+open val label: String?
+
+subtitle
+
+open override val subtitle: String? = null
+
+The subtitle of the playlist, used to display information under the title
+subtitleWithE
+
+subtitleWithOutE
+
+title
+
+open val subtitleWithE: <Error class: unknown class>
+
+open override val subtitleWithOutE: String
+
+open override val title: String
+
+The title of the playlist
+trackCount
+
+open override val trackCount: Long? = null
+
+The total number of tracks in the playlist
+type
+
+open val type: Album.Type?
+
+Functions
+copyMediaItem
+
+open fun copyMediaItem(
+id: String = this.id,
+title: String = this.title,
+cover: ImageHolder? = this.cover,
+description: String? = this.description,
+subtitle: String? = this.subtitle,
+extras: Map<String, String> = this.extras,
+isRadioSupported: Boolean = this.isRadioSupported,
+isFollowable: Boolean = this.isFollowable,
+isSaveable: Boolean = this.isSaveable
+): EchoMediaItem
+
+sameAs
+
+toShelf
+
+open fun sameAs(other: EchoMediaItem): Boolean
+
+open fun toShelf(): Shelf.Item
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.models / Radio
+
+dev.brahmkshatriya.echo.common
+dev.brahmkshatriya.echo.common.
+clients
+dev.brahmkshatriya.echo.common.
+helpers
+
+Radio
+@Serializable
+data class Radio(
+
+dev.brahmkshatriya.echo.common.
+
+val id: String,
+
+models
+
+val title: String,
+val cover: ImageHolder? = null,
+
+Album
+
+val authors: List<Artist> = listOf(),
+
+Artist
+
+val trackCount: Long? = null,
+
+Chapter
+
+val subtitle: String? = null,
+
+val description: String? = null,
+val extras: Map<String, String> = mapOf(),
+
+Date
+
+val isFollowable: Boolean = false,
+
+DownloadContext
+
+val isSaveable: Boolean = false,
+
+EchoMediaItem
+
+val isHideable: Boolean = false,
+
+ExtensionType
+Feed
+
+val isLikeable: Boolean = false,
+val isShareable: Boolean = true
+) : EchoMediaItem.Lists
+
+(source)
+
+A data class representing a radio, that can load tracks and be directly played when clicked.
+
+ImageHolder
+Members
+
+ImportType
+Lyrics
+
+Constructors
+
+Message
+Metadata
+
+Radio
+
+constructor(
+id: String,
+
+NetworkConnection
+
+title: String,
+cover: ImageHolder? = null,
+
+NetworkRequest
+
+authors: List<Artist> = listOf(),
+
+Playlist
+
+trackCount: Long? = null,
+description: String? = null,
+
+Progress
+
+subtitle: String? = null,
+extras: Map<String, String> = mapOf(),
+
+QuickSearchItem
+
+isFollowable: Boolean = false,
+
+Radio
+
+isSaveable: Boolean = false,
+isLikeable: Boolean = false,
+
+Shelf
+
+isHideable: Boolean = false,
+isShareable: Boolean = true
+
+Streamable
+)
+
+Tab
+Track
+TrackDetails
+
+Properties
+
+User
+dev.brahmkshatriya.echo.common.
+
+artists
+
+open override val artists: List<Artist>
+
+providers
+dev.brahmkshatriya.echo.common.
+
+authors
+
+settings
+
+val authors: List<Artist>
+
+The authors of the radio
+background
+
+open override val background: ImageHolder? = null
+
+The background image of the media item, used to display a background image
+cover
+
+open override val cover: ImageHolder? = null
+
+The cover image of the radio
+date
+
+open val date: Date?
+
+description
+
+open override val description: String? = null
+
+A description of the media item, used to display additional information
+duration
+
+extras
+
+open val duration: Long?
+
+open override val extras: Map<String, String>
+
+Any extra data you want to associate with the radio
+id
+
+open override val id: String
+
+The id of the radio
+isExplicit
+
+isFollowable
+
+open val isExplicit: Boolean
+
+open override val isFollowable: Boolean = false
+
+Whether the radio can be followed. Checkout FollowClient
+isHideable
+
+open override val isHideable: Boolean = false
+
+Whether the radio can be hidden. Checkout HideClient
+isLikeable
+
+open override val isLikeable: Boolean = false
+
+Whether the radio can be liked. Checkout LikeClient
+isPrivate
+
+isRadioSupported
+
+open val isPrivate: Boolean
+
+open override val isRadioSupported: Boolean = false
+
+Whether the media item can be loaded to get Radio. Checkout RadioClient
+isSaveable
+
+open override val isSaveable: Boolean = false
+
+Whether the radio can be saved to library. Checkout SaveClient
+isShareable
+
+open override val isShareable: Boolean = true
+
+Whether the radio can be shared. Checkout ShareClient
+label
+
+open val label: String?
+
+subtitle
+
+open override val subtitle: String? = null
+
+The subtitle of the radio, used to display information under the title
+subtitleWithE
+
+subtitleWithOutE
+
+title
+
+open val subtitleWithE: <Error class: unknown class>
+
+open override val subtitleWithOutE: String
+
+open override val title: String
+
+The title of the radio
+trackCount
+
+open override val trackCount: Long? = null
+
+The number of tracks in the radio, if applicable
+type
+
+open val type: Album.Type?
+
+Functions
+copyMediaItem
+
+open fun copyMediaItem(
+id: String = this.id,
+title: String = this.title,
+cover: ImageHolder? = this.cover,
+description: String? = this.description,
+subtitle: String? = this.subtitle,
+extras: Map<String, String> = this.extras,
+isRadioSupported: Boolean = this.isRadioSupported,
+isFollowable: Boolean = this.isFollowable,
+isSaveable: Boolean = this.isSaveable
+): EchoMediaItem
+
+sameAs
+
+toShelf
+
+open fun sameAs(other: EchoMediaItem): Boolean
+
+open fun toShelf(): Shelf.Item
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.models / Artist
+
+dev.brahmkshatriya.echo.common
+dev.brahmkshatriya.echo.common.
+clients
+dev.brahmkshatriya.echo.common.
+helpers
+
+Artist
+@Serializable
+data class Artist(
+
+dev.brahmkshatriya.echo.common.
+
+val id: String,
+
+models
+
+val name: String,
+val cover: ImageHolder? = null,
+
+Album
+
+val bio: String? = null,
+
+Artist
+
+val background: ImageHolder? = cover,
+
+Chapter
+
+val subtitle: String? = null,
+
+val banners: List<ImageHolder> = listOf(),
+val extras: Map<String, String> = mapOf(),
+
+Date
+
+val isRadioSupported: Boolean = true,
+
+DownloadContext
+
+val isFollowable: Boolean = true,
+
+EchoMediaItem
+
+val isLikeable: Boolean = false,
+
+val isSaveable: Boolean = true,
+val isHideable: Boolean = false,
+
+ExtensionType
+Feed
+
+val isShareable: Boolean = true
+) : EchoMediaItem
+
+(source)
+
+ImageHolder
+
+A data class representing an artist
+
+ImportType
+
+See also
+
+Lyrics
+
+ArtistClient
+
+Message
+Metadata
+NetworkConnection
+NetworkRequest
+Playlist
+
+Members
+
+Constructors
+Artist
+
+constructor(
+
+Progress
+
+id: String,
+
+QuickSearchItem
+
+cover: ImageHolder? = null,
+
+name: String,
+bio: String? = null,
+
+Radio
+
+background: ImageHolder? = cover,
+
+Shelf
+
+banners: List<ImageHolder> = listOf(),
+
+Streamable
+
+extras: Map<String, String> = mapOf(),
+
+subtitle: String? = null,
+isRadioSupported: Boolean = true,
+
+Tab
+
+isFollowable: Boolean = true,
+
+Track
+
+isSaveable: Boolean = true,
+
+TrackDetails
+
+isHideable: Boolean = false,
+
+isLikeable: Boolean = false,
+isShareable: Boolean = true
+
+User
+
+)
+
+dev.brahmkshatriya.echo.common.
+providers
+dev.brahmkshatriya.echo.common.
+settings
+
+Properties
+background
+
+open override val background: ImageHolder?
+
+The background image of the artist
+banners
+
+val banners: List<ImageHolder>
+
+The banners of the artist (not used yet)
+bio
+
+val bio: String? = null
+
+The bio of the artist
+cover
+
+open override val cover: ImageHolder? = null
+
+The cover image of the artist
+description
+
+open override val description: String?
+
+A description of the media item, used to display additional information
+extras
+
+open override val extras: Map<String, String>
+
+Any extra data you want to associate with the artist
+id
+
+open override val id: String
+
+The id of the artist
+isExplicit
+
+isFollowable
+
+open val isExplicit: Boolean
+
+open override val isFollowable: Boolean = true
+
+Whether the artist can be followed. Checkout FollowClient
+isHideable
+
+open override val isHideable: Boolean = false
+
+Whether the artist can be hidden. Checkout HideClient
+isLikeable
+
+open override val isLikeable: Boolean = false
+
+Whether the artist can be liked. Checkout LikeClient
+isPrivate
+
+isRadioSupported
+
+open val isPrivate: Boolean
+
+open override val isRadioSupported: Boolean = true
+
+Whether the artist can be used to create a radio. Checkout RadioClient
+isSaveable
+
+open override val isSaveable: Boolean = true
+
+Whether the artist can be saved to library. Checkout SaveClient
+isShareable
+
+open override val isShareable: Boolean = true
+
+Whether the artist can be shared. Checkout ShareClient
+name
+
+val name: String
+
+The name of the artist
+subtitle
+
+open override val subtitle: String? = null
+
+The subtitle of the artist, used to display information under the name
+subtitleWithE
+
+subtitleWithOutE
+
+title
+
+open val subtitleWithE: <Error class: unknown class>
+
+open override val subtitleWithOutE: String?
+
+open override val title: String
+
+The title of the media item
+
+Functions
+copyMediaItem
+
+open fun copyMediaItem(
+id: String = this.id,
+title: String = this.title,
+cover: ImageHolder? = this.cover,
+description: String? = this.description,
+subtitle: String? = this.subtitle,
+extras: Map<String, String> = this.extras,
+isRadioSupported: Boolean = this.isRadioSupported,
+isFollowable: Boolean = this.isFollowable,
+isSaveable: Boolean = this.isSaveable
+): EchoMediaItem
+
+sameAs
+
+toShelf
+
+open fun sameAs(other: EchoMediaItem): Boolean
+
+open fun toShelf(): Shelf.Item
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.models / Feed
+
+dev.brahmkshatriya.echo.common
+dev.brahmkshatriya.echo.common.
+clients
+dev.brahmkshatriya.echo.common.
+helpers
+
+Feed
+data class Feed<T : Any>(
+val tabs: List<Tab>,
+
+dev.brahmkshatriya.echo.common.
+models
+
+val getPagedData: suspend (Tab?) -> Feed.Data<T>
+)
+
+(source)
+
+Album
+
+Represents a feed of multiple T items, Used in various contexts like home, library, etc.
+
+Artist
+
+Feeds without Tabs
+
+Chapter
+
+The simplest way to create a feed is to show a list of T items, you can just do the following to convert a list of T items to a Feed:
+
+Date
+DownloadContext
+
+val feed = listOf<T>().toFeed()
+
+If you want to show a feed that loads more stuff when scrolled to end, you need to use the PagedData class. This class allows you to
+load more items as the user scrolls. And You can use the following to convert a PagedData to a feed:
+
+EchoMediaItem
+ExtensionType
+Feed
+Buttons
+Companion
+Data
+ImageHolder
+
+val feed = pagedData.toFeed()
+
+Feeds with Tabs
+Feeds can have multiple Tab items, each representing a different category. When a tab is selected, the getPagedData is called with the
+selected tab to retrieve a pair of PagedData and Buttons. If the tabs list is empty, the getPagedData will be called with null. An example of a
+feed with tabs:
+val feed = Feed(
+listOf("Tab1", "Tab2").map { Tab(it, it) }
+
+ImportType
+
+) { tab ->
+val pagedData = when (tab?.id) {
+
+Lyrics
+
+"Tab1" -> loadPagedDataForTab1()
+
+Message
+
+"Tab2" -> loadPagedDataForTab2()
+else -> throw IllegalArgumentException("Unknown tab")
+
+Metadata
+
+}
+pagedData.toFeedData()
+
+NetworkConnection
+}
+
+NetworkRequest
+Playlist
+Progress
+QuickSearchItem
+Radio
+Shelf
+
+Buttons And Background
+Feeds can also have Buttons shown below the tabs. Echo automatically handles searching and filtering depending on the data provided in the
+items. You can provide a custom track list to be used when play/shuffle button is clicked. You can send the buttons as null, if you want echo
+to use the default buttons for the feed. Use the Buttons.EMPTY to force a feed to have no buttons.
+An example of converting PagedData to Feed.Data with Buttons:
+val feedData = pagedData.toFeedData(
+buttons = Feed.Buttons(showPlayAndShuffle = true),
+
+Streamable
+Tab
+Track
+TrackDetails
+
+background = "https://example.com/background.jpg".toImageHolder()
+)
+
+See also
+Tab
+
+User
+dev.brahmkshatriya.echo.common.
+providers
+dev.brahmkshatriya.echo.common.
+
+PagedData
+Feed.Buttons
+
+settings
+Members
+
+Members & Extensions
+
+Constructors
+Feed
+
+constructor(tabs: List<Tab>, getPagedData: suspend (Tab?) -> Feed.Data<T>)
+
+Types
+Buttons
+
+@Serializable
+data class Buttons(
+val showSearch: Boolean = true,
+val showSort: Boolean = true,
+val showPlayAndShuffle: Boolean = false,
+val customTrackList: List<Track>? = null
+)
+
+A data class representing the buttons that can be shown in the feed.
+Companion
+
+Data
+
+object Companion
+
+data class Data<T : Any>(
+val pagedData: PagedData<T>,
+val buttons: Feed.Buttons? = null,
+val background: ImageHolder? = null
+)
+
+Represents the loaded data of the Feed.
+
+Properties
+getPagedData
+
+val getPagedData: suspend (Tab?) -> Feed.Data<T>
+
+to retrieve the shelves with Buttons for a given tab
+notSortTabs
+
+val notSortTabs: <Error class: unknown class>
+
+A list of Tab items that are not sort tabs. These tabs are used to load data in the feed and are not considered
+for sorting.
+tabs
+
+val tabs: List<Tab>
+
+The list of tabs in the feed.
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.models / EchoMediaItem
+
+dev.brahmkshatriya.echo.common
+dev.brahmkshatriya.echo.common.
+clients
+dev.brahmkshatriya.echo.common.
+helpers
+
+EchoMediaItem
+@Serializable
+sealed interface EchoMediaItem
+
+(source)
+
+dev.brahmkshatriya.echo.common.
+
+A class representing a media item in Echo.
+
+models
+Album
+Artist
+Chapter
+
+Use toShelf to convert a media item to Shelf.Item.
+Example:
+val track = api.getTrack("track_id")
+val shelfItem = mediaItem.toShelf()
+
+Date
+DownloadContext
+EchoMediaItem
+Lists
+ExtensionType
+
+See also
+Track
+Artist
+User
+
+Feed
+ImageHolder
+ImportType
+
+Album
+Playlist
+
+Lyrics
+Message
+
+Radio
+
+Metadata
+
+Inheritors
+
+NetworkConnection
+
+Artist
+
+NetworkRequest
+
+Lists
+
+Playlist
+Progress
+QuickSearchItem
+
+Track
+
+Members
+
+Radio
+Shelf
+
+Types
+
+Streamable
+Tab
+
+Lists
+
+@Serializable
+sealed interface Lists : EchoMediaItem
+
+Track
+TrackDetails
+User
+
+Properties
+
+dev.brahmkshatriya.echo.common.
+providers
+
+background
+
+dev.brahmkshatriya.echo.common.
+
+abstract val background: ImageHolder?
+
+The background image of the media item, used to display a background image
+
+settings
+
+cover
+
+abstract val cover: ImageHolder?
+
+The cover image of the media item
+description
+
+abstract val description: String?
+
+A description of the media item, used to display additional information
+extras
+
+abstract val extras: Map<String, String>
+
+Any extra data you want to associate with the media item
+id
+
+abstract val id: String
+
+The id of the media item
+isExplicit
+
+isFollowable
+
+open val isExplicit: Boolean
+
+abstract val isFollowable: Boolean
+
+Whether the media item can be followed. Checkout FollowClient
+isHideable
+
+abstract val isHideable: Boolean
+
+Whether the media item can be hidden. Checkout HideClient
+isLikeable
+
+abstract val isLikeable: Boolean
+
+Whether the media item can be liked. Checkout LikeClient
+isPrivate
+
+isRadioSupported
+
+open val isPrivate: Boolean
+
+abstract val isRadioSupported: Boolean
+
+Whether the media item can be loaded to get Radio. Checkout RadioClient
+isSaveable
+
+abstract val isSaveable: Boolean
+
+Whether the media item can be saved to library. Checkout SaveClient
+isShareable
+
+abstract val isShareable: Boolean
+
+Whether the media item can be shared. Checkout ShareClient
+subtitle
+
+abstract val subtitle: String?
+
+The subtitle of the media item, used to display information under the title
+subtitleWithE
+
+subtitleWithOutE
+
+title
+
+open val subtitleWithE: <Error class: unknown class>
+
+abstract val subtitleWithOutE: String?
+
+abstract val title: String
+
+The title of the media item
+
+Functions
+copyMediaItem
+
+open fun copyMediaItem(
+id: String = this.id,
+title: String = this.title,
+cover: ImageHolder? = this.cover,
+description: String? = this.description,
+subtitle: String? = this.subtitle,
+extras: Map<String, String> = this.extras,
+isRadioSupported: Boolean = this.isRadioSupported,
+isFollowable: Boolean = this.isFollowable,
+isSaveable: Boolean = this.isSaveable
+): EchoMediaItem
+
+sameAs
+
+toShelf
+
+open fun sameAs(other: EchoMediaItem): Boolean
+
+open fun toShelf(): Shelf.Item
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.models / EchoMediaItem / Lists
+
+dev.brahmkshatriya.echo.common
+dev.brahmkshatriya.echo.common.
+clients
+dev.brahmkshatriya.echo.common.
+helpers
+
+Lists
+@Serializable
+sealed interface Lists : EchoMediaItem
+
+(source)
+
+dev.brahmkshatriya.echo.common.
+models
+
+Inheritors
+Album
+
+Album
+
+Artist
+Chapter
+Date
+
+Playlist
+Radio
+
+DownloadContext
+EchoMediaItem
+Lists
+ExtensionType
+Feed
+
+Members
+
+Properties
+artists
+
+abstract val artists: List<Artist>
+
+ImageHolder
+ImportType
+
+background
+
+Lyrics
+
+abstract val background: ImageHolder?
+
+The background image of the media item, used to display a background image
+
+Message
+Metadata
+
+cover
+
+abstract val cover: ImageHolder?
+
+NetworkConnection
+
+The cover image of the media item
+
+NetworkRequest
+Playlist
+
+date
+
+open val date: Date?
+
+Progress
+QuickSearchItem
+
+description
+
+Radio
+
+abstract val description: String?
+
+A description of the media item, used to display additional information
+
+Shelf
+Streamable
+
+duration
+
+open val duration: Long?
+
+Tab
+Track
+
+extras
+
+abstract val extras: Map<String, String>
+
+TrackDetails
+
+Any extra data you want to associate with the media item
+
+User
+dev.brahmkshatriya.echo.common.
+
+id
+
+abstract val id: String
+
+providers
+
+The id of the media item
+
+dev.brahmkshatriya.echo.common.
+settings
+
+isExplicit
+
+isFollowable
+
+open val isExplicit: Boolean
+
+abstract val isFollowable: Boolean
+
+Whether the media item can be followed. Checkout FollowClient
+isHideable
+
+abstract val isHideable: Boolean
+
+Whether the media item can be hidden. Checkout HideClient
+isLikeable
+
+abstract val isLikeable: Boolean
+
+Whether the media item can be liked. Checkout LikeClient
+isPrivate
+
+isRadioSupported
+
+open val isPrivate: Boolean
+
+abstract val isRadioSupported: Boolean
+
+Whether the media item can be loaded to get Radio. Checkout RadioClient
+isSaveable
+
+abstract val isSaveable: Boolean
+
+Whether the media item can be saved to library. Checkout SaveClient
+isShareable
+
+abstract val isShareable: Boolean
+
+Whether the media item can be shared. Checkout ShareClient
+label
+
+open val label: String?
+
+subtitle
+
+abstract val subtitle: String?
+
+The subtitle of the media item, used to display information under the title
+subtitleWithE
+
+subtitleWithOutE
+
+title
+
+open val subtitleWithE: <Error class: unknown class>
+
+open override val subtitleWithOutE: String
+
+abstract val title: String
+
+The title of the media item
+trackCount
+
+type
+
+abstract val trackCount: Long?
+
+open val type: Album.Type?
+
+Functions
+copyMediaItem
+
+open fun copyMediaItem(
+id: String = this.id,
+title: String = this.title,
+cover: ImageHolder? = this.cover,
+description: String? = this.description,
+subtitle: String? = this.subtitle,
+extras: Map<String, String> = this.extras,
+isRadioSupported: Boolean = this.isRadioSupported,
+isFollowable: Boolean = this.isFollowable,
+isSaveable: Boolean = this.isSaveable
+): EchoMediaItem
+
+sameAs
+
+toShelf
+
+open fun sameAs(other: EchoMediaItem): Boolean
+
+open fun toShelf(): Shelf.Item
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+
+JVM
+
+common
+
+common / dev.brahmkshatriya.echo.common.models / Shelf / Lists
+
+dev.brahmkshatriya.echo.common
+dev.brahmkshatriya.echo.common.
+clients
+dev.brahmkshatriya.echo.common.
+helpers
+
+Lists
+@Serializable
+sealed interface Lists<T : Any> : Shelf
+
+(source)
+
+dev.brahmkshatriya.echo.common.
+
+Represents a list of media items or categories. If more is not null, a "More" button will be displayed and clicking on it will load a separate page
+for loading the PagedData.
+
+models
+Album
+
+Can be a list of Items, Tracks or Categories.
+
+Artist
+
+See also
+
+Chapter
+
+Shelf.Lists.Items
+
+Date
+DownloadContext
+EchoMediaItem
+
+Shelf.Lists.Tracks
+Shelf.Lists.Categories
+
+ExtensionType
+
+Inheritors
+
+Feed
+ImageHolder
+ImportType
+Lyrics
+
+Items
+Tracks
+Categories
+
+Message
+Metadata
+NetworkConnection
+NetworkRequest
+Playlist
+
+Members
+
+Types
+Categories
+
+Progress
+
+@Serializable
+data class Categories(
+val id: String,
+
+QuickSearchItem
+
+val title: String,
+
+Radio
+
+val list: List<Shelf.Category>,
+val subtitle: String? = null,
+
+Shelf
+
+val type: Shelf.Lists.Type = Type.Linear,
+val more: Feed<Shelf>? = null,
+
+Category
+
+val extras: Map<String, String> = mapOf()
+
+Item
+
+) : Shelf.Lists<Shelf.Category>
+
+Lists
+
+Represents a list of Category.
+
+Categories
+Items
+
+Items
+
+@Serializable
+data class Items(
+
+Tracks
+
+val id: String,
+val title: String,
+
+Type
+
+val list: List<EchoMediaItem>,
+
+Streamable
+
+val subtitle: String? = null,
+val type: Shelf.Lists.Type = Type.Linear,
+
+Tab
+
+val more: Feed<Shelf>? = null,
+val extras: Map<String, String> = mapOf()
+
+Track
+
+) : Shelf.Lists<EchoMediaItem>
+
+TrackDetails
+
+Represents a list of EchoMediaItem.
+
+User
+dev.brahmkshatriya.echo.common.
+providers
+
+Tracks
+
+@Serializable
+data class Tracks(
+
+dev.brahmkshatriya.echo.common.
+
+val id: String,
+
+settings
+
+val title: String,
+val list: List<Track>,
+val subtitle: String? = null,
+val type: Shelf.Lists.Type = Type.Linear,
+val more: Feed<Shelf>? = null,
+val extras: Map<String, String> = mapOf()
+) : Shelf.Lists<Track>
+
+Represents a list of Track, these will be numbered, otherwise use Items instead.
+Type
+
+enum Type : Enum<Shelf.Lists.Type>
+
+Represents the type of the list.
+
+Properties
+extras
+
+abstract val extras: Map<String, String>
+
+id
+
+abstract val id: String
+
+list
+
+abstract val list: List<T>
+
+the list of media items or categories.
+more
+
+abstract val more: Feed<Shelf>?
+
+the more data of the list.
+subtitle
+
+abstract val subtitle: String?
+
+the subtitle of the list.
+title
+
+abstract val title: String
+
+type
+
+abstract val type: Shelf.Lists.Type
+
+the type of the list.
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.models / Streamable
+
+dev.brahmkshatriya.echo.common
+dev.brahmkshatriya.echo.common.
+clients
+dev.brahmkshatriya.echo.common.
+helpers
+
+Streamable
+@Serializable
+data class Streamable(
+
+dev.brahmkshatriya.echo.common.
+
+val id: String,
+
+models
+
+val quality: Int,
+val type: Streamable.MediaType,
+
+Album
+Artist
+
+val title: String? = null,
+val extras: Map<String, String> = mapOf()
+)
+
+(source)
+
+Chapter
+Date
+DownloadContext
+EchoMediaItem
+ExtensionType
+Feed
+
+A data class representing an unloaded streamable item that is used when playing a Track The streamable item can be of three types:
+Streamable.server - To represent a server that contains data to be played
+Streamable.background - To represent a background video
+Streamable.subtitle - To represent subtitle
+See TrackClient.loadStreamableMedia for loading this streamable item.
+
+See also
+Streamable.Media
+
+ImageHolder
+ImportType
+Lyrics
+Message
+Metadata
+
+Members
+
+Constructors
+Streamable
+
+constructor(
+
+NetworkConnection
+
+id: String,
+quality: Int,
+
+NetworkRequest
+
+type: Streamable.MediaType,
+title: String? = null,
+
+Playlist
+
+extras: Map<String, String> = mapOf()
+
+Progress
+
+)
+
+QuickSearchItem
+Radio
+Shelf
+Streamable
+
+Types
+Companion
+
+object Companion
+
+Companion
+Decryption
+
+Decryption
+
+@Serializable
+
+InputProvider
+
+sealed class Decryption
+
+Media
+
+A class representing Media Decryption for a Source.
+
+MediaType
+Source
+
+InputProvider
+
+fun interface InputProvider
+
+An interface that provides an InputStream from a given position.
+
+SourceType
+SubtitleType
+Tab
+
+Media
+
+@Serializable
+sealed class Media
+
+Track
+
+A class that represents a loaded streamable media.
+
+TrackDetails
+User
+
+MediaType
+
+enum MediaType : Enum<Streamable.MediaType>
+
+dev.brahmkshatriya.echo.common.
+
+An enum class representing the type of media
+
+providers
+dev.brahmkshatriya.echo.common.
+settings
+
+Source
+
+@Serializable
+sealed class Source
+
+A class representing the actual source where streamable audio/video is present.
+SourceType
+
+enum SourceType : Enum<Streamable.SourceType>
+
+An enum representing the type of Source.
+SubtitleType
+
+enum SubtitleType : Enum<Streamable.SubtitleType>
+
+An enum class representing the type of subtitle
+
+Properties
+extras
+
+val extras: Map<String, String>
+
+Any extra data you want to associate with the streamable item
+id
+
+val id: String
+
+The id of the streamable item
+quality
+
+val quality: Int
+
+The quality of the streamable item, this is used to sort the streamable items
+title
+
+val title: String? = null
+
+The title of the streamable item
+type
+
+val type: Streamable.MediaType
+
+The type of the streamable item
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.models / Metadata
+
+dev.brahmkshatriya.echo.common
+dev.brahmkshatriya.echo.common.
+clients
+dev.brahmkshatriya.echo.common.
+helpers
+
+Metadata
+@Serializable
+data class Metadata(
+
+dev.brahmkshatriya.echo.common.
+
+val className: String,
+
+models
+
+val path: String,
+val importType: ImportType,
+
+Album
+
+val type: ExtensionType,
+
+Artist
+
+val id: String,
+
+Chapter
+
+val version: String,
+
+val name: String,
+val description: String,
+
+Date
+
+val author: String,
+
+DownloadContext
+
+val authorUrl: String? = null,
+
+EchoMediaItem
+
+val repoUrl: String? = null,
+
+val icon: ImageHolder? = null,
+val updateUrl: String? = null,
+
+ExtensionType
+Feed
+
+val preservedPackages: List<String> = listOf(),
+val isEnabled: Boolean = true
+)
+
+(source)
+
+ImageHolder
+ImportType
+Lyrics
+Message
+Metadata
+NetworkConnection
+
+Metadata for an extension.
+Members
+
+Constructors
+Metadata
+
+constructor(
+className: String,
+
+NetworkRequest
+
+path: String,
+
+Playlist
+
+importType: ImportType,
+type: ExtensionType,
+
+Progress
+
+id: String,
+name: String,
+
+QuickSearchItem
+
+version: String,
+
+Radio
+
+description: String,
+author: String,
+
+Shelf
+
+authorUrl: String? = null,
+icon: ImageHolder? = null,
+
+Streamable
+
+repoUrl: String? = null,
+
+Tab
+
+updateUrl: String? = null,
+preservedPackages: List<String> = listOf(),
+
+Track
+
+isEnabled: Boolean = true
+)
+
+TrackDetails
+User
+dev.brahmkshatriya.echo.common.
+providers
+dev.brahmkshatriya.echo.common.
+settings
+
+Properties
+author
+
+val author: String
+
+The author of the extension
+authorUrl
+
+val authorUrl: String? = null
+
+The author's site to open
+className
+
+val className: String
+
+The class name of the extension
+description
+
+val description: String
+
+The description of the extension
+icon
+
+val icon: ImageHolder? = null
+
+The icon of the extension
+id
+
+val id: String
+
+The id of the extension
+importType
+
+val importType: ImportType
+
+The type of import for the extension
+isEnabled
+
+val isEnabled: Boolean = true
+
+Whether the extension is enabled
+name
+
+val name: String
+
+The name of the extension
+path
+
+val path: String
+
+The file path of the extension's file
+preservedPackages
+
+val preservedPackages: List<String>
+
+The packages to preserve, ideally for extensions that use native libraries
+repoUrl
+
+val repoUrl: String? = null
+
+The repository URL of the extension
+type
+
+val type: ExtensionType
+
+The type of extension
+updateUrl
+
+val updateUrl: String? = null
+
+The update URL of the extension
+version
+
+val version: String
+
+The version of the extension
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.helpers / PagedData
+
+dev.brahmkshatriya.echo.common
+dev.brahmkshatriya.echo.common.
+clients
+
+PagedData
+
+dev.brahmkshatriya.echo.common.
+
+sealed class PagedData<T : Any>
+
+helpers
+ClientException
+
+A class that represents a paginated data. Used to load data in chunks.
+
+ContinuationCallback
+
+If the data is continuous, use Continuous.
+val data = PagedData.Continuous { continuation ->
+
+Injectable
+
+val (tracks, nextContinuation) = api.loadTracks(continuation)
+
+Page
+
+Page(tracks, nextContinuation)
+}
+
+PagedData
+Companion
+
+If the data is not continuous, you can just use Single.
+val data = PagedData.Single { api.loadTracks() }
+
+Concat
+Continuous
+
+(source)
+
+If you want to concatenate multiple paged data, use Concat.
+
+Single
+
+val data = PagedData.Concat(
+PagedData.Single { api.loadTracks() },
+
+Suspend
+
+PagedData.Continuous { api.loadTracksPage(it) }
+// Add more sources here
+
+WebViewClient
+
+)
+
+WebViewRequest
+dev.brahmkshatriya.echo.common.
+
+Parameters
+
+models
+
+T
+
+The type of data
+
+dev.brahmkshatriya.echo.common.
+providers
+
+Inheritors
+
+dev.brahmkshatriya.echo.common.
+
+Single
+
+settings
+
+Continuous
+Concat
+Suspend
+
+Members
+
+Members & Extensions
+
+Types
+Companion
+
+Concat
+
+object Companion
+
+class Concat<T : Any>(sources: PagedData<T>) : PagedData<T>
+
+A class representing a concatenation of multiple data sources.
+Continuous
+
+class Continuous<T : Any>(
+val load: suspend (continuation: String?) -> Page<T>
+) : PagedData<T>
+
+A class representing a continuous page of data.
+Single
+
+class Single<T : Any>(val load: suspend () -> List<T>) : PagedData<T>
+
+A class representing a single page of data.
+Suspend
+
+class Suspend<T : Any>(getter: suspend () -> PagedData<T>) : PagedData<T>
+
+Functions
+clear
+
+abstract fun clear()
+
+To clear all the cache of paged data
+invalidate
+
+loadAll
+
+abstract fun invalidate(continuation: String?)
+
+suspend fun loadAll(): List<T>
+
+To load all the data
+loadAllInternal
+
+loadListInternal
+
+loadPage
+
+map
+
+abstract suspend fun loadAllInternal(): List<T>
+
+abstract suspend fun loadListInternal(continuation: String?): Page<T>
+
+suspend fun loadPage(continuation: String?): Page<T>
+
+abstract fun <R : Any> map(
+block: suspend (Result<List<T>>) -> List<R>
+): PagedData<R>
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+
+JVM
+
+common
+
+common / dev.brahmkshatriya.echo.common.models / Streamable / Source
+
+dev.brahmkshatriya.echo.common
+dev.brahmkshatriya.echo.common.
+clients
+dev.brahmkshatriya.echo.common.
+helpers
+
+Source
+@Serializable
+sealed class Source
+
+(source)
+
+dev.brahmkshatriya.echo.common.
+
+A class representing the actual source where streamable audio/video is present.
+
+models
+
+Artist
+
+There are three types of sources:
+Http - To represent a source that contains Audio/Video on a Http Url.
+Raw - To represent a source that contains Audio/Video in a Byte Stream.
+
+Chapter
+
+See also
+
+Date
+
+Streamable.SourceType
+
+Album
+
+DownloadContext
+EchoMediaItem
+ExtensionType
+Feed
+
+Streamable.Source.
+Companion.toSource
+Streamable.Media.
+Companion.toServerMedia
+
+ImageHolder
+ImportType
+
+Inheritors
+Http
+
+Lyrics
+Message
+Metadata
+
+Raw
+
+Members
+
+Members & Extensions
+
+NetworkConnection
+NetworkRequest
+
+Types
+
+Playlist
+Progress
+
+Companion
+
+object Companion
+
+QuickSearchItem
+
+Http
+
+Radio
+
+@Serializable
+data class Http(
+
+Shelf
+
+val request: NetworkRequest,
+val type: Streamable.SourceType = SourceType.Progressive,
+
+Streamable
+
+val decryption: Streamable.Decryption? = null,
+
+Companion
+
+val quality: Int = 0,
+val title: String? = null,
+
+Decryption
+
+val isVideo: Boolean = false,
+val isLive: Boolean = false
+
+InputProvider
+
+) : Streamable.Source
+
+Media
+
+A data class representing a source that contains Audio/Video on a Http Url.
+
+MediaType
+Source
+
+Raw
+
+@Serializable
+
+Companion
+
+data class Raw(
+val streamProvider: Streamable.InputProvider? = null,
+
+Http
+
+val id: String,
+val quality: Int = 0,
+
+Raw
+
+val title: String? = null,
+
+SourceType
+
+val isVideo: Boolean = false,
+val isLive: Boolean = false
+
+SubtitleType
+
+) : Streamable.Source
+
+Tab
+
+A data class representing a source that contains Audio/Video in a Byte Stream.
+
+Track
+TrackDetails
+User
+dev.brahmkshatriya.echo.common.
+providers
+
+Properties
+id
+
+abstract val id: String
+
+dev.brahmkshatriya.echo.common.
+settings
+
+isLive
+
+abstract val isLive: Boolean
+
+isVideo
+
+quality
+
+abstract val isVideo: Boolean
+
+abstract val quality: Int
+
+The quality of the source, this is used to sort the sources
+title
+
+abstract val title: String?
+
+The title of the source
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.clients / PlaylistEditorListenerClient
+
+dev.brahmkshatriya.echo.common
+dev.brahmkshatriya.echo.common.
+clients
+AlbumClient
+
+PlaylistEditorListenerClient
+interface PlaylistEditorListenerClient : PlaylistEditClient
+
+(source)
+
+ArtistClient
+DownloadClient
+ExtensionClient
+FollowClient
+HideClient
+HomeFeedClient
+LibraryFeedClient
+
+Used to listen to playlist editor events.
+
+See also
+PlaylistEditClient
+
+Members
+
+Functions
+
+LikeClient
+LoginClient
+
+addTracksToPlaylist
+
+abstract suspend fun addTracksToPlaylist(
+playlist: Playlist,
+
+LyricsClient
+
+tracks: List<Track>,
+index: Int,
+
+LyricsSearchClient
+
+new: List<Track>
+
+PlaylistClient
+
+)
+
+PlaylistEditClient
+
+Adds tracks to a playlist.
+
+PlaylistEditCoverClient
+PlaylistEditorListenerClient
+
+createPlaylist
+
+abstract suspend fun createPlaylist(
+title: String,
+
+PlaylistEditPrivacyClient
+
+description: String?
+): Playlist
+
+QuickSearchClient
+
+Creates a new playlist.
+
+RadioClient
+SaveClient
+
+deletePlaylist
+
+SearchFeedClient
+
+abstract suspend fun deletePlaylist(playlist: Playlist)
+
+Deletes a playlist.
+
+SettingsChangeListener
+Client
+ShareClient
+
+editPlaylistMetadata
+
+abstract suspend fun editPlaylistMetadata(
+playlist: Playlist,
+
+TrackChapterClient
+
+title: String,
+description: String?
+
+TrackClient
+
+)
+
+TrackerClient
+
+Edits the metadata of a playlist.
+
+TrackerMarkClient
+dev.brahmkshatriya.echo.common.
+helpers
+
+listEditablePlaylists
+
+abstract suspend fun listEditablePlaylists(
+track: Track?
+
+dev.brahmkshatriya.echo.common.
+
+): List<Pair<Playlist, Boolean>>
+
+models
+
+Lists all the editable playlists.
+
+dev.brahmkshatriya.echo.common.
+providers
+dev.brahmkshatriya.echo.common.
+
+loadFeed
+
+settings
+
+abstract suspend fun loadFeed(playlist: Playlist): Feed<Shelf>?
+
+Gets the feed of a playlist.
+loadPlaylist
+
+abstract suspend fun loadPlaylist(playlist: Playlist): Playlist
+
+Loads a playlist.
+loadTracks
+
+abstract suspend fun loadTracks(playlist: Playlist): Feed<Track>
+
+Loads the tracks of a playlist.
+moveTrackInPlaylist
+
+abstract suspend fun moveTrackInPlaylist(
+playlist: Playlist,
+tracks: List<Track>,
+fromIndex: Int,
+toIndex: Int
+)
+
+Moves a track in a playlist.
+onEnterPlaylistEditor
+
+abstract suspend fun onEnterPlaylistEditor(
+playlist: Playlist,
+tracks: List<Track>
+)
+
+Called when entering the playlist editor.
+onExitPlaylistEditor
+
+abstract suspend fun onExitPlaylistEditor(
+playlist: Playlist,
+tracks: List<Track>
+)
+
+Called when exiting the playlist editor.
+removeTracksFrom
+Playlist
+
+abstract suspend fun removeTracksFromPlaylist(
+playlist: Playlist,
+tracks: List<Track>,
+indexes: List<Int>
+)
+
+Removes tracks from a playlist.
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.clients / PlaylistEditClient
+
+dev.brahmkshatriya.echo.common
+dev.brahmkshatriya.echo.common.
+clients
+AlbumClient
+
+PlaylistEditClient
+interface PlaylistEditClient : PlaylistClient
+
+(source)
+
+ArtistClient
+DownloadClient
+ExtensionClient
+FollowClient
+HideClient
+
+Used to allow editing of an editable playlist.
+To allow editing of cover art, use PlaylistEditCoverClient.
+To allow editing the privacy of a playlist, use PlaylistEditPrivacyClient.
+To listen to changes in the playlist editor, use PlaylistEditorListenerClient.
+
+See also
+Playlist.isEditable
+
+HomeFeedClient
+LibraryFeedClient
+
+Inheritors
+
+LikeClient
+
+PlaylistEditCoverClient
+
+LoginClient
+
+PlaylistEditPrivacyClient
+
+LyricsClient
+LyricsSearchClient
+PlaylistClient
+
+PlaylistEditorListenerClient
+
+Members
+
+PlaylistEditClient
+PlaylistEditCoverClient
+
+Functions
+
+PlaylistEditorListenerClient
+PlaylistEditPrivacyClient
+
+addTracksToPlaylist
+
+abstract suspend fun addTracksToPlaylist(
+playlist: Playlist,
+
+QuickSearchClient
+
+tracks: List<Track>,
+index: Int,
+
+RadioClient
+
+new: List<Track>
+
+SaveClient
+
+)
+
+SearchFeedClient
+
+Adds tracks to a playlist.
+
+SettingsChangeListener
+Client
+
+createPlaylist
+
+abstract suspend fun createPlaylist(
+title: String,
+
+ShareClient
+
+description: String?
+
+TrackChapterClient
+
+): Playlist
+
+TrackClient
+
+Creates a new playlist.
+
+TrackerClient
+TrackerMarkClient
+
+deletePlaylist
+
+dev.brahmkshatriya.echo.common.
+
+Deletes a playlist.
+
+helpers
+dev.brahmkshatriya.echo.common.
+models
+
+abstract suspend fun deletePlaylist(playlist: Playlist)
+
+editPlaylistMetadata
+
+abstract suspend fun editPlaylistMetadata(
+playlist: Playlist,
+
+dev.brahmkshatriya.echo.common.
+
+title: String,
+
+providers
+
+description: String?
+)
+
+dev.brahmkshatriya.echo.common.
+settings
+
+Edits the metadata of a playlist.
+listEditablePlaylists
+
+abstract suspend fun listEditablePlaylists(
+track: Track?
+): List<Pair<Playlist, Boolean>>
+
+Lists all the editable playlists.
+loadFeed
+
+abstract suspend fun loadFeed(playlist: Playlist): Feed<Shelf>?
+
+Gets the feed of a playlist.
+loadPlaylist
+
+abstract suspend fun loadPlaylist(playlist: Playlist): Playlist
+
+Loads a playlist.
+loadTracks
+
+abstract suspend fun loadTracks(playlist: Playlist): Feed<Track>
+
+Loads the tracks of a playlist.
+moveTrackInPlaylist
+
+abstract suspend fun moveTrackInPlaylist(
+playlist: Playlist,
+tracks: List<Track>,
+fromIndex: Int,
+toIndex: Int
+)
+
+Moves a track in a playlist.
+removeTracksFrom
+Playlist
+
+abstract suspend fun removeTracksFromPlaylist(
+playlist: Playlist,
+tracks: List<Track>,
+indexes: List<Int>
+)
+
+Removes tracks from a playlist.
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.clients / PlaylistEditCoverClient
+
+dev.brahmkshatriya.echo.common
+dev.brahmkshatriya.echo.common.
+clients
+AlbumClient
+
+PlaylistEditCoverClient
+interface PlaylistEditCoverClient : PlaylistEditClient
+
+(source)
+
+ArtistClient
+DownloadClient
+ExtensionClient
+FollowClient
+HideClient
+HomeFeedClient
+LibraryFeedClient
+
+Used to allow editing the cover of a playlist.
+
+See also
+PlaylistEditClient
+
+Members
+
+Functions
+
+LikeClient
+LoginClient
+
+addTracksToPlaylist
+
+abstract suspend fun addTracksToPlaylist(
+playlist: Playlist,
+
+LyricsClient
+
+tracks: List<Track>,
+index: Int,
+
+LyricsSearchClient
+
+new: List<Track>
+
+PlaylistClient
+
+)
+
+PlaylistEditClient
+
+Adds tracks to a playlist.
+
+PlaylistEditCoverClient
+PlaylistEditorListenerClient
+
+createPlaylist
+
+abstract suspend fun createPlaylist(
+title: String,
+
+PlaylistEditPrivacyClient
+
+description: String?
+): Playlist
+
+QuickSearchClient
+
+Creates a new playlist.
+
+RadioClient
+SaveClient
+
+deletePlaylist
+
+SearchFeedClient
+
+abstract suspend fun deletePlaylist(playlist: Playlist)
+
+Deletes a playlist.
+
+SettingsChangeListener
+Client
+ShareClient
+
+editPlaylistCover
+
+TrackChapterClient
+
+abstract suspend fun editPlaylistCover(playlist: Playlist, cover: File?)
+
+Edits the cover of a playlist.
+
+TrackClient
+TrackerClient
+
+editPlaylistMetadata
+
+abstract suspend fun editPlaylistMetadata(
+playlist: Playlist,
+
+TrackerMarkClient
+
+title: String,
+description: String?
+
+dev.brahmkshatriya.echo.common.
+helpers
+
+)
+
+dev.brahmkshatriya.echo.common.
+
+Edits the metadata of a playlist.
+
+models
+dev.brahmkshatriya.echo.common.
+
+listEditablePlaylists
+
+providers
+
+abstract suspend fun listEditablePlaylists(
+track: Track?
+): List<Pair<Playlist, Boolean>>
+
+dev.brahmkshatriya.echo.common.
+settings
+
+Lists all the editable playlists.
+loadFeed
+
+abstract suspend fun loadFeed(playlist: Playlist): Feed<Shelf>?
+
+Gets the feed of a playlist.
+loadPlaylist
+
+abstract suspend fun loadPlaylist(playlist: Playlist): Playlist
+
+Loads a playlist.
+loadTracks
+
+abstract suspend fun loadTracks(playlist: Playlist): Feed<Track>
+
+Loads the tracks of a playlist.
+moveTrackInPlaylist
+
+abstract suspend fun moveTrackInPlaylist(
+playlist: Playlist,
+tracks: List<Track>,
+fromIndex: Int,
+toIndex: Int
+)
+
+Moves a track in a playlist.
+removeTracksFrom
+Playlist
+
+abstract suspend fun removeTracksFromPlaylist(
+playlist: Playlist,
+tracks: List<Track>,
+indexes: List<Int>
+)
+
+Removes tracks from a playlist.
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.models / NetworkRequest
+
+dev.brahmkshatriya.echo.common
+dev.brahmkshatriya.echo.common.
+clients
+dev.brahmkshatriya.echo.common.
+helpers
+
+NetworkRequest
+@Serializable
+data class NetworkRequest(
+
+dev.brahmkshatriya.echo.common.
+
+val url: String,
+
+models
+
+val headers: Map<String, String> = emptyMap(),
+val method: NetworkRequest.Method = GET,
+
+Album
+Artist
+
+val bodyBase64: String? = null
+)
+
+(source)
+
+Chapter
+
+A data class to represent a network request.
+
+Date
+
+Parameters
+
+DownloadContext
+
+url
+
+The URL to make the request to
+
+headers
+
+The headers to be sent with the request
+
+method
+
+The HTTP method to use for the request, defaults to Method.GET
+
+bodyBase64
+
+The body of the request encoded in Base64, can be null
+
+EchoMediaItem
+ExtensionType
+Feed
+ImageHolder
+ImportType
+Lyrics
+Message
+
+See also
+NetworkRequest.
+Companion.toGetRequest
+
+Metadata
+NetworkConnection
+
+Members
+
+NetworkRequest
+
+Constructors
+
+Companion
+Method
+
+NetworkRequest
+
+constructor(
+
+Playlist
+
+method: NetworkRequest.Method,
+url: String,
+
+Progress
+
+headers: Map<String, String> = emptyMap(),
+body: ByteArray? = null
+
+QuickSearchItem
+)
+
+Radio
+constructor(
+
+Shelf
+
+url: String,
+
+Streamable
+
+headers: Map<String, String> = emptyMap(),
+method: NetworkRequest.Method = GET,
+
+Tab
+
+bodyBase64: String? = null
+)
+
+Track
+TrackDetails
+User
+
+Types
+
+dev.brahmkshatriya.echo.common.
+providers
+
+Companion
+
+dev.brahmkshatriya.echo.common.
+
+object Companion
+
+settings
+
+Method
+
+enum Method : Enum<NetworkRequest.Method>
+
+Represents the HTTP methods that can be used in a network request.
+
+Properties
+body
+
+val body: <Error class: unknown class>
+
+The body of the request decoded from Base64. If bodyBase64 is null, this will also be null.
+bodyBase64
+
+headers
+
+lowerCaseHeaders
+
+val bodyBase64: String? = null
+
+val headers: Map<String, String>
+
+val lowerCaseHeaders: <Error class: unknown class>
+
+A map of headers with all keys converted to lowercase. This is useful for case-insensitive header lookups.
+method
+
+url
+
+val method: NetworkRequest.Method
+
+val url: String
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.clients / DownloadClient
+
+dev.brahmkshatriya.echo.common
+dev.brahmkshatriya.echo.common.
+clients
+AlbumClient
+
+DownloadClient
+interface DownloadClient : ExtensionClient
+
+(source)
+
+ArtistClient
+DownloadClient
+ExtensionClient
+FollowClient
+HideClient
+HomeFeedClient
+
+The client for downloading tracks. Needs to support the following:
+Get the download tracks for the given media item.
+Get the download folder for the given context of downloading track.
+Which server to use for downloading.
+Which sources to use for downloading.
+Download the given sources.
+Merge the given media files into a single file.
+Tag a file with the given track metadata.
+The maximum number of concurrent downloads allowed.
+
+LibraryFeedClient
+Members
+
+LikeClient
+LoginClient
+
+Properties
+
+LyricsClient
+LyricsSearchClient
+
+concurrentDownloads
+
+PlaylistClient
+
+abstract val concurrentDownloads: Int
+
+The maximum number of concurrent downloads allowed.
+
+PlaylistEditClient
+PlaylistEditCoverClient
+PlaylistEditorListenerClient
+PlaylistEditPrivacyClient
+
+Functions
+download
+
+QuickSearchClient
+
+abstract suspend fun download(
+progressFlow: MutableStateFlow<Progress>,
+context: DownloadContext,
+
+RadioClient
+
+source: Streamable.Source
+
+SaveClient
+
+): File
+
+SearchFeedClient
+
+Download the given source.
+
+SettingsChangeListener
+Client
+
+getDownloadTracks
+
+abstract suspend fun getDownloadTracks(
+
+ShareClient
+
+extensionId: String,
+
+TrackChapterClient
+
+context: EchoMediaItem?
+
+item: EchoMediaItem,
+): List<DownloadContext>
+
+TrackClient
+
+Get the download tracks for the given item.
+
+TrackerClient
+TrackerMarkClient
+
+getSettingItems
+
+dev.brahmkshatriya.echo.common.
+helpers
+
+abstract suspend fun getSettingItems(): List<Setting>
+
+List of Settings to be displayed in the settings screen
+
+dev.brahmkshatriya.echo.common.
+models
+
+merge
+
+abstract suspend fun merge(
+
+dev.brahmkshatriya.echo.common.
+
+progressFlow: MutableStateFlow<Progress>,
+
+providers
+
+context: DownloadContext,
+files: List<File>
+
+dev.brahmkshatriya.echo.common.
+
+): File
+
+settings
+
+Merge the given media files into a single file. The old files should be deleted after merging.
+onExtensionSelected
+
+open suspend fun onExtensionSelected()
+
+Only called when an extension is selected by the user, not when the extension is loaded Use the
+onInitialize for doing stuff to initialize the extension
+onInitialize
+
+open suspend fun onInitialize()
+
+Called when the extension is loaded, called after all the injections are done. Only called once
+selectServer
+
+abstract suspend fun selectServer(context: DownloadContext): Streamable
+
+Which server to use for downloading. use this to get the available servers.
+selectSources
+
+abstract suspend fun selectSources(
+context: DownloadContext,
+server: Streamable.Media.Server
+): List<Streamable.Source>
+
+Which source to use for downloading.
+setSettings
+
+abstract fun setSettings(settings: Settings)
+
+Called when the extension is initialized, to provide the Settings to the extension
+tag
+
+abstract suspend fun tag(
+progressFlow: MutableStateFlow<Progress>,
+context: DownloadContext,
+file: File
+): File
+
+Tag a file with the given track metadata use this to tag the file with the track metadata
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.helpers / PagedData / Continuous
+
+dev.brahmkshatriya.echo.common
+dev.brahmkshatriya.echo.common.
+clients
+dev.brahmkshatriya.echo.common.
+helpers
+
+Continuous
+class Continuous<T : Any>(
+val load: suspend (continuation: String?) -> Page<T>
+
+ClientException
+
+) : PagedData<T>
+
+(source)
+
+ContinuationCallback
+
+A class representing a continuous page of data.
+
+Injectable
+
+This class is used to load data in chunks. It takes a function that loads a page of data, with the given continuation token and returns a Page
+with the next continuation token.
+
+Page
+PagedData
+Companion
+
+If next continuation token is null, it means there is no more data to load. The initial call to load will have a null continuation token.
+Example for using with an API that uses Strings as continuation tokens:
+val data = PagedData.Continuous { continuation ->
+val (tracks, nextCont) = api.loadTracks(continuation)
+
+Concat
+Continuous
+Single
+Suspend
+WebViewClient
+
+Page(tracks, nextCont)
+}
+
+Example for using with an API that uses Integers as continuation tokens:
+val totalTracks = api.getTotalTracks()
+val data = PagedData.Continuous { continuation ->
+val contInt = continuation?.toIntOrNull() ?: 0
+
+WebViewRequest
+
+val tracks = api.loadTracks(contInt)
+val nextContinuation = contInt + 10
+
+dev.brahmkshatriya.echo.common.
+
+if (nextContinuation >= totalTracks) Page(tracks, null)
+
+models
+dev.brahmkshatriya.echo.common.
+
+else Page(tracks, nextContinuation)
+}
+
+providers
+dev.brahmkshatriya.echo.common.
+settings
+
+Parameters
+load
+
+The function to load a Page for a given continuation token
+
+Members
+
+Members & Extensions
+
+Constructors
+Continuous
+
+constructor(load: suspend (continuation: String?) -> Page<T>)
+
+Properties
+load
+
+val load: suspend (continuation: String?) -> Page<T>
+
+Functions
+clear
+
+open override fun clear(): <Error class: unknown class>
+
+To clear all the cache of paged data
+invalidate
+
+loadAll
+
+open override fun invalidate(continuation: String?)
+
+suspend fun loadAll(): List<T>
+
+To load all the data
+loadAllInternal
+
+loadListInternal
+
+loadPage
+
+map
+
+open suspend override fun loadAllInternal(): List<T>
+
+open suspend override fun loadListInternal(continuation: String?): Page<T>
+
+suspend fun loadPage(continuation: String?): Page<T>
+
+open override fun <R : Any> map(
+block: suspend (Result<List<T>>) -> List<R>
+): PagedData<R>
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.models / Feed / Companion
+
+dev.brahmkshatriya.echo.
+common
+dev.brahmkshatriya.echo.
+
+Companion
+
+common.clients
+dev.brahmkshatriya.echo.
+
+object Companion
+
+(source)
+
+common.helpers
+dev.brahmkshatriya.echo.
+common.models
+Album
+Artist
+
+Members
+
+Functions
+loadAll
+
+suspend fun <T : Any> Feed<T>.loadAll(): <Error class: unknown class>
+
+Chapter
+
+Convenience function to load all items in the Feed. Please use sparringly.
+
+Date
+DownloadContext
+
+pagedDataOfFirst
+
+EchoMediaItem
+
+Convenience function to load all items in the Feed for the firstOrNull Tab.
+
+ExtensionType
+Feed
+
+toFeed
+
+fun <T : Any> PagedData<T>.toFeed(
+
+Buttons
+
+buttons: Feed.Buttons? = null,
+background: ImageHolder? = null
+
+Companion
+
+): Feed<T>
+
+Data
+
+Convenience function to create a Feed from a PagedData of T items.
+
+ImageHolder
+
+fun <T : Any> List<T>.toFeed(
+
+ImportType
+
+buttons: Feed.Buttons? = null,
+
+Lyrics
+
+background: ImageHolder? = null
+): Feed<T>
+
+Message
+
+Convenience function to create a Feed from a list of T items.
+
+Metadata
+NetworkConnection
+
+suspend fun <T : Any> Feed<T>.pagedDataOfFirst(): <Error class: unknown class>
+
+toFeedData
+
+NetworkRequest
+
+fun <T : Any> PagedData<T>.toFeedData(
+buttons: Feed.Buttons? = null,
+background: ImageHolder? = null
+
+Playlist
+
+): Feed.Data<T>
+
+Progress
+
+Convenience function to convert a PagedData to a Feed.Data.
+
+QuickSearchItem
+
+fun <T : Any> List<T>.toFeedData(
+
+Radio
+
+buttons: Feed.Buttons? = null,
+
+Shelf
+
+background: ImageHolder? = null
+): Feed.Data<T>
+
+Streamable
+
+Convenience function to convert a list of T items to a Feed.Data.
+
+Tab
+Track
+TrackDetails
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.models / Shelf
+
+dev.brahmkshatriya.echo.common
+dev.brahmkshatriya.echo.common.
+clients
+dev.brahmkshatriya.echo.common.
+helpers
+
+Shelf
+@Serializable
+sealed interface Shelf
+
+(source)
+
+dev.brahmkshatriya.echo.common.
+
+Represents a shelf (group of Media Items or Categories) in the app feed.
+
+models
+Album
+
+This can be Lists shelf, an Item shelf or a Category shelf.
+
+Artist
+
+See also
+
+Chapter
+Date
+
+Shelf.Lists
+Shelf.Item
+
+DownloadContext
+EchoMediaItem
+
+Shelf.Category
+
+ExtensionType
+
+Inheritors
+
+Feed
+
+Lists
+
+ImageHolder
+
+Item
+
+ImportType
+Lyrics
+Message
+
+Category
+
+Members
+
+Metadata
+NetworkConnection
+
+Types
+
+NetworkRequest
+Playlist
+
+Category
+
+@Serializable
+data class Category(
+
+Progress
+
+val id: String,
+val title: String,
+
+QuickSearchItem
+
+val feed: Feed<Shelf>? = null,
+
+Radio
+
+val subtitle: String? = null,
+val image: ImageHolder? = null,
+
+Shelf
+
+val backgroundColor: String? = null,
+val extras: Map<String, String> = mapOf()
+
+Category
+
+) : Shelf
+
+Item
+
+Represents a category of media items.
+
+Lists
+Streamable
+
+Item
+
+@Serializable
+
+Tab
+
+data class Item(val media: EchoMediaItem) : Shelf
+
+Track
+
+Represents a media item.
+
+TrackDetails
+User
+
+Lists
+
+@Serializable
+sealed interface Lists<T : Any> : Shelf
+
+dev.brahmkshatriya.echo.common.
+providers
+
+Represents a list of media items or categories. If more is not null, a "More" button will be displayed and clicking
+on it will load a separate page for loading the PagedData.
+
+dev.brahmkshatriya.echo.common.
+settings
+
+Properties
+extras
+
+abstract val extras: Map<String, String>
+
+id
+
+abstract val id: String
+
+title
+
+abstract val title: String
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+
+JVM
+
+common
+
+common / dev.brahmkshatriya.echo.common.models / Streamable / Media
+
+dev.brahmkshatriya.echo.
+common
+dev.brahmkshatriya.echo.
+
+Media
+
+common.clients
+dev.brahmkshatriya.echo.
+common.helpers
+
+@Serializable
+sealed class Media
+
+(source)
+
+dev.brahmkshatriya.echo.
+
+A class that represents a loaded streamable media.
+
+common.models
+
+Artist
+
+There are three types of media:
+Subtitle - To represent a loaded subtitle media
+Server - To represent a loaded server media
+Background - To represent a loaded background media
+
+Chapter
+
+See also
+
+Date
+
+Streamable.Media.
+Companion.toMedia
+
+Album
+
+DownloadContext
+EchoMediaItem
+ExtensionType
+Feed
+ImageHolder
+ImportType
+Lyrics
+
+Streamable.Media.
+Companion.toSubtitleMedia
+Streamable.Media.
+Companion.toServerMedia
+Streamable.Media.
+Companion.toBackground
+Media
+
+Message
+Metadata
+NetworkConnection
+NetworkRequest
+Playlist
+
+Inheritors
+Subtitle
+Server
+Background
+
+Progress
+QuickSearchItem
+Radio
+
+Members
+
+Types
+
+Shelf
+Streamable
+
+Background
+
+Companion
+
+@Serializable
+data class Background(val request: NetworkRequest) : Streamable.Media
+
+Decryption
+
+A data class representing a loaded background video for a Track. The sound of the background video will be
+removed.
+
+InputProvider
+Media
+Background
+
+Companion
+
+object Companion
+
+Companion
+Server
+
+Server
+
+@Serializable
+data class Server(
+
+Subtitle
+
+val sources: List<Streamable.Source>,
+val merged: Boolean
+
+MediaType
+
+) : Streamable.Media
+
+Source
+
+A data class representing a loaded server media for a Track.
+
+SourceType
+SubtitleType
+
+Subtitle
+
+@Serializable
+data class Subtitle(
+
+Tab
+
+val url: String,
+
+Track
+
+val type: Streamable.SubtitleType
+) : Streamable.Media
+
+TrackDetails
+
+A data class representing a loaded subtitle for a Track.
+
+User
+dev.brahmkshatriya.echo.
+common.providers
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.models / ImageHolder
+
+dev.brahmkshatriya.echo.common
+dev.brahmkshatriya.echo.common.
+clients
+dev.brahmkshatriya.echo.common.
+helpers
+
+ImageHolder
+@Serializable
+sealed class ImageHolder
+
+(source)
+
+dev.brahmkshatriya.echo.common.
+
+A class representing an image.
+
+models
+Album
+
+Use toImageHolder to convert a string to a NetworkRequestImageHolder.
+
+Artist
+
+See also
+
+Chapter
+
+ImageHolder.Network
+RequestImageHolder
+
+Date
+DownloadContext
+
+Inheritors
+
+EchoMediaItem
+
+NetworkRequestImageHold
+er
+
+ExtensionType
+Feed
+ImageHolder
+
+ResourceUriImageHolder
+ResourceIdImageHolder
+
+Companion
+HexColorImageHolder
+NetworkRequestImage
+Holder
+ResourceIdImage
+Holder
+ResourceUriImage
+Holder
+
+HexColorImageHolder
+
+Members
+
+Types
+Companion
+
+object Companion
+
+ImportType
+Lyrics
+
+HexColorImageHolder
+
+data class HexColorImageHolder(val hex: String) : ImageHolder
+
+Message
+
+A data class representing an image from a hex color supported format: #RRGGBB or #AARRGGBB
+
+Metadata
+NetworkConnection
+NetworkRequest
+
+@Serializable
+
+NetworkRequestImage
+Holder
+
+@Serializable
+data class NetworkRequestImageHolder(
+val request: NetworkRequest,
+
+Playlist
+
+val crop: Boolean
+
+Progress
+
+) : ImageHolder
+
+QuickSearchItem
+
+A data class representing an image from a network request
+
+Radio
+Shelf
+
+ResourceIdImageHolder
+
+data class ResourceIdImageHolder(val resId: Int, val crop: Boolean) : ImageHolder
+
+Streamable
+
+A data class representing an image from a resource
+
+Tab
+Track
+TrackDetails
+
+@Serializable
+
+ResourceUriImage
+Holder
+
+@Serializable
+data class ResourceUriImageHolder(
+val uri: String,
+
+User
+
+val crop: Boolean
+
+dev.brahmkshatriya.echo.common.
+
+) : ImageHolder
+
+providers
+
+A data class representing an image from a Resource URI
+
+dev.brahmkshatriya.echo.common.
+settings
+
+Properties
+crop
+
+abstract val crop: Boolean
+
+Whether to crop the image
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common / MusicExtension
+
+dev.brahmkshatriya.echo.common
+Extension
+LyricsExtension
+MiscExtension
+
+MusicExtension
+data class MusicExtension(
+val metadata: Metadata,
+
+MusicExtension
+TrackerExtension
+
+val instance: Injectable<ExtensionClient>
+) : Extension<ExtensionClient>
+
+(source)
+
+dev.brahmkshatriya.echo.common.
+
+A data class representing a Music Extension. If some function is not supported by the extension, it should throw a ClientException.
+
+clients
+
+helpers
+
+Music Extension supports the following types of clients:
+ExtensionClient - Mandatory Base Client
+LoginClient - For login support
+
+dev.brahmkshatriya.echo.common.
+
+Feed
+
+dev.brahmkshatriya.echo.common.
+
+models
+dev.brahmkshatriya.echo.common.
+providers
+dev.brahmkshatriya.echo.common.
+settings
+
+To show feed of media items on main screen, the extension should implement the following clients:
+HomeFeedClient - To load the feed on the Home Tab
+SearchFeedClient/QuickSearchClient - To load the feed on the Search Tab
+LibraryFeedClient - To load the feed on the Library Tab
+
+Track Streaming
+When streaming a track, the extension can implement the following clients:
+TrackClient - Mandatory to stream tracks
+TrackChapterClient - To mark tracks as played
+
+Media Items
+To load media items, the extension should implement the following clients:
+AlbumClient - To load albums
+PlaylistClient - To load playlists
+ArtistClient - To load artists
+RadioClient - To load next tracks for the current track & show to radio button on media items with EchoMediaItem.isRadioSupported
+set to true
+
+Library
+To allow library functionality, The extension can implement the following clients:
+FollowClient - To follow/unfollow items with EchoMediaItem.isFollowable set to true
+SaveClient - To save media items with EchoMediaItem.isSaveable set to true
+LikeClient - To like/unlike items with EchoMediaItem.isLikeable set to true
+HideClient - To hide items with EchoMediaItem.isHideable set to true
+ShareClient - To share items with EchoMediaItem.isShareable set to true
+
+Tracking and Lyrics
+TrackerClient - For tracking what the user is listening to
+TrackerMarkClient - For marking tracks as played
+LyricsClient - For lyrics support
+LyricsSearchClient - For searching lyrics using user query
+
+Playlist Editing
+To allow playlist editing, The extension can implement the following clients:
+PlaylistEditClient - To edit playlists and show create playlist button on Library Tab
+PlaylistEditCoverClient - To edit playlist cover
+PlaylistEditorListenerClient - To listen to playlist editing events
+PlaylistEditPrivacyClient - To edit playlist privacy
+
+Providers
+The extension can also implement the following providers:
+MetadataProvider - To get metadata of the extension
+MessageFlowProvider - To send popup messages in the app
+MusicExtensionsProvider - To get installed music extensions
+LyricsExtensionsProvider - To get installed lyrics extensions
+TrackerExtensionsProvider - To get installed tracker extensions
+MiscExtensionsProvider - To get installed misc extensions
+GlobalSettingsProvider - To get global settings of the app
+NetworkConnectionProvider - To get network connection status
+
+Parameters
+metadata
+
+The metadata of the extension
+
+instance
+
+An injectable instance of the ExtensionClient client
+
+Members
+
+Constructors
+MusicExtension
+
+constructor(metadata: Metadata, instance: Injectable<ExtensionClient>)
+
+Properties
+id
+
+val id: String
+
+The id of the extension
+instance
+
+isEnabled
+
+open override val instance: Injectable<ExtensionClient>
+
+val isEnabled: Boolean
+
+Whether the extension is enabled
+metadata
+
+name
+
+open override val metadata: Metadata
+
+val name: String
+
+The name of the extension
+type
+
+val type: ExtensionType
+
+The type of the extension
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.helpers / PagedData / Concat
+
+dev.brahmkshatriya.echo.common
+dev.brahmkshatriya.echo.common.
+clients
+dev.brahmkshatriya.echo.common.
+helpers
+
+Concat
+class Concat<T : Any>(sources: PagedData<T>) : PagedData<T>
+
+(source)
+
+ClientException
+
+A class representing a concatenation of multiple data sources.
+
+ContinuationCallback
+
+This class is used to concatenate multiple data sources into a single source. It takes multiple PagedData sources and loads them one after the
+other.
+
+Injectable
+
+Example:
+
+Page
+
+val data = PagedData.Concat(
+PagedData.Single { api.loadShelves() },
+
+PagedData
+
+PagedData.Continuous { api.loadShelvesPage(it) },
+
+Companion
+Concat
+
+// Add more sources here
+)
+
+Continuous
+
+Parameters
+
+Single
+
+sources
+
+The list of PagedData sources to concatenate
+
+Suspend
+WebViewClient
+WebViewRequest
+dev.brahmkshatriya.echo.common.
+models
+
+Members
+
+Members & Extensions
+
+Constructors
+Concat
+
+dev.brahmkshatriya.echo.common.
+
+constructor(vararg sources: PagedData<T>)
+
+providers
+dev.brahmkshatriya.echo.common.
+settings
+
+Functions
+clear
+
+open override fun clear(): <Error class: unknown class>
+
+To clear all the cache of paged data
+invalidate
+
+loadAll
+
+open override fun invalidate(continuation: String?)
+
+suspend fun loadAll(): List<T>
+
+To load all the data
+loadAllInternal
+
+loadListInternal
+
+loadPage
+
+map
+
+open suspend override fun loadAllInternal(): List<T>
+
+open suspend override fun loadListInternal(continuation: String?): Page<T>
+
+suspend fun loadPage(continuation: String?): Page<T>
+
+open override fun <R : Any> map(
+block: suspend (Result<List<T>>) -> List<R>
+): PagedData<R>
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.helpers / PagedData / Single
+
+dev.brahmkshatriya.echo.common
+dev.brahmkshatriya.echo.common.
+clients
+dev.brahmkshatriya.echo.common.
+helpers
+
+Single
+class Single<T : Any>(val load: suspend () -> List<T>) : PagedData<T>
+
+ClientException
+
+A class representing a single page of data.
+
+ContinuationCallback
+
+Parameters
+
+Injectable
+
+load
+
+(source)
+
+The function to load the list of data
+
+Page
+PagedData
+Companion
+Concat
+Continuous
+
+Members
+
+Members & Extensions
+
+Constructors
+Single
+
+constructor(load: suspend () -> List<T>)
+
+Single
+Suspend
+WebViewClient
+WebViewRequest
+
+Properties
+items
+
+val items: <Error class: unknown class>
+
+dev.brahmkshatriya.echo.common.
+models
+dev.brahmkshatriya.echo.common.
+
+load
+
+val load: suspend () -> List<T>
+
+providers
+dev.brahmkshatriya.echo.common.
+settings
+
+Functions
+clear
+
+open override fun clear()
+
+To clear all the cache of paged data
+invalidate
+
+loadAll
+
+open override fun invalidate(continuation: String?)
+
+suspend fun loadAll(): List<T>
+
+To load all the data
+loadAllInternal
+
+open suspend override fun loadAllInternal(): List<T>
+
+To load all the data
+loadListInternal
+
+loadPage
+
+map
+
+open suspend override fun loadListInternal(continuation: String?): Page<T>
+
+suspend fun loadPage(continuation: String?): Page<T>
+
+open override fun <R : Any> map(
+block: suspend (Result<List<T>>) -> List<R>
+): PagedData<R>
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.models / QuickSearchItem
+
+dev.brahmkshatriya.echo.common
+dev.brahmkshatriya.echo.common.
+clients
+dev.brahmkshatriya.echo.common.
+helpers
+
+QuickSearchItem
+@Serializable
+sealed class QuickSearchItem
+
+(source)
+
+dev.brahmkshatriya.echo.common.
+
+Represents a quick search item. This can be a Query or a Media item.
+
+models
+Album
+
+Inheritors
+
+Artist
+
+Query
+
+Chapter
+
+Media
+
+Date
+DownloadContext
+EchoMediaItem
+ExtensionType
+Feed
+
+Members
+
+Types
+Media
+
+@Serializable
+
+ImageHolder
+
+data class Media(
+val media: EchoMediaItem,
+
+ImportType
+
+val searched: Boolean
+
+Lyrics
+
+) : QuickSearchItem
+
+Message
+
+Represents a media item.
+
+Metadata
+NetworkConnection
+
+Query
+
+@Serializable
+data class Query(
+
+NetworkRequest
+
+val query: String,
+val searched: Boolean,
+
+Playlist
+
+val extras: Map<String, String> = mapOf()
+
+Progress
+
+) : QuickSearchItem
+
+QuickSearchItem
+
+Represents a search query.
+
+Media
+Query
+Radio
+Shelf
+
+Properties
+searched
+
+Streamable
+
+abstract val searched: Boolean
+
+whether the item was already searched by the user.
+
+Tab
+Track
+
+title
+
+open val title: String
+
+TrackDetails
+User
+dev.brahmkshatriya.echo.common.
+
+Functions
+
+providers
+dev.brahmkshatriya.echo.common.
+
+sameAs
+
+fun sameAs(other: QuickSearchItem): Boolean
+
+settings
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.clients / LyricsClient
+
+dev.brahmkshatriya.echo.common
+dev.brahmkshatriya.echo.common.
+clients
+AlbumClient
+
+LyricsClient
+interface LyricsClient : ExtensionClient
+
+(source)
+
+ArtistClient
+DownloadClient
+ExtensionClient
+FollowClient
+HideClient
+HomeFeedClient
+
+Used to get the lyrics for track.
+Can be implemented by both:
+MusicExtension
+LyricsExtension
+To support lyrics search from user query. Use LyricsSearchClient instead.
+
+See also
+Lyrics
+
+LibraryFeedClient
+LikeClient
+LoginClient
+
+Track
+PagedData
+
+LyricsClient
+LyricsSearchClient
+PlaylistClient
+PlaylistEditClient
+
+Inheritors
+LyricsSearchClient
+
+Members
+
+PlaylistEditCoverClient
+PlaylistEditorListenerClient
+
+Functions
+
+PlaylistEditPrivacyClient
+QuickSearchClient
+
+getSettingItems
+
+abstract suspend fun getSettingItems(): List<Setting>
+
+List of Settings to be displayed in the settings screen
+
+RadioClient
+SaveClient
+SearchFeedClient
+
+loadLyrics
+
+abstract suspend fun loadLyrics(lyrics: Lyrics): Lyrics
+
+Loads the unloaded lyrics.
+
+SettingsChangeListener
+Client
+ShareClient
+
+onExtensionSelected
+
+TrackChapterClient
+
+open suspend fun onExtensionSelected()
+
+Only called when an extension is selected by the user, not when the extension is loaded Use the
+onInitialize for doing stuff to initialize the extension
+
+TrackClient
+TrackerClient
+TrackerMarkClient
+
+onInitialize
+
+open suspend fun onInitialize()
+
+Called when the extension is loaded, called after all the injections are done. Only called once
+
+dev.brahmkshatriya.echo.common.
+helpers
+dev.brahmkshatriya.echo.common.
+
+searchTrackLyrics
+
+models
+
+abstract suspend fun searchTrackLyrics(
+clientId: String,
+track: Track
+
+dev.brahmkshatriya.echo.common.
+providers
+
+): Feed<Lyrics>
+
+dev.brahmkshatriya.echo.common.
+
+Searches for the unloaded lyrics of a track.
+
+settings
+
+setSettings
+
+abstract fun setSettings(settings: Settings)
+
+Called when the extension is initialized, to provide the Settings to the extension
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.models / TrackDetails
+
+dev.brahmkshatriya.echo.common
+dev.brahmkshatriya.echo.common.
+clients
+dev.brahmkshatriya.echo.common.
+helpers
+
+TrackDetails
+@Serializable
+data class TrackDetails(
+
+dev.brahmkshatriya.echo.common.
+
+val extensionId: String,
+
+models
+
+val track: Track,
+val context: EchoMediaItem?,
+
+Album
+Artist
+
+val currentPosition: Long,
+val totalDuration: Long?
+)
+
+(source)
+
+Chapter
+Date
+DownloadContext
+EchoMediaItem
+ExtensionType
+Feed
+
+A data class that holds the details of a track that is in the player.
+
+Parameters
+extensionId
+
+the extension id of the extension that the track is from.
+
+context
+
+the context of the track.
+
+track
+
+the track itself.
+
+currentPosition
+
+the current position of the track in milliseconds.
+
+totalDuration
+
+the total duration of the track in milliseconds, or null if unknown.
+
+ImageHolder
+ImportType
+Lyrics
+Message
+Metadata
+NetworkConnection
+NetworkRequest
+
+See also
+EchoMediaItem
+Track
+
+Playlist
+Progress
+QuickSearchItem
+Radio
+Shelf
+
+Members
+
+Constructors
+TrackDetails
+
+constructor(
+extensionId: String,
+
+Streamable
+
+track: Track,
+
+Tab
+
+context: EchoMediaItem?,
+currentPosition: Long,
+
+Track
+
+totalDuration: Long?
+)
+
+TrackDetails
+User
+dev.brahmkshatriya.echo.common.
+providers
+dev.brahmkshatriya.echo.common.
+settings
+
+Properties
+context
+
+currentPosition
+
+extensionId
+
+totalDuration
+
+track
+
+val context: EchoMediaItem?
+
+val currentPosition: Long
+
+val extensionId: String
+
+val totalDuration: Long?
+
+val track: Track
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.clients / LyricsSearchClient
+
+dev.brahmkshatriya.echo.common
+dev.brahmkshatriya.echo.common.
+clients
+AlbumClient
+
+LyricsSearchClient
+interface LyricsSearchClient : LyricsClient
+
+(source)
+
+ArtistClient
+DownloadClient
+ExtensionClient
+FollowClient
+HideClient
+
+Used to search for lyrics.
+
+See also
+Lyrics
+PagedData
+
+HomeFeedClient
+LibraryFeedClient
+LikeClient
+LoginClient
+LyricsClient
+
+Members
+
+Functions
+getSettingItems
+
+LyricsSearchClient
+
+abstract suspend fun getSettingItems(): List<Setting>
+
+List of Settings to be displayed in the settings screen
+
+PlaylistClient
+PlaylistEditClient
+
+loadLyrics
+
+PlaylistEditCoverClient
+
+abstract suspend fun loadLyrics(lyrics: Lyrics): Lyrics
+
+Loads the unloaded lyrics.
+
+PlaylistEditorListenerClient
+PlaylistEditPrivacyClient
+
+onExtensionSelected
+
+QuickSearchClient
+
+open suspend fun onExtensionSelected()
+
+Only called when an extension is selected by the user, not when the extension is loaded Use the
+onInitialize for doing stuff to initialize the extension
+
+RadioClient
+SaveClient
+SearchFeedClient
+
+onInitialize
+
+open suspend fun onInitialize()
+
+Called when the extension is loaded, called after all the injections are done. Only called once
+
+SettingsChangeListener
+Client
+ShareClient
+
+searchLyrics
+
+TrackChapterClient
+
+abstract suspend fun searchLyrics(query: String): Feed<Lyrics>
+
+Searches for lyrics.
+
+TrackClient
+TrackerClient
+
+searchTrackLyrics
+
+abstract suspend fun searchTrackLyrics(
+clientId: String,
+
+TrackerMarkClient
+
+track: Track
+
+dev.brahmkshatriya.echo.common.
+
+): Feed<Lyrics>
+
+helpers
+
+Searches for the unloaded lyrics of a track.
+
+dev.brahmkshatriya.echo.common.
+models
+dev.brahmkshatriya.echo.common.
+
+setSettings
+
+providers
+
+abstract fun setSettings(settings: Settings)
+
+Called when the extension is initialized, to provide the Settings to the extension
+
+dev.brahmkshatriya.echo.common.
+settings
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.clients / TrackerMarkClient
+
+dev.brahmkshatriya.echo.common
+dev.brahmkshatriya.echo.common.
+clients
+AlbumClient
+
+TrackerMarkClient
+interface TrackerMarkClient : TrackerClient
+
+(source)
+
+ArtistClient
+DownloadClient
+
+An interface for a tracker client that marks tracks as played after a certain duration.
+This interface extends TrackerClient and provides methods to determine when a track should be marked as played based on its duration.
+
+ExtensionClient
+Members
+
+FollowClient
+HideClient
+
+Functions
+
+HomeFeedClient
+LibraryFeedClient
+
+getMarkAsPlayed
+Duration
+
+LikeClient
+
+The duration in milliseconds after which the track should be marked as played (defaults to null). If null, the
+onMarkAsPlayed method will not be called.
+
+LoginClient
+LyricsClient
+
+getSettingItems
+
+LyricsSearchClient
+
+abstract suspend fun getSettingItems(): List<Setting>
+
+List of Settings to be displayed in the settings screen
+
+PlaylistClient
+PlaylistEditClient
+
+abstract suspend fun getMarkAsPlayedDuration(details: TrackDetails): Long?
+
+onExtensionSelected
+
+PlaylistEditCoverClient
+
+open suspend fun onExtensionSelected()
+
+Only called when an extension is selected by the user, not when the extension is loaded Use the onInitialize
+for doing stuff to initialize the extension
+
+PlaylistEditorListenerClient
+PlaylistEditPrivacyClient
+QuickSearchClient
+
+onInitialize
+
+RadioClient
+
+open suspend fun onInitialize()
+
+Called when the extension is loaded, called after all the injections are done. Only called once
+
+SaveClient
+SearchFeedClient
+
+onMarkAsPlayed
+
+SettingsChangeListener
+
+abstract suspend fun onMarkAsPlayed(details: TrackDetails)
+
+Called when the track has reached the getMarkAsPlayedDuration. will not be called if getMarkAsPlayedDuration
+is null.
+
+Client
+ShareClient
+TrackChapterClient
+
+onPlayingStateChanged
+
+abstract suspend fun onPlayingStateChanged(
+details: TrackDetails?,
+
+TrackClient
+
+isPlaying: Boolean
+
+TrackerClient
+
+)
+
+TrackerMarkClient
+
+Called when the player changes its playing state or when the position changes.
+
+dev.brahmkshatriya.echo.common.
+helpers
+
+onTrackChanged
+
+dev.brahmkshatriya.echo.common.
+models
+
+abstract suspend fun onTrackChanged(details: TrackDetails?)
+
+Called when the player changes its current track.
+
+dev.brahmkshatriya.echo.common.
+providers
+
+setSettings
+
+dev.brahmkshatriya.echo.common.
+
+abstract fun setSettings(settings: Settings)
+
+Called when the extension is initialized, to provide the Settings to the extension
+
+settings
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+
+JVM
+
+common
+
+common / dev.brahmkshatriya.echo.common.models / Feed / Buttons
+
+dev.brahmkshatriya.echo.
+common
+dev.brahmkshatriya.echo.
+
+Buttons
+
+common.clients
+dev.brahmkshatriya.echo.
+common.helpers
+
+@Serializable
+data class Buttons(
+val showSearch: Boolean = true,
+
+dev.brahmkshatriya.echo.
+
+val showSort: Boolean = true,
+
+common.models
+
+val showPlayAndShuffle: Boolean = false,
+val customTrackList: List<Track>? = null
+
+Album
+
+)
+
+Artist
+
+(source)
+
+A data class representing the buttons that can be shown in the feed.
+
+Chapter
+Members
+
+Date
+DownloadContext
+
+Constructors
+
+EchoMediaItem
+ExtensionType
+
+Buttons
+
+constructor(
+showSearch: Boolean = true,
+
+Feed
+
+showSort: Boolean = true,
+showPlayAndShuffle: Boolean = false,
+
+Buttons
+
+customTrackList: List<Track>? = null
+
+Companion
+
+)
+
+Companion
+Data
+ImageHolder
+ImportType
+
+Types
+Companion
+
+object Companion
+
+Lyrics
+Message
+Metadata
+NetworkConnection
+
+Properties
+customTrackList
+
+NetworkRequest
+
+To play a custom list of tracks when play and shuffle buttons are clicked.
+
+Playlist
+Progress
+
+showPlayAndShuffle
+
+QuickSearchItem
+
+showSearch
+
+Streamable
+
+val showSearch: Boolean = true
+
+Whether to show the search button.
+
+Tab
+Track
+
+val showPlayAndShuffle: Boolean = false
+
+Whether to show the play and shuffle buttons.
+
+Radio
+Shelf
+
+val customTrackList: List<Track>? = null
+
+showSort
+
+TrackDetails
+
+val showSort: Boolean = true
+
+Whether to show the sort button.
+
+User
+dev.brahmkshatriya.echo.
+common.providers
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.clients / TrackerClient
+
+dev.brahmkshatriya.echo.common
+dev.brahmkshatriya.echo.common.
+clients
+AlbumClient
+
+TrackerClient
+interface TrackerClient : ExtensionClient
+
+(source)
+
+ArtistClient
+DownloadClient
+ExtensionClient
+FollowClient
+HideClient
+HomeFeedClient
+LibraryFeedClient
+LikeClient
+
+Used to track the playback of a track.
+You can override the following methods to get the track details:
+onTrackChanged
+onPlayingStateChanged
+Can be implemented by both:
+MusicExtension
+TrackerExtension
+
+See also
+TrackerMarkClient
+
+LoginClient
+
+Inheritors
+
+LyricsClient
+
+TrackerMarkClient
+
+LyricsSearchClient
+PlaylistClient
+PlaylistEditClient
+PlaylistEditCoverClient
+PlaylistEditorListenerClient
+
+Members
+
+Functions
+getSettingItems
+
+PlaylistEditPrivacyClient
+
+abstract suspend fun getSettingItems(): List<Setting>
+
+List of Settings to be displayed in the settings screen
+
+QuickSearchClient
+RadioClient
+
+onExtensionSelected
+
+SaveClient
+
+open suspend fun onExtensionSelected()
+
+Only called when an extension is selected by the user, not when the extension is loaded Use the onInitialize
+for doing stuff to initialize the extension
+
+SearchFeedClient
+SettingsChangeListener
+Client
+
+onInitialize
+
+ShareClient
+
+open suspend fun onInitialize()
+
+Called when the extension is loaded, called after all the injections are done. Only called once
+
+TrackChapterClient
+TrackClient
+
+onPlayingStateChanged
+
+abstract suspend fun onPlayingStateChanged(
+details: TrackDetails?,
+
+TrackerClient
+
+isPlaying: Boolean
+
+TrackerMarkClient
+
+)
+
+dev.brahmkshatriya.echo.common.
+
+Called when the player changes its playing state or when the position changes.
+
+helpers
+dev.brahmkshatriya.echo.common.
+models
+
+onTrackChanged
+
+abstract suspend fun onTrackChanged(details: TrackDetails?)
+
+Called when the player changes its current track.
+
+dev.brahmkshatriya.echo.common.
+providers
+dev.brahmkshatriya.echo.common.
+
+setSettings
+
+settings
+
+abstract fun setSettings(settings: Settings)
+
+Called when the extension is initialized, to provide the Settings to the extension
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.models / Date
+
+dev.brahmkshatriya.echo.common
+dev.brahmkshatriya.echo.common.
+clients
+dev.brahmkshatriya.echo.common.
+helpers
+
+Date
+@Serializable
+data class Date(val epochTimeMs: Long) : Comparable<Date>
+
+(source)
+
+dev.brahmkshatriya.echo.common.
+models
+
+Members
+
+Album
+Artist
+
+Constructors
+
+Chapter
+Date
+
+Date
+
+constructor(year: Int, month: Int? = null, day: Int? = null)
+
+Companion
+
+constructor(epochTimeMs: Long)
+
+DownloadContext
+EchoMediaItem
+ExtensionType
+Feed
+
+Types
+Companion
+
+ImageHolder
+ImportType
+Lyrics
+
+object Companion
+
+Properties
+
+Message
+Metadata
+
+calendar
+
+val calendar: <Error class: unknown class>
+
+NetworkConnection
+NetworkRequest
+
+date
+
+val date: <Error class: unknown class>
+
+Playlist
+Progress
+
+day
+
+val day: Int?
+
+QuickSearchItem
+Radio
+
+epochTimeMs
+
+val epochTimeMs: Long
+
+Shelf
+Streamable
+
+month
+
+val month: Int?
+
+Tab
+Track
+
+year
+
+val year: Int
+
+TrackDetails
+User
+
+Functions
+
+dev.brahmkshatriya.echo.common.
+providers
+
+compareTo
+
+dev.brahmkshatriya.echo.common.
+
+open operator override fun compareTo(other: Date): Int
+
+settings
+
+toString
+
+made by @brahmkshatriya
+
+open override fun toString(): String
+
+Generated by dokka
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.models / DownloadContext
+
+dev.brahmkshatriya.echo.common
+dev.brahmkshatriya.echo.common.
+clients
+dev.brahmkshatriya.echo.common.
+helpers
+
+DownloadContext
+@Serializable
+data class DownloadContext(
+
+dev.brahmkshatriya.echo.common.
+
+val extensionId: String,
+
+models
+
+val track: Track,
+val sortOrder: Int? = null,
+
+Album
+Artist
+
+val context: EchoMediaItem? = null
+)
+
+(source)
+
+Chapter
+
+Download context for a track
+
+Date
+
+Parameters
+
+DownloadContext
+
+extensionId
+
+The extension that the track belongs to.
+
+track
+
+The track to download.
+
+sortOrder
+
+The order of the track in the context.
+
+context
+
+The context of the media item, Album/Playlist/Artist.
+
+EchoMediaItem
+ExtensionType
+Feed
+ImageHolder
+ImportType
+Lyrics
+Message
+Metadata
+NetworkConnection
+
+Members
+
+Constructors
+DownloadContext
+
+constructor(
+
+NetworkRequest
+
+extensionId: String,
+track: Track,
+
+Playlist
+
+sortOrder: Int? = null,
+context: EchoMediaItem? = null
+
+Progress
+
+)
+
+QuickSearchItem
+Radio
+Shelf
+Streamable
+
+Properties
+context
+
+Tab
+Track
+
+extensionId
+
+TrackDetails
+User
+
+sortOrder
+
+dev.brahmkshatriya.echo.common.
+
+val context: EchoMediaItem? = null
+
+val extensionId: String
+
+val sortOrder: Int? = null
+
+providers
+dev.brahmkshatriya.echo.common.
+
+track
+
+val track: Track
+
+settings
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.settings / SettingSlider
+
+dev.brahmkshatriya.echo.common
+dev.brahmkshatriya.echo.common.
+clients
+dev.brahmkshatriya.echo.common.
+helpers
+
+SettingSlider
+data class SettingSlider(
+val title: String,
+
+dev.brahmkshatriya.echo.common.
+
+val key: String,
+
+models
+
+val summary: String? = null,
+val defaultValue: Int? = null,
+
+dev.brahmkshatriya.echo.common.
+
+val from: Int,
+
+providers
+
+val to: Int,
+val steps: Int? = null,
+
+dev.brahmkshatriya.echo.common.
+settings
+
+val allowOverride: Boolean = false
+) : Setting
+
+(source)
+
+Setting
+SettingCategory
+SettingItem
+SettingList
+
+A slider that allows the user to select a value from a range. Use allowOverride to allow the user to use values outside the range. Value can be
+accessed from Settings.getInt
+
+Parameters
+title
+
+The title of the setting.
+
+key
+
+The key of the setting.
+
+summary
+
+The summary of the setting.
+
+defaultValue
+
+The default value of the setting.
+
+from
+
+The minimum value of the slider.
+
+to
+
+The maximum value of the slider.
+
+steps
+
+The number of steps between the minimum and maximum values, if null, the slider will be continuous.
+
+allowOverride
+
+Whether the user can use values outside the range.
+
+SettingMultipleChoice
+SettingOnClick
+Settings
+SettingSlider
+SettingSwitch
+SettingTextInput
+
+Members
+
+Constructors
+SettingSlider
+
+constructor(
+title: String,
+key: String,
+summary: String? = null,
+defaultValue: Int? = null,
+from: Int,
+to: Int,
+steps: Int? = null,
+allowOverride: Boolean = false
+)
+
+Properties
+allowOverride
+
+defaultValue
+
+from
+
+val allowOverride: Boolean = false
+
+val defaultValue: Int? = null
+
+val from: Int
+
+key
+
+open override val key: String
+
+steps
+
+val steps: Int? = null
+
+summary
+
+title
+
+val summary: String? = null
+
+open override val title: String
+
+to
+
+val to: Int
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.models / User
+
+dev.brahmkshatriya.echo.common
+dev.brahmkshatriya.echo.common.
+clients
+dev.brahmkshatriya.echo.common.
+helpers
+
+User
+@Serializable
+data class User(
+
+dev.brahmkshatriya.echo.common.
+
+val id: String,
+
+models
+
+val name: String,
+val cover: ImageHolder? = null,
+
+Album
+Artist
+
+val subtitle: String? = null,
+val extras: Map<String, String> = emptyMap()
+)
+
+(source)
+
+Chapter
+Date
+DownloadContext
+EchoMediaItem
+ExtensionType
+Feed
+
+A data class representing a user
+Members
+
+Constructors
+User
+
+constructor(
+id: String,
+
+ImageHolder
+
+name: String,
+
+ImportType
+
+cover: ImageHolder? = null,
+subtitle: String? = null,
+
+Lyrics
+
+extras: Map<String, String> = emptyMap()
+)
+
+Message
+Metadata
+NetworkConnection
+NetworkRequest
+Playlist
+
+Properties
+cover
+
+val cover: ImageHolder? = null
+
+Progress
+
+The cover image of the user
+
+QuickSearchItem
+Radio
+
+extras
+
+val extras: Map<String, String>
+
+Shelf
+
+Any extra data you want to associate with the user
+
+Streamable
+Tab
+
+id
+
+val id: String
+
+Track
+
+The id of the user
+
+TrackDetails
+User
+
+name
+
+val name: String
+
+dev.brahmkshatriya.echo.common.
+
+The name of the user
+
+providers
+dev.brahmkshatriya.echo.common.
+settings
+
+subtitle
+
+val subtitle: String? = null
+
+The subtitle of the user, used to display information under the name
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.models / Chapter
+
+dev.brahmkshatriya.echo.common
+dev.brahmkshatriya.echo.common.
+clients
+dev.brahmkshatriya.echo.common.
+helpers
+
+Chapter
+@Serializable
+data class Chapter(
+
+dev.brahmkshatriya.echo.common.
+
+val name: String,
+
+models
+
+val startTime: Long,
+val endTime: Long? = null,
+
+Album
+Artist
+Chapter
+SkipType
+Date
+DownloadContext
+EchoMediaItem
+
+val skipType: Chapter.SkipType = NONE
+)
+
+(source)
+
+Represents a chapter in a track.
+Members
+
+Constructors
+Chapter
+
+ExtensionType
+
+constructor(
+name: String,
+startTime: Long,
+
+Feed
+
+endTime: Long? = null,
+
+ImageHolder
+
+skipType: Chapter.SkipType = NONE
+)
+
+ImportType
+Lyrics
+Message
+
+Types
+
+Metadata
+NetworkConnection
+
+SkipType
+
+NetworkRequest
+
+enum SkipType : Enum<Chapter.SkipType>
+
+Represents the type of skip behavior for a chapter.
+
+Playlist
+Progress
+QuickSearchItem
+Radio
+
+Properties
+endTime
+
+Shelf
+
+val endTime: Long? = null
+
+the end time of the chapter in milliseconds, or null if it is not defined.
+
+Streamable
+Tab
+
+name
+
+val name: String
+
+Track
+
+the name of the chapter.
+
+TrackDetails
+User
+
+skipType
+
+dev.brahmkshatriya.echo.common.
+
+the type of skip behavior for the chapter.
+
+providers
+dev.brahmkshatriya.echo.common.
+settings
+
+val skipType: Chapter.SkipType
+
+startTime
+
+val startTime: Long
+
+the start time of the chapter in milliseconds.
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.clients / ExtensionClient
+
+dev.brahmkshatriya.echo.
+common
+dev.brahmkshatriya.echo.
+
+ExtensionClient
+
+common.clients
+AlbumClient
+
+interface ExtensionClient : SettingsProvider
+
+ArtistClient
+
+Interface to be implemented by every Extension, create your network client, database client, etc. here.
+
+DownloadClient
+
+If using OkHttpClient, use the custom await function for suspending the network call.
+
+ExtensionClient
+
+(source)
+
+val request = Request.Builder().url("https://example.com").build()
+val response = client.newCall(request).await()
+
+FollowClient
+HideClient
+HomeFeedClient
+LibraryFeedClient
+LikeClient
+LoginClient
+
+This interface extends the SettingsProvider interface
+
+Inheritors
+DownloadClient
+LyricsClient
+TrackerClient
+
+LyricsClient
+LyricsSearchClient
+PlaylistClient
+PlaylistEditClient
+PlaylistEditCoverClient
+
+Members
+
+Functions
+getSettingItems
+
+PlaylistEditorListener
+Client
+
+abstract suspend fun getSettingItems(): List<Setting>
+
+List of Settings to be displayed in the settings screen
+
+PlaylistEditPrivacyClient
+QuickSearchClient
+
+onExtensionSelected
+
+RadioClient
+
+Only called when an extension is selected by the user, not when the extension is loaded Use the onInitialize
+for doing stuff to initialize the extension
+
+SaveClient
+SearchFeedClient
+
+open suspend fun onExtensionSelected()
+
+onInitialize
+
+SettingsChangeListener
+Client
+
+open suspend fun onInitialize()
+
+Called when the extension is loaded, called after all the injections are done. Only called once
+
+ShareClient
+TrackChapterClient
+
+setSettings
+
+TrackClient
+
+abstract fun setSettings(settings: Settings)
+
+Called when the extension is initialized, to provide the Settings to the extension
+
+TrackerClient
+TrackerMarkClient
+dev.brahmkshatriya.echo.
+common.helpers
+dev.brahmkshatriya.echo.
+common.models
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.helpers / PagedData / Suspend
+
+dev.brahmkshatriya.echo.common
+dev.brahmkshatriya.echo.common.
+clients
+dev.brahmkshatriya.echo.common.
+helpers
+ClientException
+
+Suspend
+class Suspend<T : Any>(getter: suspend () -> PagedData<T>) : PagedData<T>
+
+Members
+
+(source)
+
+Members & Extensions
+
+ContinuationCallback
+Injectable
+
+Constructors
+
+Page
+PagedData
+
+Suspend
+
+constructor(getter: suspend () -> PagedData<T>)
+
+Companion
+Concat
+Continuous
+Single
+
+Functions
+clear
+
+open override fun clear()
+
+Suspend
+
+To clear all the cache of paged data
+
+WebViewClient
+WebViewRequest
+
+invalidate
+
+open override fun invalidate(continuation: String?)
+
+dev.brahmkshatriya.echo.common.
+models
+
+loadAll
+
+suspend fun loadAll(): List<T>
+
+dev.brahmkshatriya.echo.common.
+providers
+
+To load all the data
+
+dev.brahmkshatriya.echo.common.
+settings
+
+loadAllInternal
+
+loadListInternal
+
+loadPage
+
+map
+
+open suspend override fun loadAllInternal(): List<T>
+
+open suspend override fun loadListInternal(continuation: String?): Page<T>
+
+suspend fun loadPage(continuation: String?): Page<T>
+
+open override fun <R : Any> map(
+block: suspend (Result<List<T>>) -> List<R>
+): PagedData<R>
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+
+JVM
+
+common
+
+common / dev.brahmkshatriya.echo.common.models / NetworkRequest / Method
+
+dev.brahmkshatriya.echo.
+common
+dev.brahmkshatriya.echo.
+
+Method
+
+common.clients
+dev.brahmkshatriya.echo.
+common.helpers
+dev.brahmkshatriya.echo.
+common.models
+Album
+Artist
+Chapter
+Date
+DownloadContext
+
+enum Method : Enum<NetworkRequest.Method>
+
+(source)
+
+Represents the HTTP methods that can be used in a network request.
+GET for retrieving data
+POST for sending data
+PUT for updating data
+DELETE for deleting data
+PATCH for partially updating data
+HEAD for retrieving the headers of a resource without the body
+OPTIONS for requesting information about the communication options available
+TRACE for tracing the path to the resource
+CONNECT for establishing a tunnel to the server
+Members
+
+Entries
+
+EchoMediaItem
+ExtensionType
+
+Entries
+
+Feed
+ImageHolder
+
+GET
+
+GET
+
+ImportType
+
+POST
+
+Lyrics
+
+POST
+
+Message
+Metadata
+
+PUT
+
+PUT
+
+NetworkConnection
+NetworkRequest
+
+DELETE
+
+DELETE
+
+Companion
+Method
+
+PATCH
+
+PATCH
+
+GET
+POST
+
+HEAD
+
+HEAD
+
+PUT
+DELETE
+
+OPTIONS
+
+OPTIONS
+
+PATCH
+HEAD
+
+TRACE
+
+TRACE
+
+OPTIONS
+TRACE
+
+CONNECT
+
+CONNECT
+
+CONNECT
+Playlist
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.helpers / WebViewRequest
+
+dev.brahmkshatriya.echo.common
+dev.brahmkshatriya.echo.common.
+clients
+dev.brahmkshatriya.echo.common.
+helpers
+ClientException
+ContinuationCallback
+Injectable
+Page
+
+WebViewRequest
+sealed interface WebViewRequest<T>
+
+(source)
+
+Use this to access the webview from the extension. There are 3 types of requests:
+Headers - Used to intercept requests made by the webview and get the headers
+Cookie - Used to get the cookies stored in the webview
+Evaluate - Used to evaluate javascript in the webview
+The extension can implement all of the sub-interfaces, and the onStop methods will be called in this order of Headers, Cookie, Evaluate.
+
+PagedData
+
+The initialUrl is the URL to be loaded in the webview. The stopUrlRegex is the regex to match the URL when the request is assumed to be
+complete.
+
+WebViewClient
+
+Inheritors
+
+WebViewRequest
+
+Headers
+
+Cookie
+
+Cookie
+
+Evaluate
+Headers
+dev.brahmkshatriya.echo.common.
+models
+dev.brahmkshatriya.echo.common.
+providers
+
+Evaluate
+
+Members
+
+Types
+
+dev.brahmkshatriya.echo.common.
+settings
+
+Cookie
+
+interface Cookie<T> : WebViewRequest<T>
+
+If you want to get the cookies stored in the webview, use this.
+Evaluate
+
+interface Evaluate<T> : WebViewRequest<T>
+
+If you want to evaluate javascript in the webview, use this.
+Headers
+
+interface Headers<T> : WebViewRequest<T>
+
+If you want to get the headers from all requests made by the webview, use this.
+
+Properties
+dontCache
+
+open val dontCache: Boolean
+
+If you want to disable caching of the webview data, set this to true.
+initialUrl
+
+abstract val initialUrl: NetworkRequest
+
+The initial URL to be loaded in the webview.
+maxTimeout
+
+open val maxTimeout: Long
+
+The maximum time to wait for data to be returned from the webview. This is in milliseconds.
+stopUrlRegex
+
+abstract val stopUrlRegex: Regex
+
+The regex to match the URL when the request is assumed to be complete. Checks on all requests made by the
+webview.
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.models / Tab
+
+dev.brahmkshatriya.echo.
+common
+dev.brahmkshatriya.echo.
+
+Tab
+
+common.clients
+dev.brahmkshatriya.echo.
+common.helpers
+
+@Serializable
+data class Tab(
+val id: String,
+
+dev.brahmkshatriya.echo.
+
+val title: String,
+
+common.models
+
+val isSort: Boolean = false,
+
+Album
+Artist
+
+val extras: Map<String, String> = emptyMap()
+)
+
+(source)
+
+A data class representing a tab
+
+Chapter
+Members
+
+Date
+DownloadContext
+
+Constructors
+
+EchoMediaItem
+ExtensionType
+
+Tab
+
+constructor(
+id: String,
+
+Feed
+
+title: String,
+isSort: Boolean = false,
+
+ImageHolder
+
+extras: Map<String, String> = emptyMap()
+
+ImportType
+
+)
+
+Lyrics
+Message
+Metadata
+NetworkConnection
+
+Properties
+extras
+
+val extras: Map<String, String>
+
+NetworkRequest
+
+Any extra data you want to associate with the tab
+
+Playlist
+Progress
+
+id
+
+val id: String
+
+QuickSearchItem
+
+The id of the tab
+
+Radio
+Shelf
+
+isSort
+
+val isSort: Boolean = false
+
+Streamable
+
+Whether the tab is a sort tab, if true, it will not ne considered for loading in the Feed.loadAll method.
+
+Tab
+Track
+
+title
+
+val title: String
+
+TrackDetails
+
+The title of the tab
+
+User
+dev.brahmkshatriya.echo.
+common.providers
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.models / Feed / Data
+
+dev.brahmkshatriya.echo.
+common
+dev.brahmkshatriya.echo.
+
+Data
+
+common.clients
+dev.brahmkshatriya.echo.
+
+data class Data<T : Any>(
+
+common.helpers
+
+val pagedData: PagedData<T>,
+
+dev.brahmkshatriya.echo.
+
+val background: ImageHolder? = null
+
+common.models
+Album
+Artist
+
+val buttons: Feed.Buttons? = null,
+)
+
+(source)
+
+Represents the loaded data of the Feed.
+Members
+
+Chapter
+Date
+
+Constructors
+
+DownloadContext
+EchoMediaItem
+
+Data
+
+constructor(
+pagedData: PagedData<T>,
+
+ExtensionType
+
+buttons: Feed.Buttons? = null,
+background: ImageHolder? = null
+
+Feed
+
+)
+
+Buttons
+Companion
+Data
+ImageHolder
+
+Properties
+background
+
+ImportType
+
+val background: ImageHolder? = null
+
+The ImageHolder to be used as the background of the feed. If null, the background will be decided
+automatically.
+
+Lyrics
+Message
+Metadata
+
+buttons
+
+NetworkConnection
+
+val buttons: Feed.Buttons? = null
+
+The Buttons to be shown in the feed. If null, the buttons will be decided automatically.
+
+NetworkRequest
+Playlist
+
+pagedData
+
+Progress
+
+val pagedData: PagedData<T>
+
+The PagedData containing the items for the feed.
+
+QuickSearchItem
+Radio
+Shelf
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+
+JVM
+
+common
+
+common / dev.brahmkshatriya.echo.common.models / Album / Type
+
+dev.brahmkshatriya.echo.
+common
+dev.brahmkshatriya.echo.
+
+Type
+
+common.clients
+dev.brahmkshatriya.echo.
+common.helpers
+dev.brahmkshatriya.echo.
+common.models
+
+enum Type : Enum<Album.Type>
+
+(source)
+
+The type of the album. This can be actual album types like PreRelease, Single, EP, LP, Compilation or Special types like :
+Show - Will represent the tracks as "Episodes"
+Book - Will represent the tracks as "Chapters"
+Other types will be represented as "Songs"
+
+Album
+Type
+PreRelease
+Single
+EP
+
+Members
+
+Entries
+
+Entries
+PreRelease
+
+LP
+Compilation
+
+Single
+
+Single
+
+Show
+Book
+
+EP
+
+EP
+
+Artist
+Chapter
+
+LP
+
+LP
+
+Date
+DownloadContext
+
+Compilation
+
+EchoMediaItem
+ExtensionType
+
+Show
+
+Compilation
+
+Show
+
+Feed
+ImageHolder
+
+PreRelease
+
+Book
+
+Book
+
+ImportType
+Lyrics
+Message
+Metadata
+NetworkConnection
+NetworkRequest
+Playlist
+Progress
+QuickSearchItem
+Radio
+Shelf
+Streamable
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.models / Progress
+
+dev.brahmkshatriya.echo.
+common
+dev.brahmkshatriya.echo.
+
+Progress
+
+common.clients
+dev.brahmkshatriya.echo.
+common.helpers
+dev.brahmkshatriya.echo.
+common.models
+Album
+
+@Serializable
+data class Progress(val size: Long = 0, val progress: Long = 0, val speed: Long = 0)
+
+(source)
+
+Progress data class to hold the progress of the download.
+
+Parameters
+size
+
+The total size of the file, 0 if unknown.
+
+progress
+
+The progress of the download.
+
+speed
+
+The speed of the download in bytes per second, 0 if unknown.
+
+Artist
+Chapter
+Date
+DownloadContext
+EchoMediaItem
+ExtensionType
+Feed
+ImageHolder
+
+Members
+
+Constructors
+Progress
+
+constructor(size: Long = 0, progress: Long = 0, speed: Long = 0)
+
+ImportType
+Lyrics
+Message
+Metadata
+
+Properties
+progress
+
+NetworkConnection
+NetworkRequest
+
+size
+
+val size: Long = 0
+
+Playlist
+Progress
+
+val progress: Long = 0
+
+speed
+
+val speed: Long = 0
+
+QuickSearchItem
+Radio
+Shelf
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.clients / AlbumClient
+
+dev.brahmkshatriya.echo.common
+dev.brahmkshatriya.echo.common.
+clients
+AlbumClient
+
+AlbumClient
+interface AlbumClient
+
+(source)
+
+ArtistClient
+DownloadClient
+ExtensionClient
+FollowClient
+HideClient
+HomeFeedClient
+LibraryFeedClient
+
+Used to load an Album, load its tracks and get its shelves.
+
+See also
+MusicExtension
+
+Members
+
+Functions
+
+LikeClient
+LoginClient
+
+loadAlbum
+
+abstract suspend fun loadAlbum(album: Album): Album
+
+Loads an album, the unloaded album may only have the id and title.
+
+LyricsClient
+LyricsSearchClient
+PlaylistClient
+
+loadFeed
+
+abstract suspend fun loadFeed(album: Album): Feed<Shelf>?
+
+Gets the feed of an album.
+
+PlaylistEditClient
+PlaylistEditCoverClient
+PlaylistEditorListenerClient
+
+loadTracks
+
+abstract suspend fun loadTracks(album: Album): Feed<Track>?
+
+Loads the tracks of an album.
+
+PlaylistEditPrivacyClient
+QuickSearchClient
+RadioClient
+SaveClient
+SearchFeedClient
+SettingsChangeListener
+Client
+ShareClient
+TrackChapterClient
+TrackClient
+TrackerClient
+TrackerMarkClient
+dev.brahmkshatriya.echo.common.
+helpers
+dev.brahmkshatriya.echo.common.
+models
+dev.brahmkshatriya.echo.common.
+providers
+dev.brahmkshatriya.echo.common.
+settings
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.helpers / ClientException
+
+dev.brahmkshatriya.echo.common
+dev.brahmkshatriya.echo.common.
+clients
+dev.brahmkshatriya.echo.common.
+helpers
+ClientException
+LoginRequired
+NotSupported
+Unauthorized
+ContinuationCallback
+Injectable
+
+ClientException
+sealed class ClientException : Exception
+
+A base exception class for handled client exceptions, the extension can throw other exceptions too, but they will be handled by the App.
+The app handles the following exceptions:
+LoginRequired - When the user is not logged in
+Unauthorized - When the user is not authorized, will log out the user.
+NotSupported - When the extension does not support an operation.
+
+See also
+LoginClient
+
+Page
+
+Inheritors
+
+PagedData
+
+LoginRequired
+
+WebViewClient
+
+(source)
+
+NotSupported
+
+WebViewRequest
+dev.brahmkshatriya.echo.common.
+
+Members
+
+models
+dev.brahmkshatriya.echo.common.
+providers
+dev.brahmkshatriya.echo.common.
+settings
+
+Types
+LoginRequired
+
+open class LoginRequired : ClientException
+
+To be thrown when the some operation requires user to be logged in.
+NotSupported
+
+class NotSupported(val operation: String) : ClientException
+
+To be thrown when the extension does not support an operation.
+Unauthorized
+
+class Unauthorized(val userId: String) : ClientException.LoginRequired
+
+To be thrown when the user is not authorized to perform an operation. The user will be logged out from the app.
+
+Properties
+cause
+
+open val cause: Throwable?
+
+message
+
+made by @brahmkshatriya
+
+open val message: String?
+
+Generated by dokka
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.models / ImageHolder / NetworkRequestImageHolder
+
+dev.brahmkshatriya.echo.
+common
+dev.brahmkshatriya.echo.
+
+NetworkRequestImageHolder
+
+common.clients
+dev.brahmkshatriya.echo.
+common.helpers
+
+@Serializable
+data class NetworkRequestImageHolder(
+val request: NetworkRequest,
+
+dev.brahmkshatriya.echo.
+common.models
+Album
+Artist
+Chapter
+
+val crop: Boolean
+) : ImageHolder
+
+(source)
+
+A data class representing an image from a network request
+
+Parameters
+request
+
+The request to fetch the image
+
+crop
+
+Whether to crop the image
+
+Date
+DownloadContext
+EchoMediaItem
+ExtensionType
+Feed
+
+Members
+
+Constructors
+
+ImageHolder
+Companion
+
+NetworkRequestImage
+Holder
+
+constructor(request: NetworkRequest, crop: Boolean)
+
+HexColorImage
+Holder
+NetworkRequest
+
+Properties
+
+ImageHolder
+ResourceIdImage
+
+crop
+
+open override val crop: Boolean
+
+Holder
+ResourceUriImage
+
+request
+
+Holder
+
+val request: NetworkRequest
+
+ImportType
+Lyrics
+Message
+Metadata
+NetworkConnection
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.clients / FollowClient
+
+dev.brahmkshatriya.echo.
+common
+dev.brahmkshatriya.echo.
+
+FollowClient
+
+common.clients
+AlbumClient
+
+interface FollowClient
+
+(source)
+
+ArtistClient
+
+Used to allow following and unfollowing an EchoMediaItem with the EchoMediaItem.isFollowable set to true.
+
+DownloadClient
+
+See also
+
+ExtensionClient
+
+MusicExtension
+
+FollowClient
+HideClient
+HomeFeedClient
+LibraryFeedClient
+LikeClient
+
+Members
+
+Functions
+followItem
+
+LoginClient
+
+abstract suspend fun followItem(item: EchoMediaItem, shouldFollow: Boolean)
+
+Follows/Unfollow an Item. This will only be called if the EchoMediaItem.isFollowable is true.
+
+LyricsClient
+LyricsSearchClient
+
+getFollowersCount
+
+PlaylistClient
+
+abstract suspend fun getFollowersCount(item: EchoMediaItem): Long?
+
+Gets the followers count of an item. This will only be called if the EchoMediaItem.isFollowable is true.
+
+PlaylistEditClient
+PlaylistEditCoverClient
+
+isFollowing
+
+PlaylistEditorListener
+
+abstract suspend fun isFollowing(item: EchoMediaItem): Boolean
+
+Checks if an item is followed. This will only be called if the EchoMediaItem.isFollowable is true.
+
+Client
+PlaylistEditPrivacyClient
+QuickSearchClient
+RadioClient
+SaveClient
+SearchFeedClient
+SettingsChangeListener
+Client
+ShareClient
+TrackChapterClient
+TrackClient
+TrackerClient
+TrackerMarkClient
+dev.brahmkshatriya.echo.
+common.helpers
+dev.brahmkshatriya.echo.
+common.models
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.clients / LoginClient / WebView
+
+dev.brahmkshatriya.echo.
+common
+dev.brahmkshatriya.echo.
+
+WebView
+
+common.clients
+AlbumClient
+
+interface WebView : LoginClient
+
+ArtistClient
+
+Interface when the login requires a webview.
+
+DownloadClient
+
+The extension should provide the webViewRequest
+
+ExtensionClient
+
+See also
+
+FollowClient
+HideClient
+
+(source)
+
+WebViewRequest
+
+Members
+
+HomeFeedClient
+LibraryFeedClient
+
+Properties
+
+LikeClient
+LoginClient
+
+webViewRequest
+
+CustomInput
+
+abstract val webViewRequest: WebViewRequest<List<User>>
+
+The request to be made to the webview, should return a list of users.
+
+Form
+InputField
+WebView
+LyricsClient
+
+Functions
+getCurrentUser
+
+LyricsSearchClient
+
+abstract suspend fun getCurrentUser(): User?
+
+To be called when any other extension needs the current user. Be sure to remove any sensitive data.
+
+PlaylistClient
+PlaylistEditClient
+
+setLoginUser
+
+PlaylistEditCoverClient
+
+abstract fun setLoginUser(user: User?)
+
+Called when the extension starts or when the user changes. null if no user is logged in (can also be Incognito
+mode)
+
+PlaylistEditorListener
+Client
+PlaylistEditPrivacyClient
+QuickSearchClient
+RadioClient
+SaveClient
+SearchFeedClient
+SettingsChangeListener
+Client
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.clients / ArtistClient
+
+dev.brahmkshatriya.echo.common
+dev.brahmkshatriya.echo.common.
+clients
+AlbumClient
+
+ArtistClient
+interface ArtistClient
+
+(source)
+
+ArtistClient
+DownloadClient
+ExtensionClient
+FollowClient
+HideClient
+
+Used to load an Artist and get its shelves.
+
+See also
+FollowClient
+MusicExtension
+
+HomeFeedClient
+LibraryFeedClient
+LikeClient
+LoginClient
+LyricsClient
+
+Members
+
+Functions
+loadArtist
+
+LyricsSearchClient
+
+abstract suspend fun loadArtist(artist: Artist): Artist
+
+Loads an artist, the unloaded artist may only have the id and title.
+
+PlaylistClient
+PlaylistEditClient
+
+loadFeed
+
+PlaylistEditCoverClient
+
+abstract suspend fun loadFeed(artist: Artist): Feed<Shelf>
+
+Gets the shelves of an artist.
+
+PlaylistEditorListenerClient
+PlaylistEditPrivacyClient
+QuickSearchClient
+RadioClient
+SaveClient
+SearchFeedClient
+SettingsChangeListener
+Client
+ShareClient
+TrackChapterClient
+TrackClient
+TrackerClient
+TrackerMarkClient
+dev.brahmkshatriya.echo.common.
+helpers
+dev.brahmkshatriya.echo.common.
+models
+dev.brahmkshatriya.echo.common.
+providers
+dev.brahmkshatriya.echo.common.
+settings
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.models / ExtensionType
+
+dev.brahmkshatriya.echo.
+common
+dev.brahmkshatriya.echo.
+
+ExtensionType
+
+common.clients
+dev.brahmkshatriya.echo.
+common.helpers
+dev.brahmkshatriya.echo.
+common.models
+Album
+Artist
+Chapter
+
+enum ExtensionType : Enum<ExtensionType>
+
+(source)
+
+Enum class to define the type of extension
+
+Parameters
+feature
+
+the string used to identify the extension in the AndroidManifest uses-feature tag
+
+See also
+Extension
+
+Date
+DownloadContext
+
+Members
+
+EchoMediaItem
+
+Entries
+
+ExtensionType
+MUSIC
+
+Entries
+
+MUSIC
+
+MUSIC
+
+TRACKER
+LYRICS
+
+TRACKER
+
+TRACKER
+
+MISC
+Feed
+
+LYRICS
+
+LYRICS
+
+ImageHolder
+ImportType
+
+MISC
+
+MISC
+
+Lyrics
+Message
+Metadata
+NetworkConnection
+NetworkRequest
+Playlist
+Progress
+QuickSearchItem
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.models / ImageHolder / ResourceIdImageHolder
+
+dev.brahmkshatriya.echo.
+common
+dev.brahmkshatriya.echo.
+
+ResourceIdImageHolder
+
+common.clients
+dev.brahmkshatriya.echo.
+common.helpers
+dev.brahmkshatriya.echo.
+common.models
+Album
+
+@Serializable
+data class ResourceIdImageHolder(val resId: Int, val crop: Boolean) : ImageHolder
+
+(source)
+
+A data class representing an image from a resource
+
+Parameters
+resId
+
+The resource ID of the image
+
+crop
+
+Whether to crop the image
+
+Artist
+Chapter
+Date
+
+Members
+
+DownloadContext
+EchoMediaItem
+
+Constructors
+
+ExtensionType
+Feed
+
+ResourceIdImageHolder
+
+constructor(resId: Int, crop: Boolean)
+
+ImageHolder
+Companion
+HexColorImage
+Holder
+
+Properties
+crop
+
+open override val crop: Boolean
+
+NetworkRequest
+ImageHolder
+ResourceIdImage
+
+resId
+
+val resId: Int
+
+Holder
+ResourceUriImage
+Holder
+ImportType
+Lyrics
+Message
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.models / Track / Playable
+
+dev.brahmkshatriya.echo.
+common
+dev.brahmkshatriya.echo.
+
+Playable
+
+common.clients
+dev.brahmkshatriya.echo.
+common.helpers
+dev.brahmkshatriya.echo.
+common.models
+Album
+Artist
+Chapter
+
+@Serializable
+sealed interface Playable
+
+(source)
+
+Inheritors
+Yes
+RegionLocked
+Unreleased
+
+Date
+DownloadContext
+EchoMediaItem
+
+No
+
+Members
+
+ExtensionType
+Feed
+
+Types
+
+ImageHolder
+ImportType
+
+No
+
+@Serializable
+data class No(val reason: String) : Track.Playable
+
+Lyrics
+Message
+
+RegionLocked
+
+Metadata
+
+@Serializable
+data object RegionLocked : Track.Playable
+
+NetworkConnection
+NetworkRequest
+
+Unreleased
+
+@Serializable
+data object Unreleased : Track.Playable
+
+Playlist
+Progress
+QuickSearchItem
+
+Yes
+
+@Serializable
+data object Yes : Track.Playable
+
+Radio
+Shelf
+Streamable
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.models / ImageHolder / ResourceUriImageHolder
+
+dev.brahmkshatriya.echo.
+common
+dev.brahmkshatriya.echo.
+
+ResourceUriImageHolder
+
+common.clients
+dev.brahmkshatriya.echo.
+common.helpers
+dev.brahmkshatriya.echo.
+common.models
+Album
+
+@Serializable
+data class ResourceUriImageHolder(val uri: String, val crop: Boolean) : ImageHolder
+
+(source)
+
+A data class representing an image from a Resource URI
+
+Parameters
+uri
+
+The URI of the image
+
+crop
+
+Whether to crop the image
+
+Artist
+Chapter
+Date
+
+Members
+
+DownloadContext
+EchoMediaItem
+
+Constructors
+
+ExtensionType
+Feed
+
+ResourceUriImage
+Holder
+
+constructor(uri: String, crop: Boolean)
+
+ImageHolder
+Companion
+HexColorImage
+Holder
+
+Properties
+crop
+
+open override val crop: Boolean
+
+NetworkRequest
+ImageHolder
+ResourceIdImage
+
+uri
+
+val uri: String
+
+Holder
+ResourceUriImage
+Holder
+ImportType
+Lyrics
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.clients / QuickSearchClient
+
+dev.brahmkshatriya.echo.
+common
+dev.brahmkshatriya.echo.
+
+QuickSearchClient
+
+common.clients
+AlbumClient
+
+interface QuickSearchClient : SearchFeedClient
+
+ArtistClient
+
+Used to show search feed with a custom quick search implementation.
+
+DownloadClient
+
+See also
+
+ExtensionClient
+
+QuickSearchItem
+
+FollowClient
+
+(source)
+
+Feed
+
+HideClient
+HomeFeedClient
+LibraryFeedClient
+
+MusicExtension
+
+Members
+
+LikeClient
+LoginClient
+
+Functions
+
+LyricsClient
+LyricsSearchClient
+
+deleteQuickSearch
+
+PlaylistClient
+
+abstract suspend fun deleteQuickSearch(item: QuickSearchItem)
+
+Deletes a quick search item.
+
+PlaylistEditClient
+PlaylistEditCoverClient
+
+loadSearchFeed
+
+PlaylistEditorListener
+
+Gets the search feed.
+
+Client
+PlaylistEditPrivacyClient
+
+abstract suspend fun loadSearchFeed(query: String): Feed<Shelf>
+
+quickSearch
+
+abstract suspend fun quickSearch(query: String): List<QuickSearchItem>
+
+QuickSearchClient
+
+Used for quick searching (suggestions below the search bar). This is a lightweight search that returns a list of
+items
+
+RadioClient
+SaveClient
+SearchFeedClient
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.settings / SettingSwitch
+
+dev.brahmkshatriya.echo.common
+dev.brahmkshatriya.echo.common.
+clients
+dev.brahmkshatriya.echo.common.
+helpers
+
+SettingSwitch
+data class SettingSwitch(
+val title: String,
+
+dev.brahmkshatriya.echo.common.
+
+val key: String,
+
+models
+
+val summary: String? = null,
+
+dev.brahmkshatriya.echo.common.
+providers
+dev.brahmkshatriya.echo.common.
+settings
+
+val defaultValue: Boolean
+) : Setting
+
+(source)
+
+A switch that allows the user to toggle a setting on or off. Value can be accessed from Settings.getBoolean
+
+Parameters
+Setting
+
+title
+
+The title of the setting.
+
+key
+
+The key of the setting.
+
+summary
+
+The summary of the setting.
+
+defaultValue
+
+The default value of the setting.
+
+SettingCategory
+SettingItem
+SettingList
+SettingMultipleChoice
+SettingOnClick
+Settings
+SettingSlider
+SettingSwitch
+SettingTextInput
+
+Members
+
+Constructors
+SettingSwitch
+
+constructor(
+title: String,
+key: String,
+summary: String? = null,
+defaultValue: Boolean
+)
+
+Properties
+defaultValue
+
+key
+
+val defaultValue: Boolean
+
+open override val key: String
+
+summary
+
+title
+
+val summary: String? = null
+
+open override val title: String
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.settings / SettingSwitch
+
+dev.brahmkshatriya.echo.common
+dev.brahmkshatriya.echo.common.
+clients
+dev.brahmkshatriya.echo.common.
+helpers
+
+SettingSwitch
+data class SettingSwitch(
+val title: String,
+
+dev.brahmkshatriya.echo.common.
+
+val key: String,
+
+models
+
+val summary: String? = null,
+
+dev.brahmkshatriya.echo.common.
+providers
+dev.brahmkshatriya.echo.common.
+settings
+
+val defaultValue: Boolean
+) : Setting
+
+(source)
+
+A switch that allows the user to toggle a setting on or off. Value can be accessed from Settings.getBoolean
+
+Parameters
+Setting
+
+title
+
+The title of the setting.
+
+key
+
+The key of the setting.
+
+summary
+
+The summary of the setting.
+
+defaultValue
+
+The default value of the setting.
+
+SettingCategory
+SettingItem
+SettingList
+SettingMultipleChoice
+SettingOnClick
+Settings
+SettingSlider
+SettingSwitch
+SettingTextInput
+
+Members
+
+Constructors
+SettingSwitch
+
+constructor(
+title: String,
+key: String,
+summary: String? = null,
+defaultValue: Boolean
+)
+
+Properties
+defaultValue
+
+key
+
+val defaultValue: Boolean
+
+open override val key: String
+
+summary
+
+title
+
+val summary: String? = null
+
+open override val title: String
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+
+JVM
+
+common
+
+common / dev.brahmkshatriya.echo.common.models / Chapter / SkipType
+
+dev.brahmkshatriya.echo.
+common
+dev.brahmkshatriya.echo.
+
+SkipType
+
+common.clients
+dev.brahmkshatriya.echo.
+common.helpers
+dev.brahmkshatriya.echo.
+common.models
+Album
+
+enum SkipType : Enum<Chapter.SkipType>
+
+Represents the type of skip behavior for a chapter.
+NONE The chapter is not skipped.
+SKIP The chapter is automatically skipped.
+ASK The user is prompted whether to skip the chapter.
+Members
+
+Artist
+Chapter
+SkipType
+NONE
+
+(source)
+
+Entries
+
+Entries
+NONE
+
+NONE
+
+SKIP
+ASK
+
+SKIP
+
+DownloadContext
+
+ASK
+
+SKIP
+
+Date
+ASK
+
+EchoMediaItem
+ExtensionType
+Feed
+ImageHolder
+ImportType
+Lyrics
+Message
+Metadata
+NetworkConnection
+NetworkRequest
+Playlist
+Progress
+QuickSearchItem
+Radio
+Shelf
+Streamable
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.clients / PlaylistClient
+
+dev.brahmkshatriya.echo.
+common
+dev.brahmkshatriya.echo.
+
+PlaylistClient
+
+common.clients
+AlbumClient
+
+interface PlaylistClient
+
+ArtistClient
+
+Used to show the playlist and get its tracks.
+
+DownloadClient
+
+See also
+
+ExtensionClient
+
+Playlist
+
+FollowClient
+
+(source)
+
+Track
+
+HideClient
+HomeFeedClient
+LibraryFeedClient
+LikeClient
+
+Feed
+
+Inheritors
+PlaylistEditClient
+
+LoginClient
+LyricsClient
+
+Members
+
+LyricsSearchClient
+
+Functions
+
+PlaylistClient
+PlaylistEditClient
+
+loadFeed
+
+abstract suspend fun loadFeed(playlist: Playlist): Feed<Shelf>?
+
+PlaylistEditCoverClient
+
+Gets the feed of a playlist.
+
+PlaylistEditorListener
+Client
+PlaylistEditPrivacyClient
+
+loadPlaylist
+
+abstract suspend fun loadPlaylist(playlist: Playlist): Playlist
+
+Loads a playlist.
+
+QuickSearchClient
+RadioClient
+SaveClient
+
+loadTracks
+
+abstract suspend fun loadTracks(playlist: Playlist): Feed<Track>
+
+Loads the tracks of a playlist.
+
+SearchFeedClient
+SettingsChangeListener
+Client
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.clients / TrackClient
+
+dev.brahmkshatriya.echo.
+common
+dev.brahmkshatriya.echo.
+
+TrackClient
+
+common.clients
+AlbumClient
+
+interface TrackClient
+
+(source)
+
+ArtistClient
+
+Used to load track and their media to allow streaming.
+
+DownloadClient
+
+See also
+
+ExtensionClient
+
+MusicExtension
+
+FollowClient
+HideClient
+HomeFeedClient
+LibraryFeedClient
+LikeClient
+
+Members
+
+Functions
+loadFeed
+
+LoginClient
+
+abstract suspend fun loadFeed(track: Track): Feed<Shelf>?
+
+Gets the shelves of a track.
+
+LyricsClient
+LyricsSearchClient
+
+loadStreamableMedia
+
+abstract suspend fun loadStreamableMedia(
+streamable: Streamable,
+
+PlaylistClient
+
+isDownload: Boolean
+
+PlaylistEditClient
+
+): Streamable.Media
+
+PlaylistEditCoverClient
+
+Loads the media of a streamable.
+
+PlaylistEditorListener
+Client
+
+loadTrack
+
+abstract suspend fun loadTrack(track: Track, isDownload: Boolean): Track
+
+PlaylistEditPrivacyClient
+
+Loads an unloaded track. Make sure the track contains at least one Track.servers in Track.streamables
+
+QuickSearchClient
+RadioClient
+SaveClient
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.clients / RadioClient
+
+dev.brahmkshatriya.echo.
+common
+dev.brahmkshatriya.echo.
+
+RadioClient
+
+common.clients
+AlbumClient
+
+interface RadioClient
+
+(source)
+
+ArtistClient
+
+Used to load the radio for track that is currently playing and to show radio buttons for albums, artists, users and playlists.
+
+DownloadClient
+
+See also
+
+ExtensionClient
+
+Radio
+
+FollowClient
+HideClient
+HomeFeedClient
+LibraryFeedClient
+LikeClient
+
+Members
+
+Functions
+loadRadio
+
+LoginClient
+
+abstract suspend fun loadRadio(radio: Radio): Radio
+
+Loads a radio.
+
+LyricsClient
+LyricsSearchClient
+
+loadTracks
+
+PlaylistClient
+
+abstract suspend fun loadTracks(radio: Radio): Feed<Track>
+
+Loads the tracks for a radio.
+
+PlaylistEditClient
+PlaylistEditCoverClient
+
+radio
+
+abstract suspend fun radio(
+item: EchoMediaItem,
+
+PlaylistEditorListener
+
+context: EchoMediaItem?
+
+Client
+
+): Radio
+
+PlaylistEditPrivacyClient
+
+Creates a radio for a media item with EchoMediaItem.isRadioSupported set to true.
+
+QuickSearchClient
+RadioClient
+SaveClient
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.helpers / Injectable
+
+dev.brahmkshatriya.echo.common
+dev.brahmkshatriya.echo.common.
+clients
+dev.brahmkshatriya.echo.common.
+helpers
+ClientException
+
+Injectable
+class Injectable<T>(getter: () -> T, injections: List<suspend T.() -> Unit>)
+
+(source)
+
+Members
+
+ContinuationCallback
+Injectable
+
+Constructors
+
+Page
+PagedData
+
+Injectable
+
+constructor(getter: () -> T, injections: List<suspend T.() -> Unit>)
+
+WebViewClient
+WebViewRequest
+dev.brahmkshatriya.echo.common.
+models
+
+Properties
+data
+
+val data: <Error class: unknown class>
+
+dev.brahmkshatriya.echo.common.
+providers
+dev.brahmkshatriya.echo.common.
+
+value
+
+val value: T?
+
+settings
+
+Functions
+casted
+
+fun <R> casted(): <Error class: unknown class>
+
+injectOrRun
+
+value
+
+suspend fun injectOrRun(id: String, block: suspend T.() -> Unit)
+
+suspend fun value(): <Error class: unknown class>
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.clients / LibraryFeedClient
+
+dev.brahmkshatriya.echo.
+common
+dev.brahmkshatriya.echo.
+
+LibraryFeedClient
+
+common.clients
+AlbumClient
+
+interface LibraryFeedClient
+
+ArtistClient
+
+Used to show the library feed and get its tabs.
+
+DownloadClient
+
+See also
+
+ExtensionClient
+
+Feed
+
+FollowClient
+
+(source)
+
+MusicExtension
+
+HideClient
+HomeFeedClient
+LibraryFeedClient
+LikeClient
+LoginClient
+
+Members
+
+Functions
+loadLibraryFeed
+
+LyricsClient
+
+abstract suspend fun loadLibraryFeed(): Feed<Shelf>
+
+Gets the library feed. Checkout Feed for more information.
+
+LyricsSearchClient
+PlaylistClient
+PlaylistEditClient
+PlaylistEditCoverClient
+PlaylistEditorListener
+Client
+PlaylistEditPrivacyClient
+QuickSearchClient
+RadioClient
+SaveClient
+SearchFeedClient
+SettingsChangeListener
+Client
+ShareClient
+TrackChapterClient
+TrackClient
+TrackerClient
+TrackerMarkClient
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.clients / HomeFeedClient
+
+dev.brahmkshatriya.echo.
+common
+dev.brahmkshatriya.echo.
+
+HomeFeedClient
+
+common.clients
+AlbumClient
+
+interface HomeFeedClient
+
+ArtistClient
+
+Used to show the home feed and get its tabs.
+
+DownloadClient
+
+See also
+
+ExtensionClient
+
+Feed
+
+FollowClient
+
+(source)
+
+MusicExtension
+
+HideClient
+HomeFeedClient
+LibraryFeedClient
+LikeClient
+LoginClient
+
+Members
+
+Functions
+loadHomeFeed
+
+LyricsClient
+
+abstract suspend fun loadHomeFeed(): Feed<Shelf>
+
+Gets the home feed. Checkout Feed for more information.
+
+LyricsSearchClient
+PlaylistClient
+PlaylistEditClient
+PlaylistEditCoverClient
+PlaylistEditorListener
+Client
+PlaylistEditPrivacyClient
+QuickSearchClient
+RadioClient
+SaveClient
+SearchFeedClient
+SettingsChangeListener
+Client
+ShareClient
+TrackChapterClient
+TrackClient
+TrackerClient
+TrackerMarkClient
+dev.brahmkshatriya.echo.
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.settings / Setting
+
+dev.brahmkshatriya.echo.common
+dev.brahmkshatriya.echo.common.
+clients
+dev.brahmkshatriya.echo.common.
+helpers
+
+Setting
+sealed interface Setting
+
+Setting
+
+A sealed interface that represents a setting. These are the types of Settings:
+SettingCategory
+SettingItem
+SettingSwitch
+SettingSlider
+SettingTextInput
+SettingList
+SettingMultipleChoice
+SettingOnClick
+
+SettingCategory
+
+Inheritors
+
+SettingItem
+
+SettingCategory
+
+dev.brahmkshatriya.echo.common.
+models
+dev.brahmkshatriya.echo.common.
+providers
+dev.brahmkshatriya.echo.common.
+settings
+
+SettingList
+
+(source)
+
+SettingItem
+
+SettingMultipleChoice
+SettingOnClick
+Settings
+
+SettingList
+SettingMultipleChoice
+
+SettingSlider
+SettingSwitch
+SettingTextInput
+
+SettingOnClick
+SettingSlider
+SettingSwitch
+SettingTextInput
+
+Members
+
+Properties
+key
+
+abstract val key: String
+
+The unique key of the setting.
+title
+
+abstract val title: String
+
+The title of the setting.
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.helpers / ContinuationCallback
+
+dev.brahmkshatriya.echo.common
+dev.brahmkshatriya.echo.common.
+clients
+dev.brahmkshatriya.echo.common.
+helpers
+
+ContinuationCallback
+class ContinuationCallback(
+call: Call,
+
+ClientException
+ContinuationCallback
+Companion
+Injectable
+Page
+PagedData
+
+continuation: CancellableContinuation<Response>
+) : Callback, Function1<cause: Throwable?, Unit>
+
+(source)
+
+Members
+
+Constructors
+ContinuationCallback
+
+WebViewClient
+
+constructor(call: Call, continuation: CancellableContinuation<Response>)
+
+WebViewRequest
+dev.brahmkshatriya.echo.common.
+models
+dev.brahmkshatriya.echo.common.
+providers
+
+Types
+Companion
+
+object Companion
+
+dev.brahmkshatriya.echo.common.
+settings
+
+Functions
+invoke
+
+open operator override fun invoke(cause: Throwable?)
+
+onFailure
+
+onResponse
+
+made by @brahmkshatriya
+
+open override fun onFailure(call: Call, e: IOException)
+
+open override fun onResponse(call: Call, response: Response)
+
+Generated by dokka
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.helpers / Page
+
+dev.brahmkshatriya.echo.common
+dev.brahmkshatriya.echo.common.
+clients
+
+Page
+
+dev.brahmkshatriya.echo.common.
+
+@Serializable
+
+helpers
+
+data class Page<T : Any>(val data: List<T>, val continuation: String?)
+
+(source)
+
+ClientException
+ContinuationCallback
+Injectable
+Page
+PagedData
+WebViewClient
+WebViewRequest
+
+Represents a page of data, with a continuation token for pagination
+
+Parameters
+T
+
+The type of data items
+
+Members
+
+Constructors
+
+dev.brahmkshatriya.echo.common.
+models
+
+Page
+
+constructor(data: List<T>, continuation: String?)
+
+dev.brahmkshatriya.echo.common.
+providers
+dev.brahmkshatriya.echo.common.
+settings
+
+Properties
+continuation
+
+val continuation: String?
+
+The next continuation token for pagination. If null, there are no more pages
+data
+
+val data: List<T>
+
+The list of data items
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+
+JVM
+
+common
+
+common / dev.brahmkshatriya.echo.common.models / Album / Type / Single
+
+dev.brahmkshatriya.echo.
+common
+dev.brahmkshatriya.echo.
+
+Single
+
+common.clients
+dev.brahmkshatriya.echo.
+
+Single
+
+common.helpers
+dev.brahmkshatriya.echo.
+common.models
+Album
+Type
+
+Members
+
+Properties
+name
+
+val name: String
+
+PreRelease
+Single
+
+ordinal
+
+val ordinal: Int
+
+EP
+LP
+Compilation
+Show
+Book
+Artist
+Chapter
+Date
+DownloadContext
+EchoMediaItem
+ExtensionType
+Feed
+ImageHolder
+ImportType
+Lyrics
+Message
+Metadata
+NetworkConnection
+NetworkRequest
+Playlist
+Progress
+QuickSearchItem
+Radio
+Shelf
+Streamable
+Tab
+Track
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.models / ImportType
+
+dev.brahmkshatriya.echo.
+common
+dev.brahmkshatriya.echo.
+
+ImportType
+
+common.clients
+dev.brahmkshatriya.echo.
+common.helpers
+dev.brahmkshatriya.echo.
+common.models
+Album
+Artist
+Chapter
+Date
+DownloadContext
+
+enum ImportType : Enum<ImportType>
+
+(source)
+
+Enum class to define the type of import,
+BuiltIn: Imported from the built-in Repo
+App: Imported from the installed packages
+File: Imported from the internal storage
+Members
+
+Entries
+
+Entries
+BuiltIn
+
+BuiltIn
+
+EchoMediaItem
+ExtensionType
+
+App
+
+App
+
+Feed
+ImageHolder
+
+File
+
+File
+
+ImportType
+BuiltIn
+App
+File
+Lyrics
+Message
+Metadata
+NetworkConnection
+NetworkRequest
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.clients / SaveClient
+
+dev.brahmkshatriya.echo.
+common
+dev.brahmkshatriya.echo.
+
+SaveClient
+
+common.clients
+AlbumClient
+
+interface SaveClient
+
+(source)
+
+ArtistClient
+
+Used to save media items with EchoMediaItem.isSaveable set to true to the library
+
+DownloadClient
+
+See also
+
+ExtensionClient
+
+EchoMediaItem.isSaveable
+
+FollowClient
+
+LibraryFeedClient
+
+HideClient
+HomeFeedClient
+LibraryFeedClient
+
+MusicExtension
+
+Members
+
+LikeClient
+LoginClient
+
+Functions
+
+LyricsClient
+LyricsSearchClient
+
+isItemSaved
+
+PlaylistClient
+
+abstract suspend fun isItemSaved(item: EchoMediaItem): Boolean
+
+Checks if a media item is saved to the library.
+
+PlaylistEditClient
+PlaylistEditCoverClient
+
+saveToLibrary
+
+PlaylistEditorListener
+
+abstract suspend fun saveToLibrary(item: EchoMediaItem, shouldSave: Boolean)
+
+Saves or removes a media item from the library.
+
+Client
+PlaylistEditPrivacyClient
+QuickSearchClient
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.clients / HideClient
+
+dev.brahmkshatriya.echo.
+common
+dev.brahmkshatriya.echo.
+
+HideClient
+
+common.clients
+AlbumClient
+
+interface HideClient
+
+(source)
+
+ArtistClient
+
+Used to hide an item from the user's feed. with the EchoMediaItem.isHideable set to true.
+
+DownloadClient
+
+Members
+
+ExtensionClient
+FollowClient
+HideClient
+
+Functions
+hideItem
+
+HomeFeedClient
+
+Hides or unhides a item from the user's feed.
+
+LibraryFeedClient
+LikeClient
+
+abstract suspend fun hideItem(item: EchoMediaItem, shouldHide: Boolean)
+
+isItemHidden
+
+LoginClient
+
+abstract suspend fun isItemHidden(item: EchoMediaItem): Boolean
+
+Checks if a item is hidden.
+
+LyricsClient
+LyricsSearchClient
+PlaylistClient
+PlaylistEditClient
+PlaylistEditCoverClient
+PlaylistEditorListener
+Client
+PlaylistEditPrivacyClient
+QuickSearchClient
+RadioClient
+SaveClient
+SearchFeedClient
+SettingsChangeListener
+Client
+ShareClient
+TrackChapterClient
+TrackClient
+TrackerClient
+TrackerMarkClient
+dev.brahmkshatriya.echo.
+common.helpers
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+
+JVM
+
+common
+
+common / dev.brahmkshatriya.echo.common.models / Album / Type / Compilation
+
+dev.brahmkshatriya.echo.
+common
+dev.brahmkshatriya.echo.
+
+Compilation
+
+common.clients
+dev.brahmkshatriya.echo.
+
+Compilation
+
+common.helpers
+dev.brahmkshatriya.echo.
+common.models
+Album
+Type
+
+Members
+
+Properties
+name
+
+val name: String
+
+PreRelease
+Single
+
+ordinal
+
+val ordinal: Int
+
+EP
+LP
+Compilation
+Show
+Book
+Artist
+Chapter
+Date
+DownloadContext
+EchoMediaItem
+ExtensionType
+Feed
+ImageHolder
+ImportType
+Lyrics
+Message
+Metadata
+NetworkConnection
+NetworkRequest
+Playlist
+Progress
+QuickSearchItem
+Radio
+Shelf
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.clients / LikeClient
+
+dev.brahmkshatriya.echo.
+common
+dev.brahmkshatriya.echo.
+
+LikeClient
+
+common.clients
+AlbumClient
+
+interface LikeClient
+
+(source)
+
+ArtistClient
+
+Used to like or unlike a item. with the EchoMediaItem.isLikeable set to true.
+
+DownloadClient
+
+Members
+
+ExtensionClient
+FollowClient
+HideClient
+
+Functions
+isItemLiked
+
+HomeFeedClient
+
+Checks if a item is liked.
+
+LibraryFeedClient
+LikeClient
+
+abstract suspend fun isItemLiked(item: EchoMediaItem): Boolean
+
+likeItem
+
+LoginClient
+
+abstract suspend fun likeItem(item: EchoMediaItem, shouldLike: Boolean)
+
+Likes or unlikes a item.
+
+LyricsClient
+LyricsSearchClient
+PlaylistClient
+PlaylistEditClient
+PlaylistEditCoverClient
+PlaylistEditorListener
+Client
+PlaylistEditPrivacyClient
+QuickSearchClient
+RadioClient
+SaveClient
+SearchFeedClient
+SettingsChangeListener
+Client
+ShareClient
+TrackChapterClient
+TrackClient
+TrackerClient
+TrackerMarkClient
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+
+JVM
+
+common
+
+common / dev.brahmkshatriya.echo.common.models / Album / Type / EP
+
+dev.brahmkshatriya.echo.
+common
+dev.brahmkshatriya.echo.
+
+EP
+
+common.clients
+dev.brahmkshatriya.echo.
+
+EP
+
+common.helpers
+dev.brahmkshatriya.echo.
+common.models
+Album
+Type
+
+Members
+
+Properties
+name
+
+val name: String
+
+PreRelease
+Single
+
+ordinal
+
+val ordinal: Int
+
+EP
+LP
+Compilation
+Show
+Book
+Artist
+Chapter
+Date
+DownloadContext
+EchoMediaItem
+ExtensionType
+Feed
+ImageHolder
+ImportType
+Lyrics
+Message
+Metadata
+NetworkConnection
+NetworkRequest
+Playlist
+Progress
+QuickSearchItem
+Radio
+Shelf
+Streamable
+Tab
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.models / NetworkConnection
+
+dev.brahmkshatriya.echo.
+common
+dev.brahmkshatriya.echo.
+
+NetworkConnection
+
+common.clients
+dev.brahmkshatriya.echo.
+common.helpers
+dev.brahmkshatriya.echo.
+common.models
+Album
+Artist
+Chapter
+Date
+DownloadContext
+
+enum NetworkConnection : Enum<NetworkConnection>
+
+(source)
+
+Enum class to define the type of network,
+NotConnected: No network connection
+Metered: Connected to a metered network (e.g., mobile data)
+Unmetered: Connected to an unmetered network (e.g., Wi-Fi)
+Members
+
+Entries
+
+Entries
+NotConnected
+
+NotConnected
+
+EchoMediaItem
+ExtensionType
+
+Metered
+
+Metered
+
+Feed
+ImageHolder
+
+Unmetered
+
+Unmetered
+
+ImportType
+Lyrics
+Message
+Metadata
+NetworkConnection
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+
+JVM
+
+common
+
+common / dev.brahmkshatriya.echo.common.models / Album / Type / LP
+
+dev.brahmkshatriya.echo.
+common
+dev.brahmkshatriya.echo.
+
+LP
+
+common.clients
+dev.brahmkshatriya.echo.
+
+LP
+
+common.helpers
+dev.brahmkshatriya.echo.
+common.models
+Album
+Type
+
+Members
+
+Properties
+name
+
+val name: String
+
+PreRelease
+Single
+
+ordinal
+
+val ordinal: Int
+
+EP
+LP
+Compilation
+Show
+Book
+Artist
+Chapter
+Date
+DownloadContext
+EchoMediaItem
+ExtensionType
+Feed
+ImageHolder
+ImportType
+Lyrics
+Message
+Metadata
+NetworkConnection
+NetworkRequest
+Playlist
+Progress
+QuickSearchItem
+Radio
+Shelf
+Streamable
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.models / ExtensionType / MUSIC
+
+dev.brahmkshatriya.echo.
+common
+dev.brahmkshatriya.echo.
+
+MUSIC
+
+common.clients
+dev.brahmkshatriya.echo.
+
+MUSIC
+
+common.helpers
+dev.brahmkshatriya.echo.
+common.models
+Album
+Artist
+
+Members
+
+Properties
+feature
+
+Chapter
+Date
+
+name
+
+val name: String
+
+DownloadContext
+EchoMediaItem
+
+val feature: String
+
+ordinal
+
+val ordinal: Int
+
+ExtensionType
+MUSIC
+TRACKER
+LYRICS
+MISC
+Feed
+ImageHolder
+ImportType
+Lyrics
+Message
+Metadata
+NetworkConnection
+NetworkRequest
+Playlist
+Progress
+QuickSearchItem
+Radio
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+
+JVM
+
+common
+
+common / dev.brahmkshatriya.echo.common.models / Album / Type / Show
+
+dev.brahmkshatriya.echo.
+common
+dev.brahmkshatriya.echo.
+
+Show
+
+common.clients
+dev.brahmkshatriya.echo.
+
+Show
+
+common.helpers
+dev.brahmkshatriya.echo.
+common.models
+Album
+Type
+
+Members
+
+Properties
+name
+
+val name: String
+
+PreRelease
+Single
+
+ordinal
+
+val ordinal: Int
+
+EP
+LP
+Compilation
+Show
+Book
+Artist
+Chapter
+Date
+DownloadContext
+EchoMediaItem
+ExtensionType
+Feed
+ImageHolder
+ImportType
+Lyrics
+Message
+Metadata
+NetworkConnection
+NetworkRequest
+Playlist
+Progress
+QuickSearchItem
+Radio
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.models / Streamable / SourceType
+
+dev.brahmkshatriya.echo.
+common
+dev.brahmkshatriya.echo.
+
+SourceType
+
+common.clients
+dev.brahmkshatriya.echo.
+common.helpers
+
+enum SourceType : Enum<Streamable.SourceType>
+
+(source)
+
+An enum representing the type of Source.
+
+dev.brahmkshatriya.echo.
+common.models
+Album
+Artist
+Chapter
+
+Members
+
+Entries
+
+Entries
+Progressive
+
+Date
+
+Source that contain Audio/Video in container format File.
+
+DownloadContext
+EchoMediaItem
+
+HLS
+
+HLS
+
+ExtensionType
+
+Source that is a M3U8 File.
+
+Feed
+ImageHolder
+
+Progressive
+
+DASH
+
+DASH
+
+ImportType
+
+Source that is a Dash Manifest File.
+
+Lyrics
+Message
+Metadata
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.models / Date / Companion
+
+dev.brahmkshatriya.echo.
+common
+dev.brahmkshatriya.echo.
+
+Companion
+
+common.clients
+dev.brahmkshatriya.echo.
+
+object Companion
+
+(source)
+
+common.helpers
+dev.brahmkshatriya.echo.
+common.models
+Album
+Artist
+
+Members
+
+Functions
+toYearDate
+
+Chapter
+
+fun Int.toYearDate(): Date
+
+Date
+Companion
+DownloadContext
+EchoMediaItem
+ExtensionType
+Feed
+ImageHolder
+ImportType
+Lyrics
+Message
+Metadata
+NetworkConnection
+NetworkRequest
+Playlist
+Progress
+QuickSearchItem
+Radio
+Shelf
+Streamable
+Tab
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.clients / SearchFeedClient
+
+dev.brahmkshatriya.echo.
+common
+dev.brahmkshatriya.echo.
+
+SearchFeedClient
+
+common.clients
+AlbumClient
+
+interface SearchFeedClient
+
+ArtistClient
+
+Used to show the search the feed.
+
+DownloadClient
+
+See also
+
+ExtensionClient
+
+Feed
+
+FollowClient
+
+(source)
+
+MusicExtension
+
+HideClient
+HomeFeedClient
+
+Inheritors
+
+LibraryFeedClient
+
+QuickSearchClient
+
+LikeClient
+
+Members
+
+LoginClient
+LyricsClient
+
+Functions
+
+LyricsSearchClient
+PlaylistClient
+
+loadSearchFeed
+
+PlaylistEditClient
+
+abstract suspend fun loadSearchFeed(query: String): Feed<Shelf>
+
+Gets the search feed.
+
+PlaylistEditCoverClient
+PlaylistEditorListener
+Client
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.models / NetworkRequest / Companion
+
+dev.brahmkshatriya.echo.
+common
+dev.brahmkshatriya.echo.
+
+Companion
+
+common.clients
+dev.brahmkshatriya.echo.
+
+object Companion
+
+(source)
+
+common.helpers
+dev.brahmkshatriya.echo.
+common.models
+Album
+Artist
+
+Members
+
+Functions
+toGetRequest
+
+Chapter
+
+fun String.toGetRequest(
+headers: Map<String, String> = emptyMap()
+
+Date
+
+): NetworkRequest
+
+DownloadContext
+
+Converts the string to a NetworkRequest object
+
+EchoMediaItem
+ExtensionType
+Feed
+ImageHolder
+ImportType
+Lyrics
+Message
+Metadata
+NetworkConnection
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.models / Streamable / MediaType
+
+dev.brahmkshatriya.echo.
+common
+dev.brahmkshatriya.echo.
+
+MediaType
+
+common.clients
+dev.brahmkshatriya.echo.
+common.helpers
+
+enum MediaType : Enum<Streamable.MediaType>
+
+(source)
+
+An enum class representing the type of media
+
+dev.brahmkshatriya.echo.
+common.models
+Album
+Artist
+Chapter
+
+Members
+
+Entries
+
+Entries
+Background
+
+Date
+
+Represents an unloaded background streamable
+
+DownloadContext
+EchoMediaItem
+
+Server
+
+Server
+
+ExtensionType
+
+Represents an unloaded server streamable
+
+Feed
+ImageHolder
+
+Background
+
+Subtitle
+
+ImportType
+
+Subtitle
+
+Represents an unloaded subtitle streamable
+
+Lyrics
+Message
+Metadata
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+
+JVM
+
+common
+
+common / dev.brahmkshatriya.echo.common.models / Feed / Buttons / Companion
+
+dev.brahmkshatriya.echo.
+common
+dev.brahmkshatriya.echo.
+
+Companion
+
+common.clients
+dev.brahmkshatriya.echo.
+
+object Companion
+
+(source)
+
+common.helpers
+dev.brahmkshatriya.echo.
+common.models
+Album
+Artist
+
+Members
+
+Properties
+EMPTY
+
+val EMPTY: Feed.Buttons
+
+Chapter
+Date
+DownloadContext
+EchoMediaItem
+ExtensionType
+Feed
+Buttons
+Companion
+Companion
+Data
+ImageHolder
+ImportType
+Lyrics
+Message
+Metadata
+NetworkConnection
+NetworkRequest
+Playlist
+Progress
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.models / Track / Type
+
+dev.brahmkshatriya.echo.
+common
+dev.brahmkshatriya.echo.
+
+Type
+
+common.clients
+dev.brahmkshatriya.echo.
+
+enum Type : Enum<Track.Type>
+
+(source)
+
+common.helpers
+dev.brahmkshatriya.echo.
+common.models
+Album
+Artist
+
+Members
+
+Entries
+
+Entries
+Song
+
+Song
+
+Chapter
+Date
+
+Podcast
+
+DownloadContext
+EchoMediaItem
+
+VideoSong
+
+ExtensionType
+Feed
+
+Video
+
+VideoSong
+
+Video
+
+ImageHolder
+ImportType
+
+Podcast
+
+HorizontalVideo
+
+Lyrics
+
+HorizontalVideo
+
+Message
+Metadata
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.providers / GlobalSettingsProvider
+
+dev.brahmkshatriya.echo.
+common
+dev.brahmkshatriya.echo.
+
+GlobalSettingsProvider
+
+common.clients
+dev.brahmkshatriya.echo.
+common.helpers
+
+interface GlobalSettingsProvider
+
+(source)
+
+Interface to provide global Settings to the extension
+
+dev.brahmkshatriya.echo.
+common.models
+dev.brahmkshatriya.echo.
+common.providers
+
+Members
+
+Functions
+
+GlobalSettingsProvider
+LyricsExtensions
+
+setGlobalSettings
+
+Provider
+
+abstract fun setGlobalSettings(globalSettings: Settings)
+
+Called when the extension is initialized, to provide the global Settings to the extension
+
+MessageFlowProvider
+MetadataProvider
+MiscExtensionsProvider
+MusicExtensions
+Provider
+NetworkConnection
+Provider
+SettingsProvider
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.clients / TrackChapterClient
+
+dev.brahmkshatriya.echo.
+common
+dev.brahmkshatriya.echo.
+
+TrackChapterClient
+
+common.clients
+AlbumClient
+
+interface TrackChapterClient
+
+ArtistClient
+
+Used to load Chapters for a track.
+
+DownloadClient
+
+See also
+
+ExtensionClient
+
+Track
+
+(source)
+
+FollowClient
+HideClient
+HomeFeedClient
+LibraryFeedClient
+LikeClient
+
+Members
+
+Functions
+getChapters
+
+LoginClient
+
+abstract suspend fun getChapters(track: Track): List<Chapter>
+
+Gets the chapters for a track.
+
+LyricsClient
+LyricsSearchClient
+PlaylistClient
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.models / Shelf / Lists / Type
+
+dev.brahmkshatriya.echo.
+common
+dev.brahmkshatriya.echo.
+
+Type
+
+common.clients
+dev.brahmkshatriya.echo.
+common.helpers
+dev.brahmkshatriya.echo.
+common.models
+Album
+Artist
+Chapter
+Date
+
+enum Type : Enum<Shelf.Lists.Type>
+
+Represents the type of the list.
+Type.Linear items displayed in a horizontally.
+Type.Grid items displayed in a grid layout, vertically. limited to 8 items.
+Members
+
+Entries
+
+Entries
+Linear
+
+Linear
+
+DownloadContext
+EchoMediaItem
+
+(source)
+
+Grid
+
+Grid
+
+ExtensionType
+Feed
+ImageHolder
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.models / Shelf / Lists / Type
+
+dev.brahmkshatriya.echo.
+common
+dev.brahmkshatriya.echo.
+
+Type
+
+common.clients
+dev.brahmkshatriya.echo.
+common.helpers
+dev.brahmkshatriya.echo.
+common.models
+Album
+Artist
+Chapter
+Date
+
+enum Type : Enum<Shelf.Lists.Type>
+
+Represents the type of the list.
+Type.Linear items displayed in a horizontally.
+Type.Grid items displayed in a grid layout, vertically. limited to 8 items.
+Members
+
+Entries
+
+Entries
+Linear
+
+Linear
+
+DownloadContext
+EchoMediaItem
+
+(source)
+
+Grid
+
+Grid
+
+ExtensionType
+Feed
+ImageHolder
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.helpers / ContinuationCallback / Companion
+
+dev.brahmkshatriya.echo.
+common
+dev.brahmkshatriya.echo.
+
+Companion
+
+common.clients
+dev.brahmkshatriya.echo.
+
+object Companion
+
+(source)
+
+common.helpers
+ClientException
+ContinuationCallback
+Companion
+Injectable
+
+Members
+
+Functions
+await
+
+inline suspend fun Call.await(): Response
+
+Page
+
+Suspends the current coroutine, performs the network call and resumes the coroutine with the response
+
+PagedData
+WebViewClient
+WebViewRequest
+dev.brahmkshatriya.echo.
+common.models
+dev.brahmkshatriya.echo.
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.helpers / WebViewClient
+
+dev.brahmkshatriya.echo.
+common
+dev.brahmkshatriya.echo.
+
+WebViewClient
+
+common.clients
+dev.brahmkshatriya.echo.
+
+interface WebViewClient
+
+(source)
+
+common.helpers
+ClientException
+ContinuationCallback
+Injectable
+Page
+
+Members
+
+Functions
+await
+
+abstract suspend fun await(
+showWebView: Boolean,
+
+PagedData
+
+reason: String,
+
+WebViewClient
+
+request: WebViewRequest<String>
+): Result<String?>
+
+WebViewRequest
+dev.brahmkshatriya.echo.
+common.models
+made by @brahmkshatriya
+
+Generated by dokka
+
+common 1.0
+common
+
+JVM
+
+common / dev.brahmkshatriya.echo.common.helpers / PagedData / Companion
+
+dev.brahmkshatriya.echo.
+common
+dev.brahmkshatriya.echo.
+
+Companion
+
+common.clients
+dev.brahmkshatriya.echo.
+
+object Companion
+
+(source)
+
+common.helpers
+ClientException
+ContinuationCallback
+Injectable
+Page
+
+Members
+
+Functions
+empty
+
+fun <T : Any> empty(): PagedData.Single<T>
+
+PagedData
+Companion
+Concat
+Continuous
+Single
+Suspend
+WebViewClient
+
+made by @brahmkshatriya
+
+Generated by dokka
+
+

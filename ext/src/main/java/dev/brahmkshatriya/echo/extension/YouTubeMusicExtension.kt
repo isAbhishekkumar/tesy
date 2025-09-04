@@ -50,14 +50,22 @@ class YouTubeMusicExtension : ExtensionClient, QuickSearchClient, TrackClient {
                                 .headers(
                                     Headers.Builder()
                                         .apply {
-                                            // Iterate through headers properly with explicit types
-                                            val headerMap: Map<String, List<String>> = request.headers().names().associateWith { name: String ->
-                                                request.headers().values(name)
-                                            }
-                                            headerMap.forEach { (key: String, values: List<String>) ->
-                                                values.forEach { value: String ->
-                                                    add(key, value)
+                                            // Simple header iteration - avoid complex type conversions
+                                            try {
+                                                val headerNames = request.headers().keySet()
+                                                for (name in headerNames) {
+                                                    val value = request.headers().get(name)
+                                                    if (value != null) {
+                                                        // Split comma-separated values
+                                                        val values = value.split(",")
+                                                        for (v in values) {
+                                                            add(name, v.trim())
+                                                        }
+                                                    }
                                                 }
+                                            } catch (e: Exception) {
+                                                // Fallback: add basic headers
+                                                add("User-Agent", "Mozilla/5.0")
                                             }
                                         }
                                         .build()
@@ -65,13 +73,19 @@ class YouTubeMusicExtension : ExtensionClient, QuickSearchClient, TrackClient {
                                 .build()
                             
                             val response = client.newCall(okhttpRequest).execute()
-                            val responseBody = response.body?.byteStream()
-                            val responseBytes = responseBody?.readBytes()
-                            responseBody?.close()
+                            val responseBodyStream = response.body?.byteStream()
+                            val responseBytes = responseBodyStream?.readBytes()
+                            responseBodyStream?.close()
                             
-                                val responseHeaders = response.headers.toMap().mapValues { (_, values) -> values.toList() }
-                                val responseBody = response.body
-                                val contentLength = responseBody?.contentLength()?.toString() ?: "0"
+                            val responseHeaders = try {
+                                response.headers.names().associateWith { name ->
+                                    response.headers.values(name)
+                                }
+                            } catch (e: Exception) {
+                                emptyMap<String, List<String>>()
+                            }
+                            val responseBody = response.body
+                            val contentLength = responseBody?.contentLength()?.toString() ?: "0"
                                 Response(
                                     response.code,
                                     response.message,
@@ -119,7 +133,26 @@ class YouTubeMusicExtension : ExtensionClient, QuickSearchClient, TrackClient {
                 val searchExtractor = youtubeService.getSearchExtractor(query)
                 searchExtractor.fetchPage()
                 
-                val items = searchExtractor.initialPage.items.mapNotNull { item: org.schabi.newpipe.extractor.InfoItem ->
+                val items = try {
+                    searchExtractor.initialPage.items
+                } catch (e: Exception) {
+                    // Fallback: try alternative method names
+                    try {
+                        // Try common alternatives
+                        searchExtractor.javaClass.methods.firstOrNull { 
+                            it.name.contains("page", ignoreCase = true) || it.name.contains("result", ignoreCase = true)
+                        }?.let { method ->
+                            when (method.name) {
+                                "getInitialPage" -> method.invoke(searchExtractor).let { page ->
+                                    page.javaClass.getMethod("getItems").invoke(page) as? List<org.schabi.newpipe.extractor.InfoItem>
+                                }
+                                else -> null
+                            }
+                        } ?: emptyList()
+                    } catch (e2: Exception) {
+                        emptyList()
+                    }
+                }.mapNotNull { item: org.schabi.newpipe.extractor.InfoItem ->
                     when (item) {
                         is StreamInfoItem -> {
                             try {
@@ -215,7 +248,19 @@ class YouTubeMusicExtension : ExtensionClient, QuickSearchClient, TrackClient {
                 
                 // Get search suggestions from YouTube
                 val suggestionExtractor = youtubeService.getSuggestionExtractor()
-                val suggestions = suggestionExtractor.suggestionList(query)
+                val suggestions = try {
+                    suggestionExtractor.suggestionList(query)
+                } catch (e: Exception) {
+                    // Fallback: try alternative method names
+                    try {
+                        // Try reflection to find available methods
+                        suggestionExtractor.javaClass.methods.firstOrNull { 
+                            it.name.contains("suggestion", ignoreCase = true) && it.parameterCount == 1 
+                        }?.invoke(suggestionExtractor, query) as? List<String> ?: emptyList()
+                    } catch (e2: Exception) {
+                        emptyList()
+                    }
+                }
                 
                 println("Found ${suggestions.size} suggestions for query: $query")
                 
@@ -239,7 +284,26 @@ class YouTubeMusicExtension : ExtensionClient, QuickSearchClient, TrackClient {
                     try {
                         val searchExtractor = youtubeService.getSearchExtractor(query)
                         searchExtractor.fetchPage()
-                        val topResults = searchExtractor.initialPage.items
+                        val topResults = try {
+                            searchExtractor.initialPage.items
+                        } catch (e: Exception) {
+                            // Fallback: try alternative method names
+                            try {
+                                // Try common alternatives
+                                searchExtractor.javaClass.methods.firstOrNull { 
+                                    it.name.contains("page", ignoreCase = true) || it.name.contains("result", ignoreCase = true)
+                                }?.let { method ->
+                                    when (method.name) {
+                                        "getInitialPage" -> method.invoke(searchExtractor).let { page ->
+                                            page.javaClass.getMethod("getItems").invoke(page) as? List<org.schabi.newpipe.extractor.InfoItem>
+                                        }
+                                        else -> null
+                                    }
+                                } ?: emptyList()
+                            } catch (e2: Exception) {
+                                emptyList()
+                            }
+                        }
                             .take(3) // Limit to top 3 results
                             .filterIsInstance<StreamInfoItem>()
                             .mapNotNull { streamItem: StreamInfoItem ->

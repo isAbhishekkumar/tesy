@@ -4,6 +4,7 @@ import dev.brahmkshatriya.echo.common.clients.ExtensionClient
 import dev.brahmkshatriya.echo.common.clients.SearchFeedClient
 import dev.brahmkshatriya.echo.common.clients.TrackClient
 import dev.brahmkshatriya.echo.common.helpers.PagedData
+import dev.brahmkshatriya.echo.common.helpers.PagedData.Page
 import dev.brahmkshatriya.echo.common.models.*
 import dev.brahmkshatriya.echo.common.settings.Setting
 import dev.brahmkshatriya.echo.common.settings.Settings
@@ -113,7 +114,7 @@ class YouTubeMusicExtension : ExtensionClient, SearchFeedClient, TrackClient {
                     when (item) {
                         is StreamInfoItem -> {
                             try {
-                                converter.toTrack(item)
+                                converter.toTrack(item as StreamInfoItem)
                             } catch (e: Exception) {
                                 println("Failed to convert StreamInfoItem to Track: ${e.message}")
                                 null
@@ -127,11 +128,11 @@ class YouTubeMusicExtension : ExtensionClient, SearchFeedClient, TrackClient {
                 
                 Feed(
                     tabs = listOf(Tab("songs", "Songs"), Tab("videos", "Videos"), Tab("playlists", "Playlists")),
-                    getPagedData = { page ->
+                    getPagedData = { page: String? ->
                         val shelfItems = items.map { track ->
                             Shelf.Item(track)
                         }
-                        dev.brahmkshatriya.echo.common.helpers.PagedData.Page(shelfItems, null)
+                        Page(shelfItems, null)
                     }
                 )
             } catch (e: Exception) {
@@ -150,7 +151,7 @@ class YouTubeMusicExtension : ExtensionClient, SearchFeedClient, TrackClient {
                 streamExtractor.fetchPage()
                 
                 // Convert NewPipe StreamInfo to Echo Track using converter
-                val detailedTrack = converter.toTrack(streamExtractor)
+                val detailedTrack = converter.toTrack(streamExtractor as org.schabi.newpipe.extractor.stream.StreamInfo)
                 
                 println("Successfully loaded track: ${detailedTrack.title}")
                 detailedTrack

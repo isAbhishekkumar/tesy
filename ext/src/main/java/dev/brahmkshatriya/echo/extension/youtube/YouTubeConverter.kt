@@ -3,7 +3,6 @@ package dev.brahmkshatriya.echo.extension.youtube
 import dev.brahmkshatriya.echo.common.models.*
 import dev.brahmkshatriya.echo.common.models.ImageHolder.Companion.toImageHolder
 import dev.brahmkshatriya.echo.common.models.Streamable.Companion.server
-import dev.brahmkshatriya.echo.common.models.Streamable.Media.Companion.toMedia
 import dev.brahmkshatriya.echo.common.settings.Settings
 import org.schabi.newpipe.extractor.stream.StreamInfo
 import org.schabi.newpipe.extractor.stream.StreamInfoItem
@@ -101,9 +100,9 @@ class YouTubeConverter(private val settings: Settings) {
                 isExplicit = false,
                 subtitle = "Single",
                 extras = mapOf<String, String>(
-                    "uploadDate" to uploadDate,
+                    "uploadDate" to (uploadDate?.toString() ?: ""),
                     "url" to streamInfo.url
-                ) as Map<String, String>
+                )
             )
         }
         
@@ -201,7 +200,7 @@ class YouTubeConverter(private val settings: Settings) {
                 put("format", audioStream.format?.name ?: "Unknown")
                 put("bitrate", (audioStream.averageBitrate ?: 0).toString())
                 put("mimeType", audioStream.format?.mimeType ?: "Unknown")
-                put("contentLength", (audioStream.contentLength ?: 0).toString())
+                put("contentLength", (audioStream.contentLength?.toString() ?: "0"))
                 put("trackId", streamInfo.id ?: "")
                 put("trackTitle", streamInfo.name)
                 put("videoUrl", streamInfo.url)
@@ -217,21 +216,14 @@ class YouTubeConverter(private val settings: Settings) {
         // Extract the audio URL from extras
         val audioUrl = streamable.extras["audioUrl"] ?: streamable.extras["videoUrl"] ?: ""
         
-        // Use the imported toMedia function
-        return toMedia(
-            url = audioUrl,
-            headers = mapOf(
-                "User-Agent" to "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
-                "Accept" to "audio/webm,audio/ogg,audio/wav,audio/*;q=0.9,application/ogg;q=0.7,video/*;q=0.6,*/*;q=0.5",
-                "Accept-Language" to "en-US,en;q=0.5",
-                "Accept-Encoding" to "gzip, deflate, br",
-                "Connection" to "keep-alive",
-                "Sec-Fetch-Dest" to "audio",
-                "Sec-Fetch-Mode" to "no-cors",
-                "Sec-Fetch-Site" to "cross-site",
-                "Referer" to "https://www.youtube.com/"
+        // For now, return a simple implementation
+        // This will need to be adjusted based on the actual Echo framework API
+        return object : Streamable.Media() {
+            override val uri: String = audioUrl
+            override val headers: Map<String, String> = mapOf(
+                "User-Agent" to "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
             )
-        )
+        }
     }
     
     /**

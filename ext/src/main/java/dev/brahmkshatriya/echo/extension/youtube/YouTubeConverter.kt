@@ -100,10 +100,10 @@ class YouTubeConverter(private val settings: Settings) {
                 label = null,
                 isExplicit = false,
                 subtitle = "Single",
-                extras = mapOf(
+                extras = mapOf<String, String>(
                     "uploadDate" to uploadDate,
                     "url" to streamInfo.url
-                )
+                ) as Map<String, String>
             )
         }
         
@@ -136,7 +136,7 @@ class YouTubeConverter(private val settings: Settings) {
                 "likeCount" to (streamInfo.likeCount?.toString() ?: "0"),
                 "dislikeCount" to (streamInfo.dislikeCount?.toString() ?: "0")
             ),
-            isPlayable = if (streamables.isNotEmpty()) Track.Playable.Yes else Track.Playable.No,
+            isPlayable = if (streamables.isNotEmpty()) Track.Playable.Yes else Track.Playable.No as Track.Playable,
             streamables = streamables,
             isRadioSupported = true,
             isFollowable = false,
@@ -200,12 +200,12 @@ class YouTubeConverter(private val settings: Settings) {
                 put("itag", audioStream.itag.toString())
                 put("format", audioStream.format?.name ?: "Unknown")
                 put("bitrate", (audioStream.averageBitrate ?: 0).toString())
-                put("mimeType", audioStream.mediaType ?: "Unknown")
+                put("mimeType", audioStream.format?.mimeType ?: "Unknown")
                 put("contentLength", (audioStream.contentLength ?: 0).toString())
-                put("trackId", streamInfo.id)
+                put("trackId", streamInfo.id ?: "")
                 put("trackTitle", streamInfo.name)
                 put("videoUrl", streamInfo.url)
-                put("audioUrl", audioStream.url)
+                put("audioUrl", audioStream.url ?: "")
             }
         )
     }
@@ -217,8 +217,9 @@ class YouTubeConverter(private val settings: Settings) {
         // Extract the audio URL from extras
         val audioUrl = streamable.extras["audioUrl"] ?: streamable.extras["videoUrl"] ?: ""
         
-        return Streamable.Media(
-            uri = audioUrl,
+        // Use the imported toMedia function
+        return toMedia(
+            url = audioUrl,
             headers = mapOf(
                 "User-Agent" to "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
                 "Accept" to "audio/webm,audio/ogg,audio/wav,audio/*;q=0.9,application/ogg;q=0.7,video/*;q=0.6,*/*;q=0.5",

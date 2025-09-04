@@ -3,10 +3,12 @@ echoCommon = "1.0"
 kotlin = "2.2.10"
 agp = "8.12.1"
 gradleShadow = "9.0.2"
+newpipeExtractor = "0.24.8"
 
 [libraries]
 echo-common = { module = "dev.brahmkshatriya.echo:common", version.ref = "echoCommon" }
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
+newpipe-extractor = { module = "com.github.teamnewpipe:NewPipeExtractor", version.ref = "newpipeExtractor" }
 junit = { module = "junit:junit", version = "4.13.2" }
 coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version = "1.10.2" }
 

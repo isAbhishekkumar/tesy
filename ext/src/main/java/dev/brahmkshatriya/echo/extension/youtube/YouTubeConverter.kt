@@ -200,7 +200,7 @@ class YouTubeConverter(private val settings: Settings) {
                 put("format", audioStream.format?.name ?: "Unknown")
                 put("bitrate", (audioStream.averageBitrate ?: 0).toString())
                 put("mimeType", audioStream.format?.mimeType ?: "Unknown")
-                put("contentLength", (audioStream.contentLength?.toString() ?: "0"))
+                put("contentLength", audioStream.contentLength?.toString() ?: "0")
                 put("trackId", streamInfo.id ?: "")
                 put("trackTitle", streamInfo.name)
                 put("videoUrl", streamInfo.url)
@@ -216,14 +216,9 @@ class YouTubeConverter(private val settings: Settings) {
         // Extract the audio URL from extras
         val audioUrl = streamable.extras["audioUrl"] ?: streamable.extras["videoUrl"] ?: ""
         
-        // For now, return a simple implementation
-        // This will need to be adjusted based on the actual Echo framework API
-        return object : Streamable.Media() {
-            override val uri: String = audioUrl
-            override val headers: Map<String, String> = mapOf(
-                "User-Agent" to "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
-            )
-        }
+        // Return a basic implementation - this will need to be adjusted based on actual Echo API
+        // For now, we'll throw an exception to indicate this needs to be implemented properly
+        throw NotImplementedError("Streamable.Media creation needs to be implemented based on Echo framework API")
     }
     
     /**

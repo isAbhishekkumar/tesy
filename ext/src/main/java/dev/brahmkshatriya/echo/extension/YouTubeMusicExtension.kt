@@ -4,7 +4,6 @@ import dev.brahmkshatriya.echo.common.clients.ExtensionClient
 import dev.brahmkshatriya.echo.common.clients.SearchFeedClient
 import dev.brahmkshatriya.echo.common.clients.TrackClient
 import dev.brahmkshatriya.echo.common.helpers.PagedData
-import dev.brahmkshatriya.echo.common.helpers.PagedData.Page
 import dev.brahmkshatriya.echo.common.models.*
 import dev.brahmkshatriya.echo.common.settings.Setting
 import dev.brahmkshatriya.echo.common.settings.Settings
@@ -48,8 +47,10 @@ class YouTubeMusicExtension : ExtensionClient, SearchFeedClient, TrackClient {
                                 .headers(
                                     okhttp3.Headers.Builder()
                                         .apply {
-                                            request.headers().names.forEach { name ->
-                                                request.headers().values(name).forEach { value ->
+                                            val headerNames = request.headers().names()
+                                            for (name: String in headerNames) {
+                                                val valuesList = request.headers().values(name)
+                                                for (value: String in valuesList) {
                                                     add(name, value)
                                                 }
                                             }
@@ -68,7 +69,7 @@ class YouTubeMusicExtension : ExtensionClient, SearchFeedClient, TrackClient {
                                 response.message,
                                 response.headers.toMultimap(),
                                 response.body?.string(),
-                                response.body?.contentLength()
+                                response.body?.contentLength()?.toString()
                             )
                         } catch (e: Exception) {
                             throw IOException("Failed to execute request", e)
@@ -110,7 +111,7 @@ class YouTubeMusicExtension : ExtensionClient, SearchFeedClient, TrackClient {
                 val searchExtractor = youtubeService.getSearchExtractor(query)
                 searchExtractor.fetchPage()
                 
-                val items = searchExtractor.initialSearchResult.items.mapNotNull { item ->
+                val items = searchExtractor.searchResult.items.mapNotNull { item: org.schabi.newpipe.extractor.InfoItem ->
                     when (item) {
                         is StreamInfoItem -> {
                             try {
@@ -128,11 +129,15 @@ class YouTubeMusicExtension : ExtensionClient, SearchFeedClient, TrackClient {
                 
                 Feed(
                     tabs = listOf(Tab("songs", "Songs"), Tab("videos", "Videos"), Tab("playlists", "Playlists")),
-                    getPagedData = { page: String? ->
-                        val shelfItems = items.map { track ->
+                    getPagedData = { tab: Tab? ->
+                        val shelfItems = items.map { track: Track ->
                             Shelf.Item(track)
                         }
-                        Page(shelfItems, null)
+                        object : PagedData<Shelf> {
+                            override suspend fun loadPage(page: String?): PagedData.Page<Shelf> {
+                                return PagedData.Page(shelfItems, null)
+                            }
+                        }
                     }
                 )
             } catch (e: Exception) {

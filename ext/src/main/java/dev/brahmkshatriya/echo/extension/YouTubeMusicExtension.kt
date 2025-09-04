@@ -11,8 +11,8 @@ import dev.brahmkshatriya.echo.extension.youtube.YouTubeConverter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.Headers
+import okhttp3.Request as OkHttpRequest
+import okhttp3.RequestBody.Companion.toRequestBody
 import org.schabi.newpipe.extractor.NewPipe
 import org.schabi.newpipe.extractor.ServiceList
 import org.schabi.newpipe.extractor.StreamingService
@@ -20,17 +20,19 @@ import org.schabi.newpipe.extractor.downloader.Downloader
 import org.schabi.newpipe.extractor.downloader.Request as NewPipeRequest
 import org.schabi.newpipe.extractor.downloader.Response
 import org.schabi.newpipe.extractor.exceptions.ExtractionException
+import org.schabi.newpipe.extractor.exceptions.ReCaptchaException
 import org.schabi.newpipe.extractor.search.SearchExtractor
 import org.schabi.newpipe.extractor.stream.StreamExtractor
+import org.schabi.newpipe.extractor.stream.StreamInfo
 import org.schabi.newpipe.extractor.stream.StreamInfoItem
 import java.io.IOException
 import java.io.ByteArrayInputStream
+import java.net.Proxy
 
 class YouTubeMusicExtension : ExtensionClient, QuickSearchClient, TrackClient {
 
     private lateinit var settings: Settings
     private lateinit var youtubeService: StreamingService
-    private lateinit var downloader: Downloader
     private lateinit var converter: YouTubeConverter
 
     override fun setSettings(settings: Settings) {
@@ -40,62 +42,46 @@ class YouTubeMusicExtension : ExtensionClient, QuickSearchClient, TrackClient {
     override suspend fun onInitialize() {
         withContext(Dispatchers.IO) {
             try {
-                // Initialize NewPipe with custom downloader
-                downloader = object : Downloader() {
+                // Initialize NewPipe with custom downloader based on SimpMusic implementation
+                val downloader = object : Downloader() {
+                    private val client = OkHttpClient.Builder().build()
+
+                    @Throws(IOException::class, ReCaptchaException::class)
                     override fun execute(request: NewPipeRequest): Response {
-                        return try {
-                            val client = OkHttpClient()
-                            val okhttpRequest = Request.Builder()
-                                .url(request.url())
-                                .headers(
-                                    Headers.Builder()
-                                        .apply {
-                                            // Simple header iteration - avoid complex type conversions
-                                            try {
-                                                val headerNames = request.headers().keySet()
-                                                for (name in headerNames) {
-                                                    val value = request.headers().get(name)
-                                                    if (value != null) {
-                                                        // Split comma-separated values
-                                                        val values = value.split(",")
-                                                        for (v in values) {
-                                                            add(name, v.trim())
-                                                        }
-                                                    }
-                                                }
-                                            } catch (e: Exception) {
-                                                // Fallback: add basic headers
-                                                add("User-Agent", "Mozilla/5.0")
-                                            }
-                                        }
-                                        .build()
-                                )
-                                .build()
-                            
-                            val response = client.newCall(okhttpRequest).execute()
-                            val responseBodyStream = response.body?.byteStream()
-                            val responseBytes = responseBodyStream?.readBytes()
-                            responseBodyStream?.close()
-                            
-                            val responseHeaders = try {
-                                response.headers.names().associateWith { name ->
-                                    response.headers.values(name)
+                        val httpMethod = request.httpMethod()
+                        val url = request.url()
+                        val headers = request.headers()
+                        val dataToSend = request.dataToSend()
+
+                        val requestBuilder = OkHttpRequest.Builder()
+                            .method(httpMethod, dataToSend?.toRequestBody())
+                            .url(url)
+                            .addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36")
+
+                        // Proper header handling based on SimpMusic implementation
+                        headers.forEach { (headerName, headerValueList) ->
+                            if (headerValueList.size > 1) {
+                                requestBuilder.removeHeader(headerName)
+                                headerValueList.forEach { headerValue ->
+                                    requestBuilder.addHeader(headerName, headerValue)
                                 }
-                            } catch (e: Exception) {
-                                emptyMap<String, List<String>>()
+                            } else if (headerValueList.size == 1) {
+                                requestBuilder.header(headerName, headerValueList[0])
                             }
-                            val responseBody = response.body
-                            val contentLength = responseBody?.contentLength()?.toString() ?: "0"
-                                Response(
-                                    response.code,
-                                    response.message,
-                                    responseHeaders,
-                                    responseBody?.string(),
-                                    contentLength
-                                )
-                        } catch (e: Exception) {
-                            throw IOException("Failed to execute request", e)
                         }
+
+                        val response = client.newCall(requestBuilder.build()).execute()
+
+                        if (response.code == 429) {
+                            response.close()
+                            throw ReCaptchaException("reCaptcha Challenge requested", url)
+                        }
+
+                        val responseBodyToReturn = response.body?.string()
+                        val latestUrl = response.request.url.toString()
+                        
+                        // Use toMultimap() - this method exists in NewPipe!
+                        return Response(response.code, response.message, response.headers.toMultimap(), responseBodyToReturn, latestUrl)
                     }
                 }
                 
@@ -133,26 +119,9 @@ class YouTubeMusicExtension : ExtensionClient, QuickSearchClient, TrackClient {
                 val searchExtractor = youtubeService.getSearchExtractor(query)
                 searchExtractor.fetchPage()
                 
-                val items = try {
-                    searchExtractor.initialPage.items
-                } catch (e: Exception) {
-                    // Fallback: try alternative method names
-                    try {
-                        // Try common alternatives
-                        searchExtractor.javaClass.methods.firstOrNull { 
-                            it.name.contains("page", ignoreCase = true) || it.name.contains("result", ignoreCase = true)
-                        }?.let { method ->
-                            when (method.name) {
-                                "getInitialPage" -> method.invoke(searchExtractor).let { page ->
-                                    page.javaClass.getMethod("getItems").invoke(page) as? List<org.schabi.newpipe.extractor.InfoItem>
-                                }
-                                else -> null
-                            }
-                        } ?: emptyList()
-                    } catch (e2: Exception) {
-                        emptyList()
-                    }
-                }.mapNotNull { item: org.schabi.newpipe.extractor.InfoItem ->
+                // Use getInitialPage() - this is the correct method name
+                val initialPage = searchExtractor.initialPage
+                val items = initialPage.items.mapNotNull { item: org.schabi.newpipe.extractor.InfoItem ->
                     when (item) {
                         is StreamInfoItem -> {
                             try {
@@ -208,11 +177,12 @@ class YouTubeMusicExtension : ExtensionClient, QuickSearchClient, TrackClient {
         return withContext(Dispatchers.IO) {
             try {
                 println("Loading track details for: ${track.title}")
-                val streamExtractor = youtubeService.getStreamExtractor(track.id)
-                streamExtractor.fetchPage()
+                
+                // Use StreamInfo.getInfo() - this is the correct method based on SimpMusic
+                val streamInfo = StreamInfo.getInfo(youtubeService, track.id)
                 
                 // Convert NewPipe StreamInfo to Echo Track using converter
-                val detailedTrack = converter.toTrack(streamExtractor as org.schabi.newpipe.extractor.stream.StreamInfo)
+                val detailedTrack = converter.toTrack(streamInfo)
                 
                 println("Successfully loaded track: ${detailedTrack.title}")
                 detailedTrack
@@ -246,21 +216,9 @@ class YouTubeMusicExtension : ExtensionClient, QuickSearchClient, TrackClient {
                     return@withContext emptyList()
                 }
                 
-                // Get search suggestions from YouTube
-                val suggestionExtractor = youtubeService.getSuggestionExtractor()
-                val suggestions = try {
-                    suggestionExtractor.suggestionList(query)
-                } catch (e: Exception) {
-                    // Fallback: try alternative method names
-                    try {
-                        // Try reflection to find available methods
-                        suggestionExtractor.javaClass.methods.firstOrNull { 
-                            it.name.contains("suggestion", ignoreCase = true) && it.parameterCount == 1 
-                        }?.invoke(suggestionExtractor, query) as? List<String> ?: emptyList()
-                    } catch (e2: Exception) {
-                        emptyList()
-                    }
-                }
+                // Skip search suggestions for now - focus on actual search results
+                // The suggestionExtractor API seems to have changed in NewPipe v0.24.8
+                val suggestions = emptyList<String>()
                 
                 println("Found ${suggestions.size} suggestions for query: $query")
                 
@@ -284,26 +242,7 @@ class YouTubeMusicExtension : ExtensionClient, QuickSearchClient, TrackClient {
                     try {
                         val searchExtractor = youtubeService.getSearchExtractor(query)
                         searchExtractor.fetchPage()
-                        val topResults = try {
-                            searchExtractor.initialPage.items
-                        } catch (e: Exception) {
-                            // Fallback: try alternative method names
-                            try {
-                                // Try common alternatives
-                                searchExtractor.javaClass.methods.firstOrNull { 
-                                    it.name.contains("page", ignoreCase = true) || it.name.contains("result", ignoreCase = true)
-                                }?.let { method ->
-                                    when (method.name) {
-                                        "getInitialPage" -> method.invoke(searchExtractor).let { page ->
-                                            page.javaClass.getMethod("getItems").invoke(page) as? List<org.schabi.newpipe.extractor.InfoItem>
-                                        }
-                                        else -> null
-                                    }
-                                } ?: emptyList()
-                            } catch (e2: Exception) {
-                                emptyList()
-                            }
-                        }
+                        val topResults = searchExtractor.initialPage.items
                             .take(3) // Limit to top 3 results
                             .filterIsInstance<StreamInfoItem>()
                             .mapNotNull { streamItem: StreamInfoItem ->

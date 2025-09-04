@@ -208,6 +208,7 @@ class YouTubeConverter(private val settings: Settings) {
     
     /**
      * Convert NewPipe AudioStream to Echo Streamable using proper framework pattern
+     * Based on SimpMusic implementation
      */
     private fun toStreamable(audioStream: AudioStream, streamInfo: StreamInfo): Streamable {
         return server(
@@ -219,7 +220,8 @@ class YouTubeConverter(private val settings: Settings) {
                 put("format", audioStream.format?.name ?: "Unknown")
                 put("bitrate", (audioStream.averageBitrate ?: 0).toString())
                 put("mimeType", audioStream.format?.mimeType ?: "Unknown")
-                put("contentLength", "0") // Content length not available in current API
+                // Use the correct property names based on NewPipe API
+                put("contentLength", audioStream.contentLength.toString())
                 put("trackId", streamInfo.id ?: "")
                 put("trackTitle", streamInfo.name)
                 put("videoUrl", streamInfo.url)

@@ -7,8 +7,13 @@ import dev.brahmkshatriya.echo.common.settings.Settings
 import org.schabi.newpipe.extractor.stream.StreamInfo
 import org.schabi.newpipe.extractor.stream.StreamInfoItem
 import org.schabi.newpipe.extractor.stream.AudioStream
+import android.util.Log
 
 class YouTubeConverter(private val settings: Settings) {
+    
+    companion object {
+        private const val TAG = "YouTubeConverter"
+    }
     
     /**
      * Convert NewPipe StreamInfoItem to Echo Track
@@ -251,50 +256,52 @@ class YouTubeConverter(private val settings: Settings) {
      * Convert Echo Streamable to Echo Streamable.Media for playback using proper framework pattern
      */
     fun toStreamableMedia(streamable: Streamable): Streamable.Media {
-        // Extract the audio URL from extras
-        var audioUrl = streamable.extras["audioUrl"] ?: streamable.extras["videoUrl"] ?: ""
-        
-        // If we don't have a direct audio URL, try to extract it from the video URL
-        if (audioUrl.isNotEmpty() && !audioUrl.endsWith(".mp3") && !audioUrl.endsWith(".webm") && !audioUrl.endsWith(".m4a")) {
-            // This might be a video URL, we might need to process it differently
-            // For now, we'll use it as-is and let the player handle it
-            println("Using video URL for audio playback: $audioUrl")
-        }
-        
-        if (audioUrl.isEmpty()) {
-            throw IllegalArgumentException("No audio URL found in streamable extras. Available keys: ${streamable.extras.keys}")
-        }
-        
-        // Create a NetworkRequest for the audio URL
-        val networkRequest = NetworkRequest(
-            url = audioUrl,
-            headers = mapOf(
-                "User-Agent" to "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
-                "Accept" to "audio/webm,audio/ogg,audio/wav,audio/*;q=0.9,application/ogg;q=0.7,video/*;q=0.6,*/*;q=0.5",
-                "Accept-Language" to "en-US,en;q=0.9",
-                "Accept-Encoding" to "gzip, deflate, br",
-                "Connection" to "keep-alive",
-                "Sec-Fetch-Dest" to "audio",
-                "Sec-Fetch-Mode" to "cors",
-                "Sec-Fetch-Site" to "cross-site"
+        try {
+            // Extract the audio URL from extras
+            var audioUrl = streamable.extras["audioUrl"] ?: streamable.extras["videoUrl"] ?: ""
+            
+            if (audioUrl.isEmpty()) {
+                Log.e(TAG, "No audio URL found in streamable extras. Available keys: ${streamable.extras.keys}")
+                throw IllegalArgumentException("No audio URL found in streamable extras")
+            }
+            
+            Log.d(TAG, "Using audio URL: $audioUrl")
+            
+            // Create a NetworkRequest for the audio URL
+            val networkRequest = NetworkRequest(
+                url = audioUrl,
+                headers = mapOf(
+                    "User-Agent" to "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+                    "Accept" to "audio/webm,audio/ogg,audio/wav,audio/*;q=0.9,application/ogg;q=0.7,video/*;q=0.6,*/*;q=0.5",
+                    "Accept-Language" to "en-US,en;q=0.9",
+                    "Accept-Encoding" to "gzip, deflate, br",
+                    "Connection" to "keep-alive",
+                    "Sec-Fetch-Dest" to "audio",
+                    "Sec-Fetch-Mode" to "cors",
+                    "Sec-Fetch-Site" to "cross-site",
+                    "Range" to "bytes=0-"
+                )
             )
-        )
-        
-        // Create an HTTP source for the audio stream
-        val httpSource = Streamable.Source.Http(
-            request = networkRequest,
-            type = Streamable.SourceType.Progressive,
-            quality = streamable.quality,
-            title = streamable.title ?: "YouTube Audio Stream (${streamable.quality} kbps)",
-            isVideo = false,
-            isLive = false
-        )
-        
-        // Return a Server media with the source
-        return Streamable.Media.Server(
-            sources = listOf(httpSource),
-            merged = false // Don't merge sources, allow user to switch between qualities
-        )
+            
+            // Create an HTTP source for the audio stream
+            val httpSource = Streamable.Source.Http(
+                request = networkRequest,
+                type = Streamable.SourceType.Progressive,
+                quality = streamable.quality,
+                title = streamable.title ?: "YouTube Audio Stream (${streamable.quality} kbps)",
+                isVideo = false,
+                isLive = false
+            )
+            
+            // Return a Server media with the source
+            return Streamable.Media.Server(
+                sources = listOf(httpSource),
+                merged = false // Don't merge sources, allow user to switch between qualities
+            )
+        } catch (e: Exception) {
+            Log.e(TAG, "Failed to create streamable media", e)
+            throw RuntimeException("Failed to create streamable media: ${e.message}", e)
+        }
     }
     
     /**

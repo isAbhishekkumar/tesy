@@ -3,20 +3,22 @@ package dev.brahmkshatriya.echo.extension
 import dev.brahmkshatriya.echo.common.clients.ExtensionClient
 import dev.brahmkshatriya.echo.common.clients.QuickSearchClient
 import dev.brahmkshatriya.echo.common.clients.TrackClient
+import dev.brahmkshatriya.echo.common.clients.SearchFeedClient
 import dev.brahmkshatriya.echo.common.helpers.PagedData
 import dev.brahmkshatriya.echo.common.models.*
 import dev.brahmkshatriya.echo.common.settings.Setting
 import dev.brahmkshatriya.echo.common.settings.Settings
 import dev.brahmkshatriya.echo.extension.youtube.YouTubeConverter
+import dev.brahmkshatriya.echo.extension.youtube.YouTubeDownloaderImpl
+import dev.brahmkshatriya.echo.extension.youtube.YouTubeUtils
+import dev.brahmkshatriya.echo.extension.youtube.CompatibilityUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import okhttp3.OkHttpClient
 import okhttp3.Request as OkHttpRequest
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.schabi.newpipe.extractor.NewPipe
 import org.schabi.newpipe.extractor.ServiceList
 import org.schabi.newpipe.extractor.StreamingService
-import org.schabi.newpipe.extractor.downloader.Downloader
 import org.schabi.newpipe.extractor.downloader.Request as NewPipeRequest
 import org.schabi.newpipe.extractor.downloader.Response
 import org.schabi.newpipe.extractor.exceptions.ExtractionException
@@ -29,11 +31,13 @@ import java.io.IOException
 import java.io.ByteArrayInputStream
 import java.net.Proxy
 
-class YouTubeMusicExtension : ExtensionClient, QuickSearchClient, TrackClient {
+class YouTubeMusicExtension : ExtensionClient, QuickSearchClient, TrackClient, SearchFeedClient {
 
     private lateinit var settings: Settings
     private lateinit var youtubeService: StreamingService
     private lateinit var converter: YouTubeConverter
+    private lateinit var youTubeUtils: YouTubeUtils
+    private lateinit var downloader: YouTubeDownloaderImpl
 
     override fun setSettings(settings: Settings) {
         this.settings = settings
@@ -42,48 +46,8 @@ class YouTubeMusicExtension : ExtensionClient, QuickSearchClient, TrackClient {
     override suspend fun onInitialize() {
         withContext(Dispatchers.IO) {
             try {
-                // Initialize NewPipe with custom downloader based on SimpMusic implementation
-                val downloader = object : Downloader() {
-                    private val client = OkHttpClient.Builder().build()
-
-                    @Throws(IOException::class, ReCaptchaException::class)
-                    override fun execute(request: NewPipeRequest): Response {
-                        val httpMethod = request.httpMethod()
-                        val url = request.url()
-                        val headers = request.headers()
-                        val dataToSend = request.dataToSend()
-
-                        val requestBuilder = OkHttpRequest.Builder()
-                            .method(httpMethod, dataToSend?.toRequestBody())
-                            .url(url)
-                            .addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36")
-
-                        // Proper header handling based on SimpMusic implementation
-                        headers.forEach { (headerName, headerValueList) ->
-                            if (headerValueList.size > 1) {
-                                requestBuilder.removeHeader(headerName)
-                                headerValueList.forEach { headerValue ->
-                                    requestBuilder.addHeader(headerName, headerValue)
-                                }
-                            } else if (headerValueList.size == 1) {
-                                requestBuilder.header(headerName, headerValueList[0])
-                            }
-                        }
-
-                        val response = client.newCall(requestBuilder.build()).execute()
-
-                        if (response.code == 429) {
-                            response.close()
-                            throw ReCaptchaException("reCaptcha Challenge requested", url)
-                        }
-
-                        val responseBodyToReturn = response.body?.string()
-                        val latestUrl = response.request.url.toString()
-                        
-                        // Use toMultimap() - this method exists in NewPipe!
-                        return Response(response.code, response.message, response.headers.toMultimap(), responseBodyToReturn, latestUrl)
-                    }
-                }
+                // Initialize downloader using SimpMusic approach
+                downloader = YouTubeDownloaderImpl(cookie = null, proxy = null)
                 
                 // Initialize NewPipe with our downloader
                 NewPipe.init(downloader)
@@ -91,12 +55,16 @@ class YouTubeMusicExtension : ExtensionClient, QuickSearchClient, TrackClient {
                 // Get YouTube service
                 youtubeService = ServiceList.YouTube
                 
+                // Initialize utility classes
+                youTubeUtils = YouTubeUtils(downloader)
+                
                 // Initialize converter
                 converter = YouTubeConverter(settings)
                 
                 println("YouTubeMusicExtension initialized successfully")
             } catch (e: Exception) {
                 println("Failed to initialize YouTubeMusicExtension: ${e.message}")
+                e.printStackTrace()
                 throw e
             }
         }
@@ -116,7 +84,13 @@ class YouTubeMusicExtension : ExtensionClient, QuickSearchClient, TrackClient {
         return withContext(Dispatchers.IO) {
             try {
                 println("Searching YouTube for: $query")
-                val searchExtractor = youtubeService.getSearchExtractor(query)
+                
+                // Fix URLEncoder compatibility issue using compatibility utils
+                val encodedQuery = CompatibilityUtils.encodeUrlParameter(query)
+                println("Encoded query: $encodedQuery")
+                
+                // Use the encoded query with search extractor
+                val searchExtractor = youtubeService.getSearchExtractor(encodedQuery)
                 searchExtractor.fetchPage()
                 
                 // Use getInitialPage() - this is the correct method name
@@ -167,6 +141,7 @@ class YouTubeMusicExtension : ExtensionClient, QuickSearchClient, TrackClient {
                 }
             } catch (e: Exception) {
                 println("Failed to search YouTube Music: ${e.message}")
+                e.printStackTrace()
                 throw RuntimeException("Failed to search YouTube Music", e)
             }
         }
@@ -240,7 +215,8 @@ class YouTubeMusicExtension : ExtensionClient, QuickSearchClient, TrackClient {
                 // Try to get a few actual tracks for popular searches
                 if (query.length > 2) {
                     try {
-                        val searchExtractor = youtubeService.getSearchExtractor(query)
+                        val encodedQuery = CompatibilityUtils.encodeUrlParameter(query)
+                        val searchExtractor = youtubeService.getSearchExtractor(encodedQuery)
                         searchExtractor.fetchPage()
                         val topResults = searchExtractor.initialPage.items
                             .take(3) // Limit to top 3 results

@@ -10,7 +10,11 @@ dependencies {
     compileOnly(libs.echo.common)
     compileOnly(libs.kotlin.stdlib)
     implementation(libs.newpipe.extractor)
-
+    
+    // Add Android compatibility dependencies
+    compileOnly("androidx.annotation:annotation:1.8.2")
+    compileOnly("androidx.core:core:1.12.0")
+    
     testImplementation(libs.junit)
     testImplementation(libs.coroutines.test)
     testImplementation(libs.echo.common)

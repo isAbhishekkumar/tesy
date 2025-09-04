@@ -200,7 +200,7 @@ class YouTubeConverter(private val settings: Settings) {
                 put("format", audioStream.format?.name ?: "Unknown")
                 put("bitrate", (audioStream.averageBitrate ?: 0).toString())
                 put("mimeType", audioStream.format?.mimeType ?: "Unknown")
-                put("contentLength", (audioStream.contentLength?.toString() ?: "0"))
+                put("contentLength", (audioStream.contentLength ?: 0L).toString())
                 put("trackId", streamInfo.id ?: "")
                 put("trackTitle", streamInfo.name)
                 put("videoUrl", streamInfo.url)
@@ -218,7 +218,7 @@ class YouTubeConverter(private val settings: Settings) {
         
         // Return a basic implementation - this will need to be adjusted based on actual Echo API
         // For now, we'll throw an exception to indicate this needs to be implemented properly
-        throw NotImplementedError("Streamable.Media creation needs to be implemented based on Echo framework API")
+        throw UnsupportedOperationException("Streamable.Media creation needs to be implemented based on Echo framework API")
     }
     
     /**

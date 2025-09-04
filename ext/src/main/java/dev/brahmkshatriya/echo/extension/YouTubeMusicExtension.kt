@@ -4,6 +4,7 @@ import dev.brahmkshatriya.echo.common.clients.ExtensionClient
 import dev.brahmkshatriya.echo.common.clients.SearchFeedClient
 import dev.brahmkshatriya.echo.common.clients.TrackClient
 import dev.brahmkshatriya.echo.common.helpers.PagedData
+import dev.brahmkshatriya.echo.common.helpers.PagedData.Page
 import dev.brahmkshatriya.echo.common.models.*
 import dev.brahmkshatriya.echo.common.settings.Setting
 import dev.brahmkshatriya.echo.common.settings.Settings
@@ -47,10 +48,9 @@ class YouTubeMusicExtension : ExtensionClient, SearchFeedClient, TrackClient {
                                 .headers(
                                     okhttp3.Headers.Builder()
                                         .apply {
-                                            // Use entrySet() to iterate through headers
-                                            val headerEntries = request.headers().entrySet()
-                                            for (entry: Map.Entry<String, String> in headerEntries) {
-                                                add(entry.key, entry.value)
+                                            // Iterate through headers properly
+                                            for ((key, value) in request.headers()) {
+                                                add(key, value)
                                             }
                                         }
                                         .build()
@@ -109,7 +109,7 @@ class YouTubeMusicExtension : ExtensionClient, SearchFeedClient, TrackClient {
                 val searchExtractor = youtubeService.getSearchExtractor(query)
                 searchExtractor.fetchPage()
                 
-                val items = searchExtractor.initialSearchResult.items.mapNotNull { item: org.schabi.newpipe.extractor.InfoItem ->
+                val items = searchExtractor.searchResult.items.mapNotNull { item: org.schabi.newpipe.extractor.InfoItem ->
                     when (item) {
                         is StreamInfoItem -> {
                             try {
@@ -125,24 +125,26 @@ class YouTubeMusicExtension : ExtensionClient, SearchFeedClient, TrackClient {
                 
                 println("Found ${items.count()} tracks for query: $query")
                 
+                // Create a simple feed with the search results
+                val shelfItems = items.map { track: Track ->
+                    Shelf.Item(track)
+                }
+                
                 Feed(
                     tabs = listOf(Tab("songs", "Songs"), Tab("videos", "Videos"), Tab("playlists", "Playlists")),
                     getPagedData = { tab: Tab? ->
-                        val shelfItems = items.map { track: Track ->
-                            Shelf.Item(track)
-                        }
-                        // Use a simpler approach - just return the items directly
+                        // Return a simple PagedData implementation
                         object : PagedData<Shelf>() {
-                            override suspend fun loadPage(page: String?): dev.brahmkshatriya.echo.common.helpers.PagedData.Page<Shelf> {
-                                return dev.brahmkshatriya.echo.common.helpers.PagedData.Page(shelfItems, null)
+                            override suspend fun loadPage(page: String?): Page<Shelf> {
+                                return Page(shelfItems, null)
                             }
                             
                             override suspend fun loadAllInternal(): List<Shelf> {
                                 return shelfItems
                             }
                             
-                            override suspend fun loadListInternal(continuation: String?): dev.brahmkshatriya.echo.common.helpers.PagedData.Page<Shelf> {
-                                return dev.brahmkshatriya.echo.common.helpers.PagedData.Page(shelfItems, null)
+                            override suspend fun loadListInternal(continuation: String?): Page<Shelf> {
+                                return Page(shelfItems, null)
                             }
                             
                             override fun clear() {}

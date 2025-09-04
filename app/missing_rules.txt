@@ -1,0 +1,39 @@
+# Rules for missing JavaBeans classes required by Rhino JavaScript engine
+-keep class java.beans.BeanDescriptor { *; }
+-keep class java.beans.BeanInfo { *; }
+-keep class java.beans.IntrospectionException { *; }
+-keep class java.beans.Introspector { *; }
+-keep class java.beans.PropertyDescriptor { *; }
+
+# Keep all JavaBeans related classes
+-keep class java.beans.** { *; }
+-keep interface java.beans.** { *; }
+
+# Keep Rhino JavaScript engine classes and their dependencies
+-keep class org.mozilla.javascript.** { *; }
+-keep interface org.mozilla.javascript.** { *; }
+-keep class org.mozilla.javascript.JavaToJSONConverters { *; }
+-keep class org.mozilla.javascript.JavaToJSONConverters$* { *; }
+
+# Keep ScriptEngineFactory and related classes
+-keep class javax.script.ScriptEngineFactory { *; }
+-keep interface javax.script.ScriptEngineFactory { *; }
+-keep class javax.script.** { *; }
+-keep interface javax.script.** { *; }
+
+# Keep all classes that might be using reflection
+-keep class * {
+    @org.mozilla.javascript.annotations.** <methods>;
+    @org.mozilla.javascript.annotations.** <fields>;
+}
+
+# Keep all native methods that might be called by JavaScript
+-keepclasseswithmembernames class * {
+    native <methods>;
+}
+
+# Additional rules to prevent common minification issues with JavaScript engines
+-keepattributes *Annotation*, InnerClasses, Signature, EnclosingMethod
+-keepclassmembers class * {
+    @org.jetbrains.annotations.** *;
+}

@@ -83,11 +83,15 @@ android {
     }
 
     buildTypes {
-        all {
-            isMinifyEnabled = true
+        debug {
+            isMinifyEnabled = false
+        }
+        release {
+            isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                generatedProguard.absolutePath
+                generatedProguard.absolutePath,
+                "proguard-rules.pro"
             )
         }
     }

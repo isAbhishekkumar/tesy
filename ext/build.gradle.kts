@@ -97,6 +97,26 @@ tasks {
     }
 }
 
+// Add proguard configuration for the ext module
+tasks.withType<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar> {
+    mergeServiceFiles()
+    manifest {
+        attributes(mapOf("Main-Class" to "dev.brahmkshatriya.echo.extension.YouTubeMusicExtension"))
+    }
+    // Exclude problematic signatures and files
+    exclude("META-INF/*.SF")
+    exclude("META-INF/*.DSA")
+    exclude("META-INF/*.RSA")
+    exclude("META-INF/maven/**")
+    exclude("META-INF/DEPENDENCIES")
+    exclude("META-INF/LICENSE")
+    exclude("META-INF/LICENSE.txt")
+    exclude("META-INF/NOTICE")
+    exclude("META-INF/NOTICE.txt")
+    exclude("META-INF/versions/9/**")
+    exclude("META-INF/services/javax.script.ScriptEngineFactory")
+}
+
 
 fun execute(vararg command: String): String = providers.exec {
     commandLine(*command)

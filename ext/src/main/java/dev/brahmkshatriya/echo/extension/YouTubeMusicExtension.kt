@@ -47,13 +47,10 @@ class YouTubeMusicExtension : ExtensionClient, SearchFeedClient, TrackClient {
                                 .headers(
                                     okhttp3.Headers.Builder()
                                         .apply {
-                                            // Iterate through header keys using keySet()
-                                            val headerKeys = request.headers().keySet()
-                                            for (key: String in headerKeys) {
-                                                val valuesList = request.headers().values(key)
-                                                for (value: String in valuesList) {
-                                                    add(key, value)
-                                                }
+                                            // Use entrySet() to iterate through headers
+                                            val headerEntries = request.headers().entrySet()
+                                            for (entry: Map.Entry<String, String> in headerEntries) {
+                                                add(entry.key, entry.value)
                                             }
                                         }
                                         .build()
@@ -112,11 +109,11 @@ class YouTubeMusicExtension : ExtensionClient, SearchFeedClient, TrackClient {
                 val searchExtractor = youtubeService.getSearchExtractor(query)
                 searchExtractor.fetchPage()
                 
-                val items = searchExtractor.initialSearchResult.items.mapNotNull { item: org.schabi.newpipe.extractor.InfoItem ->
+                val items = searchExtractor.getSearchItems().mapNotNull { item ->
                     when (item) {
                         is StreamInfoItem -> {
                             try {
-                                converter.toTrack(item as StreamInfoItem)
+                                converter.toTrack(item)
                             } catch (e: Exception) {
                                 println("Failed to convert StreamInfoItem to Track: ${e.message}")
                                 null
@@ -134,17 +131,18 @@ class YouTubeMusicExtension : ExtensionClient, SearchFeedClient, TrackClient {
                         val shelfItems = items.map { track: Track ->
                             Shelf.Item(track)
                         }
+                        // Use a simple implementation that returns the data directly
                         object : PagedData<Shelf>() {
-                            override suspend fun loadPage(page: String?): dev.brahmkshatriya.echo.common.helpers.PagedData.Page<Shelf> {
-                                return dev.brahmkshatriya.echo.common.helpers.PagedData.Page(shelfItems, null)
+                            override suspend fun loadPage(page: String?): List<Shelf> {
+                                return shelfItems
                             }
                             
                             override suspend fun loadAllInternal(): List<Shelf> {
                                 return shelfItems
                             }
                             
-                            override suspend fun loadListInternal(continuation: String?): dev.brahmkshatriya.echo.common.helpers.PagedData.Page<Shelf> {
-                                return dev.brahmkshatriya.echo.common.helpers.PagedData.Page(shelfItems, null)
+                            override suspend fun loadListInternal(continuation: String?): List<Shelf> {
+                                return shelfItems
                             }
                             
                             override fun clear() {}

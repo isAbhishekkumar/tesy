@@ -221,12 +221,12 @@ class YouTubeConverter(private val settings: Settings) {
                 put("bitrate", (audioStream.averageBitrate ?: 0).toString())
                 put("mimeType", audioStream.format?.mimeType ?: "Unknown")
                 // Use the correct property names based on NewPipe API
-                put("contentLength", audioStream.contentLength.toString())
+                // Note: contentLength property doesn't exist in NewPipe AudioStream
                 put("trackId", streamInfo.id ?: "")
                 put("trackTitle", streamInfo.name)
                 put("videoUrl", streamInfo.url)
                 // Store the actual audio URL - this is crucial for playback
-                put("audioUrl", audioStream.url ?: "")
+                put("audioUrl", audioStream.content ?: "")
                 // Add additional metadata for better user experience
                 put("qualityLabel", getQualityLabel(audioStream.averageBitrate))
             }
@@ -363,7 +363,7 @@ class YouTubeConverter(private val settings: Settings) {
         return streamInfo.audioStreams
             .sortedByDescending { it.averageBitrate ?: 0 }
             .firstOrNull()
-            ?.url
+            ?.content
     }
     
     /**
@@ -375,6 +375,6 @@ class YouTubeConverter(private val settings: Settings) {
                 kotlin.math.abs((it.averageBitrate ?: 0) - preferredBitrate) 
             })
             .firstOrNull()
-            ?.url
+            ?.content
     }
 }

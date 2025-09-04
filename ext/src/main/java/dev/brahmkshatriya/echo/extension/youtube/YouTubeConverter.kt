@@ -200,7 +200,7 @@ class YouTubeConverter(private val settings: Settings) {
                 put("format", audioStream.format?.name ?: "Unknown")
                 put("bitrate", (audioStream.averageBitrate ?: 0).toString())
                 put("mimeType", audioStream.format?.mimeType ?: "Unknown")
-                put("contentLength", audioStream.contentLength?.toString() ?: "0")
+                put("contentLength", (audioStream.contentLength?.toString() ?: "0"))
                 put("trackId", streamInfo.id ?: "")
                 put("trackTitle", streamInfo.name)
                 put("videoUrl", streamInfo.url)

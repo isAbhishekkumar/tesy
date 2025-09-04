@@ -47,11 +47,12 @@ class YouTubeMusicExtension : ExtensionClient, SearchFeedClient, TrackClient {
                                 .headers(
                                     okhttp3.Headers.Builder()
                                         .apply {
-                                            val headerNames = request.headers().names()
-                                            for (name: String in headerNames) {
-                                                val valuesList = request.headers().values(name)
+                                            // Iterate through header keys using keySet()
+                                            val headerKeys = request.headers().keySet()
+                                            for (key: String in headerKeys) {
+                                                val valuesList = request.headers().values(key)
                                                 for (value: String in valuesList) {
-                                                    add(name, value)
+                                                    add(key, value)
                                                 }
                                             }
                                         }
@@ -111,7 +112,7 @@ class YouTubeMusicExtension : ExtensionClient, SearchFeedClient, TrackClient {
                 val searchExtractor = youtubeService.getSearchExtractor(query)
                 searchExtractor.fetchPage()
                 
-                val items = searchExtractor.searchResult.items.mapNotNull { item: org.schabi.newpipe.extractor.InfoItem ->
+                val items = searchExtractor.initialSearchResult.items.mapNotNull { item: org.schabi.newpipe.extractor.InfoItem ->
                     when (item) {
                         is StreamInfoItem -> {
                             try {
@@ -133,9 +134,25 @@ class YouTubeMusicExtension : ExtensionClient, SearchFeedClient, TrackClient {
                         val shelfItems = items.map { track: Track ->
                             Shelf.Item(track)
                         }
-                        object : PagedData<Shelf> {
-                            override suspend fun loadPage(page: String?): PagedData.Page<Shelf> {
-                                return PagedData.Page(shelfItems, null)
+                        object : PagedData<Shelf>() {
+                            override suspend fun loadPage(page: String?): dev.brahmkshatriya.echo.common.helpers.PagedData.Page<Shelf> {
+                                return dev.brahmkshatriya.echo.common.helpers.PagedData.Page(shelfItems, null)
+                            }
+                            
+                            override suspend fun loadAllInternal(): List<Shelf> {
+                                return shelfItems
+                            }
+                            
+                            override suspend fun loadListInternal(continuation: String?): dev.brahmkshatriya.echo.common.helpers.PagedData.Page<Shelf> {
+                                return dev.brahmkshatriya.echo.common.helpers.PagedData.Page(shelfItems, null)
+                            }
+                            
+                            override fun clear() {}
+                            
+                            override fun invalidate(continuation: String?) {}
+                            
+                            override fun <R : Any> map(block: suspend (Result<List<Shelf>>) -> List<R>): PagedData<R> {
+                                TODO("Not implemented")
                             }
                         }
                     }
